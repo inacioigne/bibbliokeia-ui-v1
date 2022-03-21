@@ -35,13 +35,16 @@ export default function FieldMarc(props) {
     }));
   };
 
+
   return (
     <Box>
-      <Accordion>
+      <Accordion
+      >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="content"
           id="header"
+          sx={{ borderBottom: 1 }}
         >
           <Grid item xs={12}>
             <Typography variant="h6" component="div" gutterBottom>
@@ -51,11 +54,9 @@ export default function FieldMarc(props) {
         </AccordionSummary>
         {/** Side Box */}
         <Grid container>
-          <Grid item xs={3}>
-          
-            <Box>
-            
-            
+          <Box 
+          >
+            <Box sx={{ p: 3}}>
               <Stack
                 direction="row"
                 justifyContent="flex-start"
@@ -68,15 +69,17 @@ export default function FieldMarc(props) {
                   formik={formik}
                   metadata={metadata.indicators.Ind1}
                 />
-              
+
                 <Indicators
-                tag={props.tag}
+                  tag={props.tag}
                   ind="Ind2"
                   formik={formik}
                   metadata={metadata.indicators.Ind2}
                 />
               </Stack>
-              <Accordion>
+
+              <Accordion sx={{mt: 2,
+              width: 205 }}>
                 <AccordionSummary
                   expandIcon={<ExpandMoreIcon />}
                   aria-controls="panel1a-content"
@@ -88,7 +91,7 @@ export default function FieldMarc(props) {
                   <FormGroup sx={{ pl: 2 }}>
                     {metadata.subfields.map((subfield) => (
                       <FormControlLabel
-                      key={subfield.value}
+                        key={subfield.value}
                         control={
                           <Checkbox
                             id={subfield.value}
@@ -102,39 +105,33 @@ export default function FieldMarc(props) {
                 </AccordionDetails>
               </Accordion>
             </Box>
-          </Grid>
+          </Box>
 
           {/** Subfield Box */}
-          <Grid item xs={9}>
-            <Box>
-            <Stack
-                  sx={{
-                    width: 500,
-                    maxWidth: "100%",
-                  }}
-                >
-              {metadata.subfields.map((subfield) => (
-                
-                  <TextField 
-                    name= {`${props.tag}.${subfield.value}`}
-                   
-                    key={subfield.value}                  
+          <Box sx={{ p: 3}}>
+              <Box
+              sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)',
+              columnGap: 3,
+              rowGap: 2 }}
+               
+              >
+                {metadata.subfields.map((subfield) => (
+                  <TextField
+                    name={`${props.tag}.${subfield.value}`}
+                    key={subfield.value}
                     fullWidth
                     label={subfield.label}
                     size="small"
-                    style={{ width: "100%" }}
                     sx={
                       subList[subfield.value]
-                        ? { display: "block" }
+                        ? { display: "block", width: 700}
                         : { display: "none" }
                     }
-                    
+                    onChange={formik.handleChange}
                   />
-              
-              ))}
-              </Stack>
-            </Box>
-          </Grid>
+                ))}
+              </Box>
+          </Box>
         </Grid>
       </Accordion>
     </Box>

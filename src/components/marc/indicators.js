@@ -7,7 +7,9 @@ export default function Indicators(props) {
   const indicators = props.metadata;
 
   return (
-    <Box >
+    <Box 
+    
+     >
       {indicators ? (
         <TextField
           select
@@ -18,7 +20,7 @@ export default function Indicators(props) {
           size="small"
           style = {{width: 100}}
           name={`${props.tag}.${props.ind}`}          
-          onChange={formik.handleChange}
+          //onChange={formik.handleChange}
         >
         <MenuItem value="">
             

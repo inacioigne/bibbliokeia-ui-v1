@@ -40,26 +40,7 @@ export default function Cataloguing() {
           data[tag].push({[code]:v})
         }
       }
-      
-      
-
-
-
-      // if (v != "") {
-      //   if (tag in Object.keys(data)) {
-      //     data[tag].push(v)
-      //  } else {
-      //   data[tag] = []
-      //   data[tag].push(v)
-
-      //   }
-      // }
-      
-   
      }
-  
-    
-
   } 
 
 
