@@ -1,0 +1,7 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@/marcSchema":["src/schema/marcJson.json"]}
+    }
+}
