@@ -316,41 +316,129 @@
     "650": {
       "description": "650 - ASSUNTO TÓPICO",
       "indicators": {
-        "first": {
-          "#": "# - Informação não fornecida",
-          "0": "0 - Nível não especificado",
-          "1": "1 - Primário",
-          "2": "2 - Secundário"
-        },
-        "second": {
-          "0": "0 - Library of Congress Subject Headings",
-          "1": "1 - LC subject headings for children's literature",
-          "2": "2 - Medical Subject Headings",
-          "3": "3 - National Agricultural Library subject authority file",
-          "4": "4 - Fonte não especificada",
-          "5": "5 - Canadian Subject Headings",
-          "6": "6 - Répertoire de vedettes-matière",
-          "7": "7 - Fonte especificada no subcampo 2"
-        }
+        "Ind1": [
+          {
+            "value": "#",
+            "label": "# - Informação não fornecida"
+          },
+          {
+            "value": "0",
+            "label": "0 - Nível não especificado"
+          },
+          {
+            "value": "1",
+            "label": "1 - Primário"
+          },
+          {
+            "value": "2",
+            "label": "2 - Secundário"
+          }
+        ],
+        "Ind2": [
+          {
+            "value": "0",
+            "label": "0 - Library of Congress Subject Headings"
+          },
+          {
+            "value": "1",
+            "label": "1 - LC subject headings for children's literature"
+          },
+          {
+            "value": "2",
+            "label": "2 - Medical Subject Headings"
+          },
+          {
+            "value": "3",
+            "label": "3 - National Agricultural Library subject authority file"
+          },
+          {
+            "value": "4",
+            "label": "4 - Fonte não especificada"
+          },
+          {
+            "value": "5",
+            "label": "5 - Canadian Subject Headings"
+          },
+          {
+            "value": "6",
+            "label": "6 - Répertoire de vedettes-matière"
+          },
+          {
+            "value": "7",
+            "label": "7 - Fonte especificada no subcampo 2"
+          }
+        ] 
       },
-      "subfield": {
-        "a": "a - Cabeçalho tópico ou nome geográfico",
-        "b": "b - Cabeçalho tópico seguindo nome geográfico",
-        "c": "c - Local do evento",
-        "d": "d - Data de realização do evento",
-        "e": "e - Termo de relação",
-        "g": "g - Informações adicionais",
-        "v": "v - Subdivisão de forma",
-        "x": "x - Subdivisão geral",
-        "y": "y - Subdivisão cronológica",
-        "z": "z - Subdivisão geográfica",
-        "0": "0 - Número de controle do registro de autoridade ou número padronizado",
-        "2": "2 - Fonte do cabeçalho ou termo",
-        "3": "3 - Material especificado",
-        "4": "4- Relação",
-        "6": "6 - Ligação",
-        "8": "8 - Campo de ligação e número de sequência"
-      }
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Cabeçalho tópico ou nome geográfico"
+        },
+        {
+          "value": "b",
+          "label": "b - Cabeçalho tópico seguindo nome geográfico"
+        },
+        {
+          "value": "c",
+          "label": "c - Local do evento"
+        },
+        {
+          "value": "d",
+          "label": "d - Data de realização do evento"
+        },
+        {
+          "value": "e",
+          "label": "e - Termo de relação"
+        },
+        {
+          "value": "f",
+          "label": "f - Data da publicação do trabalho"
+        },
+        {
+          "value": "g",
+          "label": "g - Informações adicionais"
+        },
+        {
+          "value": "v",
+          "label": "v - Subdivisão de forma"
+        },
+        {
+          "value": "x",
+          "label": "x - Subdivisão geral"
+        },
+        {
+          "value": "y",
+          "label": "y - Subdivisão cronológica"
+        },
+        {
+          "value": "z",
+          "label": "z - Subdivisão geográfica"
+        },
+        {
+          "value": "0",
+          "label": "0 - Número de controle do registro de autoridade ou número padronizado"
+        },
+        {
+          "value": "2",
+          "label": "2 - Fonte do cabeçalho ou termo"
+        },
+        {
+          "value": "3",
+          "label": "3 - Material especificado"
+        },
+        {
+          "value": "4",
+          "label": "4- Relação"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de seqüência"
+        }
+      ]
     },
     "700": {
       "description": "700 - ENTRADA SECUNDÁRIA - NOME PESSOAL",

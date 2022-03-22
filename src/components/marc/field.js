@@ -11,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import { useState, useRef } from "react";
+import { useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -19,27 +19,15 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 
 export default function FieldMarc(props) {
   const metadata = marc.dataFields[props.tag];
-  const formik = props.formik;
-  const [subList, setSubList] = useState(() => {
-    let subList = {};
-    subList["a"] = true;
-    return subList;
-  });
+  const [repeatle, setRepeatle] = useState(0)
 
-  const handleChange = (event) => {
-    //setChecked(event.target.checked);
-    const { id, checked } = event.target;
-    setSubList((prevState) => ({
-      ...prevState,
-      [id[0]]: checked,
-    }));
-  };
-
-
+  const handleClick = () => {
+    setRepeatle(repeatle + 1)
+    console.log(repeatle)
+  }
   return (
     <Box>
-      <Accordion
-      >
+      <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="content"
@@ -52,87 +40,17 @@ export default function FieldMarc(props) {
             </Typography>
           </Grid>
         </AccordionSummary>
-        {/** Side Box */}
-        <Grid container>
-          <Box 
-          >
-            <Box sx={{ p: 3}}>
-              <Stack
-                direction="row"
-                justifyContent="flex-start"
-                alignItems="center"
-                spacing={1}
-              >
-                <Indicators
-                  tag={props.tag}
-                  ind="Ind1"
-                  formik={formik}
-                  metadata={metadata.indicators.Ind1}
-                />
+        <Subfield tag={props.tag} />
+        { repeatle > 0 && <Subfield tag={props.tag} repeatle="r1" />}
+        { repeatle > 1 && <Subfield tag={props.tag} repeatle="r2"/>}
+        { repeatle > 2 && <Subfield tag={props.tag} repeatle="r3"/>}
 
-                <Indicators
-                  tag={props.tag}
-                  ind="Ind2"
-                  formik={formik}
-                  metadata={metadata.indicators.Ind2}
-                />
-              </Stack>
-
-              <Accordion sx={{mt: 2,
-              width: 205 }}>
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls="panel1a-content"
-                  id="panel1a-header"
-                >
-                  <Typography>Campos disponiveis</Typography>
-                </AccordionSummary>
-                <AccordionDetails>
-                  <FormGroup sx={{ pl: 2 }}>
-                    {metadata.subfields.map((subfield) => (
-                      <FormControlLabel
-                        key={subfield.value}
-                        control={
-                          <Checkbox
-                            id={subfield.value}
-                            onChange={handleChange}
-                          />
-                        }
-                        label={subfield.value}
-                      />
-                    ))}
-                  </FormGroup>
-                </AccordionDetails>
-              </Accordion>
-            </Box>
-          </Box>
-
-          {/** Subfield Box */}
-          <Box sx={{ p: 3}}>
-              <Box
-              sx={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)',
-              columnGap: 3,
-              rowGap: 2 }}
-               
-              >
-                {metadata.subfields.map((subfield) => (
-                  <TextField
-                    name={`${props.tag}.${subfield.value}`}
-                    key={subfield.value}
-                    fullWidth
-                    label={subfield.label}
-                    size="small"
-                    sx={
-                      subList[subfield.value]
-                        ? { display: "block", width: 700}
-                        : { display: "none" }
-                    }
-                    onChange={formik.handleChange}
-                  />
-                ))}
-              </Box>
-          </Box>
-        </Grid>
+        
+        <Button 
+        variant="contained"  
+        onClick={handleClick} 
+        sx={props.repeatle ? { display: "block", ml: 3, mb: 2} : { display: "none" }}    
+        >Repetir Campo</Button>
       </Accordion>
     </Box>
   );

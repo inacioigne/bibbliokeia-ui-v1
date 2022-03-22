@@ -19,8 +19,10 @@ export default function Indicators(props) {
           variant="outlined"
           size="small"
           style = {{width: 100}}
-          name={`${props.tag}.${props.ind}`}          
-          //onChange={formik.handleChange}
+          name={props.repeatle ? 
+            `${props.repeatle}-${props.tag}.${props.ind}` :
+            `${props.tag}.${props.ind}`}          
+         
         >
         <MenuItem value="">
             
@@ -37,7 +39,9 @@ export default function Indicators(props) {
           id={props.ind}
           label={props.ind}
           size="small"
-          name={`${props.tag}.${props.ind}`} 
+          name={props.repeatle ? 
+            `${props.repeatle}-${props.tag}.${props.ind}` :
+            `${props.tag}.${props.ind}`}
           value="#"
         />
       )}
