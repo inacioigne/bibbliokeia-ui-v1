@@ -1,78 +1,136 @@
-import Container from "@mui/material/Container";
-import Typography from "@mui/material/Typography";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
-import { useFormik } from "formik";
+import { useState } from "react";
 import FieldMarc from "../components/marc/field";
-import marc from "@/marcSchema";
-import MenuItem from "@mui/material/MenuItem";
+import Button from "@mui/material/Button";
+import Lider from "../components/marc/lider"
+import Tag008 from "../components/marc/tag008"
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    "aria-controls": `simple-tabpanel-${index}`,
+  };
+}
+
+const Time = () => {
+  const date = new Date()
+  const year = date.getFullYear()
+  const m = date.getMonth()+1
+  const month = (m < 10) ? '0'+m.toString() : m.toString()
+  const day = (date.getDate() < 10) ? '0'+date.getDate().toString() : date.getDate().toString()
+  const hours = (date.getHours() < 10) ? 
+  '0'+date.getHours().toString() : 
+  date.getHours().toString()
+  const minutes = (date.getMinutes() < 10) ? 
+  '0'+date.getMinutes().toString() : 
+  date.getMinutes().toString()
+  const seconds = (date.getSeconds() < 10) ? 
+  '0'+date.getSeconds().toString() : 
+  date.getSeconds().toString()
+  const mils = date.getMilliseconds()
+  return mils/60
+}
+console.log(Time())
+
 
 export default function Cataloguing() {
-  const fields = Object.keys(marc.dataFields);
-  const formik = useFormik({
-    initialValues: {
-      "100": {a: ""}
+  const [value, setValue] = useState(0);
 
-    },
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2));
-    },
-  });
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+    //console.log(value)
+  };
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    const datalist = []
-    const data = new Object()
-    data['100'] = []
-    const formData = new FormData(event.target)
-    const value = Object.fromEntries(formData.entries());
-    //console.log(JSON.stringify(Object.fromEntries(formData)));
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const lider = formData.getAll('lider')
+    {/**  Control Fields */}
+    const tag008 = formData.getAll('008')
+    const controfields = [{
+      "003": "BR-MnINPA",
+      //"005": CreateDate(),
+      '008': tag008.join(""),
+
+    }]
+    
+    
+    const data = new Object();
+    //const values = Object.fromEntries(formData.entries());
+
+
     for (const [k, v] of formData.entries()) {
-      let tag = k.split(".")[0]
-      let code = k.split(".")[1]
       if (v != "") {
+          
+        let tag = k.split(".")[0];
+        let code = k.split(".")[1];
         if (Object.keys(data).includes(tag)) {
-          data[tag].push({[code]:v})
-          console.log(data)
+          data[tag].push({ [code]: v });
         } else {
-          data[tag] = []
-          data[tag].push({[code]:v})
+          data[tag] = [];
+          data[tag].push({ [code]: v });
         }
       }
-     }
-  } 
-
-
-  
+    }
+    const datalist = [];
+    Object.entries(data).forEach(([k, v]) => {
+      if (k.includes("r")) {
+        datalist.push({ [k.split("-")[1]]: v });
+      } else {
+        datalist.push({ [k]: v });
+      }
+    });
+    const dataFields = { dataFields: datalist };
+    const marc = {
+        "leader": lider.join(""),
+        "controlFields": controfields,
+        "dataFields": datalist
+    }
+    console.log(marc);
+  };
 
   return (
-    <Container>
-      <Typography variant="h5" component="div" gutterBottom>
-        Catalogação
-      </Typography>
-      <Box
-        component="form"
-        sx={{
-          "& .MuiTextField-root": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-        onSubmit={handleSubmit}
-      >
-        <FieldMarc
-        formik={formik}
-        tag="100"
-        />
-        
-        <FieldMarc
-        formik={formik}
-        tag="245"
-        />
-        <Button color="primary" variant="contained" fullWidth type="submit">
-          Submit
+    <Box>
+      <Tabs value={value} onChange={handleChange}>
+        <Tab label="Tags 0XX" {...a11yProps(0)} />
+        <Tab label="Tags 1XX" {...a11yProps(1)} />
+        <Tab label="Tags 2XX" {...a11yProps(2)} />
+        <Tab label="Tags 3XX" {...a11yProps(3)} />
+        <Tab label="Tags 4XX" {...a11yProps(4)} />
+        <Tab label="Tags 5XX" {...a11yProps(5)} />
+        <Tab label="Tags 6XX" {...a11yProps(6)} />
+      </Tabs>
+      <Box component="form" onSubmit={handleSubmit}>
+        <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
+          <Lider />
+          <Tag008 />
+        </Box>
+        <Box sx={value == 1 ? { display: "block" } : { display: "none" }}>
+          <FieldMarc tag="100" />
+        </Box>
+        <Box sx={value == 2 ? { display: "block" } : { display: "none" }}>
+          <FieldMarc tag="245" />
+          <FieldMarc tag="250" />
+          <FieldMarc tag="260" />
+        </Box>
+        <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>
+          Tags 3XX
+        </Box>
+        <Box sx={value == 4 ? { display: "block" } : { display: "none" }}>
+          Tags 4XX
+        </Box>
+        <Box sx={value == 5 ? { display: "block" } : { display: "none" }}>
+          Tags 5XX
+        </Box>
+        <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
+          <FieldMarc tag="650" repeatle="true" />
+        </Box>
+        <Button variant="contained" type="submit">
+          Salvar
         </Button>
       </Box>
-    </Container>
+    </Box>
   );
 }
