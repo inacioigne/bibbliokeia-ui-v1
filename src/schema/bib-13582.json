@@ -1,0 +1,183 @@
+{
+  "leader": "01652nam a2200313   4500",
+  "fields": [
+    { "001": "BIBLIOPAC-006769" },
+    { "005": "20161123141921.0" },
+    { "008": "050204s2004\\\\\\\\bl\\ab\\\\\\\\\\\\\\\\y000\\0\\eng\\\\" },
+    {
+      "010": { "ind1": "\\", "ind2": "\\", "subfields": [{ "a": "97832399 " }] }
+    },
+    {
+      "020": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [{ "a": "8531400910" }]
+      }
+    },
+    { "042": { "ind1": "\\", "ind2": "\\", "subfields": [{ "a": "lcode" }] } },
+    {
+      "043": { "ind1": "\\", "ind2": "\\", "subfields": [{ "a": "s-bl---" }] }
+    },
+    {
+      "043": { "ind1": "\\", "ind2": "\\", "subfields": [{ "a": "sa-----" }] }
+    },
+    {
+      "082": {
+        "ind1": "0",
+        "ind2": "0",
+        "subfields": [{ "a": "304.209811" }, { "2": "19" }]
+      }
+    },
+    {
+      "090": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [{ "a": "304.209811" }, { "b": "A122a" }]
+      }
+    },
+    {
+      "100": {
+        "ind1": "1",
+        "ind2": "\\",
+        "subfields": [{ "a": "Ab'Sáber, Aziz Nacib, " }, { "d": "1924-" }]
+      }
+    },
+    {
+      "245": {
+        "ind1": "1",
+        "ind2": "0",
+        "subfields": [
+          { "a": "Amazônia : " },
+          { "b": "do discurso à práxis / " },
+          { "c": "Aziz Nacib Ab'Sáber." }
+        ]
+      }
+    },
+    { "250": { "ind1": "\\", "ind2": "\\", "subfields": [{ "a": "2. ed." }] } },
+    {
+      "260": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [
+          { "a": "São Paulo : " },
+          { "b": "Edusp, " },
+          { "c": "2004." }
+        ]
+      }
+    },
+    {
+      "300": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [{ "a": "319 p. : " }, { "b": "il. color., mapas color." }]
+      }
+    },
+    {
+      "505": {
+        "ind1": "\\",
+        "ind2": "0",
+        "subfields": [
+          {
+            "a": "Zoneamento ecológico e econômico da Amazônia -- Problemas geomorfológicos da Amazônia brasileira -- Paleoclima e paleoecologia da Amazônia Brasileira -- Geomorfologia do corredor Carajás-São Luís -- Impactos ambientais na faixa Carajás-São Luís -- Gênes de uma nova região siderúrgica -- Amazônia -- Carauari: vicissitudes de uma comunidade beiradeira: Médio Juruá, Amazonas."
+          }
+        ]
+      }
+    },
+    {
+      "650": {
+        "ind1": "\\",
+        "ind2": "0",
+        "subfields": [
+          { "a": "Desenvolvimento econômico" },
+          { "x": "Aspectos ambientais" },
+          { "z": "Amazônia." }
+        ]
+      }
+    },
+    {
+      "650": {
+        "ind1": "\\",
+        "ind2": "0",
+        "subfields": [
+          { "a": "Homem" },
+          { "x": "Influência sobre a natureza" },
+          { "z": "Amazônia." }
+        ]
+      }
+    },
+    {
+      "650": {
+        "ind1": "\\",
+        "ind2": "0",
+        "subfields": [{ "a": "Zoneamento econômico" }, { "z": "Brasil." }]
+      }
+    },
+    {
+      "651": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [{ "a": "Amazônia" }, { "x": "Descrições e viagens." }]
+      }
+    },
+    { "942": { "ind1": "\\", "ind2": "\\", "subfields": [{ "c": "L" }] } },
+    {
+      "999": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [{ "c": "13582" }, { "d": "13582" }]
+      }
+    },
+    {
+      "952": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [
+          { "0": "0" },
+          { "1": "0" },
+          { "2": "ddc" },
+          { "4": "0" },
+          { "6": "AM_304_209811000000000_A122A" },
+          { "7": "0" },
+          { "8": "AM" },
+          { "9": "18217" },
+          { "a": "sdin" },
+          { "b": "sdin" },
+          { "d": "2016-11-23" },
+          { "l": "0" },
+          { "o": "AM 304.209811 A122a" },
+          { "p": "05-0097" },
+          { "r": "2016-11-23" },
+          { "w": "2016-11-23" },
+          { "y": "L" },
+          { "z": "Zamboni Comércio de Livros Ltda." }
+        ]
+      }
+    },
+    {
+      "952": {
+        "ind1": "\\",
+        "ind2": "\\",
+        "subfields": [
+          { "0": "0" },
+          { "1": "0" },
+          { "2": "ddc" },
+          { "4": "0" },
+          { "6": "AM_304_209811000000000_A122A" },
+          { "7": "0" },
+          { "8": "AM" },
+          { "9": "18219" },
+          { "a": "sdin" },
+          { "b": "sdin" },
+          { "d": "2016-11-23" },
+          { "l": "0" },
+          { "n": "0" },
+          { "o": "AM 304.209811 A122a" },
+          { "p": "08-0655" },
+          { "r": "2016-11-23" },
+          { "w": "2016-11-23" },
+          { "y": "L" }
+        ]
+      }
+    }
+  ]
+}

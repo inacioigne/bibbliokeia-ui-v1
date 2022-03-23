@@ -14,6 +14,8 @@ function a11yProps(index) {
   };
 }
 
+
+
 export default function Cataloguing() {
   const [value, setValue] = useState(0);
 
@@ -26,6 +28,15 @@ export default function Cataloguing() {
     event.preventDefault();
     const formData = new FormData(event.target);
     const lider = formData.getAll('lider')
+    {/**  Control Fields */}
+    const tag008 = formData.getAll('008')
+    const controfields = [{
+      "003": "BR-MnINPA",
+      //"005": CreateDate(),
+      '008': tag008.join(""),
+
+    }]
+    
     
     const data = new Object();
     //const values = Object.fromEntries(formData.entries());
@@ -55,6 +66,7 @@ export default function Cataloguing() {
     const dataFields = { dataFields: datalist };
     const marc = {
         "leader": lider.join(""),
+        "controlFields": controfields,
         "dataFields": datalist
     }
     console.log(marc);
@@ -81,6 +93,8 @@ export default function Cataloguing() {
         </Box>
         <Box sx={value == 2 ? { display: "block" } : { display: "none" }}>
           <FieldMarc tag="245" />
+          <FieldMarc tag="250" />
+          <FieldMarc tag="260" />
         </Box>
         <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>
           Tags 3XX

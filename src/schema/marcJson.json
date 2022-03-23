@@ -225,40 +225,89 @@
     "250": {
       "description": "250 - EDIÇÃO",
       "indicators": {
-        "first": false,
-        "second": false
+        "Ind1": false,
+        "Ind2": false
       },
-      "subfield": {
-        "a": "a - Edição",
-        "b": "b - Outras informações sobre edição",
-        "3": "3 - Material especificado",
-        "6": "6 - Ligação",
-        "8": "8 - Campo de ligação e número de seqüência"
-      }
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Edição"
+        },
+        {
+          "value": "b",
+          "label": "b - Outras informações sobre edição"
+        },
+        {
+          "value": "3",
+          "label": "3 - Material especificado"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de seqüência"
+        }
+      ] 
     },
     "260": {
       "description": "260 - IMPRENTA",
       "indicators": {
-        "first": {
-          "#": "Não se aplica",
-          "2": "2 - Editor intermediário",
-          "3": "3 - Editor atual"
-        },
-        "second": {
-          "#": false
-        }
+        "Ind1":  [
+          {
+            "value": "#",
+            "label": "Não se aplicaa"
+          },
+          {
+            "value": "2",
+            "label": "2 - Editor intermediário"
+          },
+          {
+            "value": "3",
+            "label": "3 - Editor atual"
+          }
+        ],
+        "Ind2": false
       },
-      "subfield": {
-        "a": "a - Lugar de publicação, distribuição, etc.",
-        "b": "b - Nome do editor, distribuidor, etc.",
-        "c": "c - Data de publicação, distribuição, etc.",
-        "e": "e - Lugar de fabricação",
-        "f": "f - Nome do fabricante",
-        "g": "g - Data de fabricação",
-        "3": "3 - Material especificado",
-        "6": "6 - Ligação",
-        "8": "8 - Campo de ligação e número de sequência"
-      }
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Lugar de publicação, distribuição, etc."
+        },
+        {
+          "value": "b",
+          "label": "b - Nome do editor, distribuidor, etc."
+        },
+        {
+          "value": "c",
+          "label": "c - Data de publicação, distribuição, etc."
+        },
+        {
+          "value": "e",
+          "label": "e - Lugar de fabricação"
+        },
+        {
+          "value": "f",
+          "label": "f - Nome do fabricante"
+        },
+        {
+          "value": "g",
+          "label": "g - Data de fabricação"
+        },
+        {
+          "value": "3",
+          "label": "3 - Material especificado"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de sequência"
+        }
+      ] 
     },
     "300": {
       "description": "300 - DESCRIÇÃO FÍSICA",
