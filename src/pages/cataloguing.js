@@ -6,6 +6,7 @@ import FieldMarc from "../components/marc/field";
 import Button from "@mui/material/Button";
 import Lider from "../components/marc/lider"
 import Tag008 from "../components/marc/tag008"
+import axios from "axios";
 
 function a11yProps(index) {
   return {
@@ -30,9 +31,10 @@ const Time = () => {
   '0'+date.getSeconds().toString() : 
   date.getSeconds().toString()
   const mils = date.getMilliseconds()
-  return mils/60
+  const time = year+month+day+hours+minutes+seconds+".0"
+  return time
 }
-console.log(Time())
+
 
 
 export default function Cataloguing() {
@@ -46,24 +48,23 @@ export default function Cataloguing() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    const lider = formData.getAll('lider')
+    let lider = formData.getAll('lider')
+    
     {/**  Control Fields */}
     const tag008 = formData.getAll('008')
+    //console.log(tag008)
     const controfields = [{
       "003": "BR-MnINPA",
-      //"005": CreateDate(),
+      "005": Time(),
       '008': tag008.join(""),
 
     }]
     
-    
     const data = new Object();
-    //const values = Object.fromEntries(formData.entries());
-
+    data['040'] = [{'a': "BR-MnINPA"}, {"b": "por"}]
 
     for (const [k, v] of formData.entries()) {
-      if (v != "") {
-          
+      if (v != "" & k != 'lider' & k != "008") {
         let tag = k.split(".")[0];
         let code = k.split(".")[1];
         if (Object.keys(data).includes(tag)) {
@@ -75,6 +76,7 @@ export default function Cataloguing() {
       }
     }
     const datalist = [];
+
     Object.entries(data).forEach(([k, v]) => {
       if (k.includes("r")) {
         datalist.push({ [k.split("-")[1]]: v });
@@ -82,13 +84,25 @@ export default function Cataloguing() {
         datalist.push({ [k]: v });
       }
     });
-    const dataFields = { dataFields: datalist };
+    
     const marc = {
-        "leader": lider.join(""),
-        "controlFields": controfields,
-        "dataFields": datalist
+        "leader": "    "+lider.join("").replaceAll("|", " "),
+        "controlfield": controfields,
+        "datafield": datalist
     }
-    console.log(marc);
+    //alert(JSON.stringify(marc))
+    const json = JSON.stringify(marc)
+    //console.log(json)
+    axios.post(
+      "http://localhost:8000/cataloguing/create",
+      marc
+    ).then(function (response) {
+      alert(response.data.msg)
+      console.log(response);
+    }).catch(function (error) {
+      console.log(error);
+    });
+   //console.log(marc);
   };
 
   return (
@@ -106,6 +120,8 @@ export default function Cataloguing() {
         <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
           <Lider />
           <Tag008 />
+          <FieldMarc tag="020" />
+          <FieldMarc tag="082" />
         </Box>
         <Box sx={value == 1 ? { display: "block" } : { display: "none" }}>
           <FieldMarc tag="100" />
@@ -116,7 +132,7 @@ export default function Cataloguing() {
           <FieldMarc tag="260" />
         </Box>
         <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>
-          Tags 3XX
+        <FieldMarc tag="300" />
         </Box>
         <Box sx={value == 4 ? { display: "block" } : { display: "none" }}>
           Tags 4XX

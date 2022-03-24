@@ -1,5 +1,101 @@
 {
   "dataFields": {
+    "020": {
+      "description": "020 - ISBN",
+      "indicators": {
+        "Ind1": false,
+        "Ind2": false
+      },
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Número do ISBN"
+        },
+        {
+          "value": "c",
+          "label": "c - Modalidades de aquisição"
+        },
+        {
+          "value": "q",
+          "label": "q - Informação qualificadora"
+        },
+        {
+          "value": "z",
+          "label": "z - ISBN cancelado/inválido"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de seqüência"
+        }
+      ]
+    },
+    "082": {
+      "description": "082 - CDD",
+      "indicators": {
+        "Ind1": [
+          {
+            "value": "0",
+            "label": "0 - Edição completa"
+          },
+          {
+            "value": "1",
+            "label": "1 - Edição abreviada"
+          },
+          {
+            "value": "7",
+            "label": "7 - Outra edição especificada no subcampo $2"
+          }
+        ],
+        "Ind2": [
+          {
+            "value": "#",
+            "label": "# - Informação não fornecida"
+          },
+          {
+            "value": "0",
+            "label": "0 - Atribuído pela LC"
+          },
+          {
+            "value": "4",
+            "label": "4 - Atribuído por outra agência"
+          }
+        ]
+      },
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Número da Classificação"
+        },
+        {
+          "value": "b",
+          "label": "b - Número do item "
+        },
+        {
+          "value": "m",
+          "label": "m - Designação padrão ou opcional"
+        },
+        {
+          "value": "q",
+          "label": "q - Agência que atribuiu o número de classificação "
+        },
+        {
+          "value": "2",
+          "label": "2 - Número da edição"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de seqüência"
+        }
+      ]
+    },
     "100": {
       "description": "100 - ENTRADA PRINCIPAL - NOME PESSOAL",
       "indicators": {
@@ -159,8 +255,7 @@
           {
             "value": "3",
             "label": "3"
-          }
-          ,
+          },
           {
             "value": "4",
             "label": "4"
@@ -220,7 +315,7 @@
           "value": "8",
           "label": "8 - Campo de ligação e número de seqüência"
         }
-      ] 
+      ]
     },
     "250": {
       "description": "250 - EDIÇÃO",
@@ -249,15 +344,15 @@
           "value": "8",
           "label": "8 - Campo de ligação e número de seqüência"
         }
-      ] 
+      ]
     },
     "260": {
       "description": "260 - IMPRENTA",
       "indicators": {
-        "Ind1":  [
+        "Ind1": [
           {
             "value": "#",
-            "label": "Não se aplicaa"
+            "label": "# - Não se aplicaa"
           },
           {
             "value": "2",
@@ -307,25 +402,52 @@
           "value": "8",
           "label": "8 - Campo de ligação e número de sequência"
         }
-      ] 
+      ]
     },
     "300": {
       "description": "300 - DESCRIÇÃO FÍSICA",
       "indicators": {
-        "first": false,
-        "second": false
+        "Ind1": false,
+        "Ind2": false
       },
-      "subfield": {
-        "a": "a - Extensão",
-        "b": "b - Detalhes físicos adicionais",
-        "c": "c - Dimensões",
-        "e": "e - Material adicional",
-        "f": "f - Tipo de unidade",
-        "g": "g - Tamanho da unidade",
-        "3": "3 - Material especificado",
-        "6": "6 - Ligação",
-        "8": "8 - Campo de ligação e número de seqüência"
-      }
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Extensão"
+        },
+        {
+          "value": "b",
+          "label": "b - Detalhes físicos adicionais"
+        },
+        {
+          "value": "c",
+          "label": "c - Dimensões"
+        },
+        {
+          "value": "e",
+          "label": "e - Material adicional"
+        },
+        {
+          "value": "f",
+          "label": "f - Tipo de unidade"
+        },
+        {
+          "value": "g",
+          "label": "g - Tamanho da unidade"
+        },
+        {
+          "value": "3",
+          "label": "3 - Material especificado"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de sequência"
+        }
+      ] 
     },
     "490": {
       "description": "490 - INDICAÇÃO DE SÉRIE",
@@ -416,7 +538,7 @@
             "value": "7",
             "label": "7 - Fonte especificada no subcampo 2"
           }
-        ] 
+        ]
       },
       "subfields": [
         {

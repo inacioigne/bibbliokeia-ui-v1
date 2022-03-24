@@ -35,16 +35,16 @@ export default function Tag008() {
         </AccordionSummary>
         <Grid container spacing={2} gap={2} sx={{ p: 3, mt: 1 }}>
           <TextField
-            label="00-05 - Date entered on file"
+            label="00-05 - Data de entrada"
             size="small"
             name="008"
             defaultValue={CreateDate()}
             sx={{ width: 210 }}
           />
           <TextField
-            label="06 - Type of date/Publication status"
+            label="06 - Tipo de data"
             select
-            defaultValue={"b"}
+            defaultValue={"s"}
             size="small"
             sx={{ width: 210 }}
             name="008"
@@ -83,7 +83,7 @@ export default function Tag008() {
               r - Reimpressão/Data original
             </MenuItem>
             <MenuItem key="s" value="s">
-              s - Data conhecida/data provável
+              s - Data conhecida
             </MenuItem>
             <MenuItem key="t" value="t">
               t - Data de publicação e copyright
@@ -96,10 +96,11 @@ export default function Tag008() {
             </MenuItem>
           </TextField>
           <TextField label="07-10 - Date 1" size="small" name="008" />
-          <TextField label="11-14 - Date 2" size="small" name="008" />
+          <TextField label="11-14 - Date 2" size="small" defaultValue={"||||"} name="008" />
           <TextField
             label="15-17 Lugar de publicação"
             size="small"
+            defaultValue={"bl "}
             name="008"
           />
           <TextField
@@ -192,10 +193,10 @@ export default function Tag008() {
               f - Especializado
             </MenuItem>
             <MenuItem key="g" value="g">
-              g - General
+              g - Geral
             </MenuItem>
             <MenuItem key="h" value="h">
-              j - Juvenile
+              j - Juvenil
             </MenuItem>
             <MenuItem key="|" value="|">
               | - Não codificado
@@ -520,6 +521,8 @@ export default function Tag008() {
             size="small"
             name="008"
             sx={{ width: 210 }}
+            defaultValue={"por"}
+            
           />
           <TextField
             label="38 - Registro modificado"

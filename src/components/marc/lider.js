@@ -25,11 +25,14 @@ export default function Lider(props) {
           <TextField 
           label="00-04 - Tamanho do registro" 
           size="small"
+          disabled
+          defaultValue={"||||"}
+          sx={{ width: 210 }}
           name="lider" />
           <TextField
             label="05 - Status do registro"
             select
-            defaultValue={"a"}
+            defaultValue={"n"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -42,6 +45,9 @@ export default function Lider(props) {
             </MenuItem>
             <MenuItem key="d" value="d">
               d - Excluído
+            </MenuItem>
+            <MenuItem key="n" value="n">
+            n - Novo
             </MenuItem>
             <MenuItem key="p" value="p">
               p - Catalogação da pré-publicação
@@ -101,7 +107,7 @@ export default function Lider(props) {
           <TextField
             label="07 - Nível bibliográfico"
             select
-            defaultValue={"a"}
+            defaultValue={"m"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -146,7 +152,7 @@ export default function Lider(props) {
           <TextField
             label="09 - Esquema de Codificação de Caractere"
             select
-            defaultValue={"#"}
+            defaultValue={"a"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -160,17 +166,17 @@ export default function Lider(props) {
           </TextField>
           <TextField 
           name="lider"
-          label="10 - Número de indicadores" size="small" defaultValue="2"/>
+          label="10 - Número de indicadores" size="small" sx={{ width: 210 }} defaultValue="2"/>
           <TextField 
           name="lider"
-          label="11 - Número de subcampos" size="small" defaultValue="2"/>
+          label="11 - Número de subcampos" size="small" sx={{ width: 210 }} defaultValue="2"/>
           <TextField 
           name="lider"
-          label="12-16 - Endereço dos dados" size="small" defaultValue="XXXXX"/>
+          label="12-16 - Endereço dos dados" size="small" sx={{ width: 210 }} defaultValue="|||||"/>
           <TextField
             label="17 - Nível de Codificação"
             select
-            defaultValue={"#"}
+            defaultValue={"4"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -209,7 +215,7 @@ export default function Lider(props) {
           <TextField
             label="18 - Forma de Catalogação Descritiva"
             select
-            defaultValue={"#"}
+            defaultValue={"a"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -254,19 +260,19 @@ export default function Lider(props) {
           <TextField 
           name="lider"
           label="20 - Tamanho da parte correspondente ao tamanho do campo"
-           size="small" defaultValue="4"/>
+           size="small" sx={{ width: 210 }} defaultValue="4"/>
           <TextField 
           name="lider"
           label="21 - Tamanho da posição do caractere de início"
-           size="small" defaultValue="5"/>
+           size="small" sx={{ width: 210 }} defaultValue="5"/>
           <TextField 
           name="lider"
           label="22 - Tamanho da parte definida para implementação"
-           size="small" defaultValue="0"/>
+           size="small" sx={{ width: 210 }} defaultValue="0"/>
            <TextField 
            name="lider"
            label="23 - Entrada não definida"
-           size="small" defaultValue="0"/>
+           size="small" sx={{ width: 210 }} defaultValue="0"/>
           
         </Grid>
       </Accordion>
