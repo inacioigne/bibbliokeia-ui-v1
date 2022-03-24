@@ -7,6 +7,7 @@ import Button from "@mui/material/Button";
 import Lider from "../components/marc/lider"
 import Tag008 from "../components/marc/tag008"
 import axios from "axios";
+import { useRouter } from "next/router";
 
 function a11yProps(index) {
   return {
@@ -38,6 +39,7 @@ const Time = () => {
 
 
 export default function Cataloguing() {
+  const router = useRouter()
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -97,7 +99,9 @@ export default function Cataloguing() {
       "http://localhost:8000/cataloguing/create",
       marc
     ).then(function (response) {
-      alert(response.data.msg)
+      //alert(response.data.msg)
+      router.push('/')
+
       console.log(response);
     }).catch(function (error) {
       console.log(error);
@@ -106,8 +110,21 @@ export default function Cataloguing() {
   };
 
   return (
-    <Box>
-      <Tabs value={value} onChange={handleChange}>
+    <Box 
+    // sx={{ 
+    //   position: 'relative',
+     
+    // }}
+    >
+      <Tabs 
+      
+      sx={{ 
+        position: 'fixed',
+        top: "0%",
+        zIndex: 'tooltip',
+        backgroundColor: 'white'
+      }}
+      value={value} onChange={handleChange}>
         <Tab label="Tags 0XX" {...a11yProps(0)} />
         <Tab label="Tags 1XX" {...a11yProps(1)} />
         <Tab label="Tags 2XX" {...a11yProps(2)} />
@@ -116,7 +133,11 @@ export default function Cataloguing() {
         <Tab label="Tags 5XX" {...a11yProps(5)} />
         <Tab label="Tags 6XX" {...a11yProps(6)} />
       </Tabs>
-      <Box component="form" onSubmit={handleSubmit}>
+      <Box 
+      sx={{
+        mt: 5
+        }}
+      component="form" onSubmit={handleSubmit}>
         <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
           <Lider />
           <Tag008 />
@@ -138,7 +159,7 @@ export default function Cataloguing() {
           Tags 4XX
         </Box>
         <Box sx={value == 5 ? { display: "block" } : { display: "none" }}>
-          Tags 5XX
+        <FieldMarc tag="520" />
         </Box>
         <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
           <FieldMarc tag="650" repeatle="true" />

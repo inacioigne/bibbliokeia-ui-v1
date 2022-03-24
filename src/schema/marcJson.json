@@ -484,6 +484,75 @@
         "8": "8 - Campo de ligação e número de seqüência"
       }
     },
+    "520": {
+      "description": "520 - NOTA DE RESUMO",
+      "indicators": {
+        "Ind1": [
+          {
+            "value": "#",
+            "label": "# - Resumo"
+          },
+          {
+            "value": "0",
+            "label": "0 - Assunto"
+          },
+          {
+            "value": "1",
+            "label": "1 - Resenha"
+          },
+          {
+            "value": "2",
+            "label": "2 - Abrangência e conteúdo"
+          },
+          {
+            "value": "3",
+            "label": "3 - Resumo analítico"
+          },
+          {
+            "value": "4",
+            "label": "4 - Conteúdo informado"
+          },
+          {
+            "value": "8",
+            "label": "8 - Não gera visualização"
+          }],
+          "Ind2": false
+      },
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Nota de resumo etc."
+        },
+        {
+          "value": "b",
+          "label": "b - Expansão da nota de resumo"
+        },
+        {
+          "value": "c",
+          "label": "c - Agência depositária"
+        },
+        {
+          "value": "u",
+          "label": "u - URI"
+        },
+        {
+          "value": "2",
+          "label": "2 - Fonte"
+        },
+        {
+          "value": "3",
+          "label": "3 - Material especificado"
+        },
+        {
+          "value": "6",
+          "label": "6 - Ligação"
+        },
+        {
+          "value": "8",
+          "label": "8 - Campo de ligação e número de sequência"
+        }
+      ]
+    },
     "650": {
       "description": "650 - ASSUNTO TÓPICO",
       "indicators": {
