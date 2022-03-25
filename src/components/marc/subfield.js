@@ -85,7 +85,21 @@ export default function Subfield(props) {
           }}
         >
           {metadata.subfields.map((subfield) => (
+            subfield['required'] ? 
             <TextField
+            required
+              name={ props.repeatle ? 
+                  `${props.repeatle}-${props.tag}.${subfield.value}` : `${props.tag}.${subfield.value}` }
+              key={subfield.value}
+              fullWidth
+              label={subfield.label}
+              size="small"
+              sx={
+                subList[subfield.value]
+                  ? { display: "block", width: 500 }
+                  : { display: "none" }
+              }
+            /> : <TextField
               name={ props.repeatle ? 
                   `${props.repeatle}-${props.tag}.${subfield.value}` : `${props.tag}.${subfield.value}` }
               key={subfield.value}

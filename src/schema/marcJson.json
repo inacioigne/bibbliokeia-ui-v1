@@ -269,7 +269,8 @@
       "subfields": [
         {
           "value": "a",
-          "label": "a - Título principal"
+          "label": "a - Título principal",
+          "required": true
         },
         {
           "value": "b",

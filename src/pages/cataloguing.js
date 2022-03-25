@@ -44,7 +44,6 @@ export default function Cataloguing() {
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
-    //console.log(value)
   };
 
   const handleSubmit = (event) => {
@@ -54,7 +53,6 @@ export default function Cataloguing() {
     
     {/**  Control Fields */}
     const tag008 = formData.getAll('008')
-    //console.log(tag008)
     const controfields = [{
       "003": "BR-MnINPA",
       "005": Time(),
@@ -70,16 +68,22 @@ export default function Cataloguing() {
         let tag = k.split(".")[0];
         let code = k.split(".")[1];
         if (Object.keys(data).includes(tag)) {
-          data[tag].push({ [code]: v });
+          //data[tag].push({ [code]: v });
+          data[tag][code] = v
         } else {
-          data[tag] = [];
-          data[tag].push({ [code]: v });
+          //data[tag] = [];
+          //data[tag].push({ [code]: v });
+          data[tag] = new Object();
+          data[tag][code] = v
+
         }
       }
     }
+   
     const datalist = [];
 
     Object.entries(data).forEach(([k, v]) => {
+      
       if (k.includes("r")) {
         datalist.push({ [k.split("-")[1]]: v });
       } else {
@@ -92,21 +96,20 @@ export default function Cataloguing() {
         "controlfield": controfields,
         "datafield": datalist
     }
-    //alert(JSON.stringify(marc))
-    const json = JSON.stringify(marc)
-    //console.log(json)
+    
+    
+    //console.log(marc)
     axios.post(
       "http://localhost:8000/cataloguing/create",
       marc
     ).then(function (response) {
       //alert(response.data.msg)
-      router.push('/')
-
+      router.push(`/item?id=${response.data.id}`)
       console.log(response);
     }).catch(function (error) {
       console.log(error);
     });
-   //console.log(marc);
+  
   };
 
   return (
@@ -149,7 +152,7 @@ export default function Cataloguing() {
         </Box>
         <Box sx={value == 2 ? { display: "block" } : { display: "none" }}>
           <FieldMarc tag="245" />
-          <FieldMarc tag="250" />
+          <FieldMarc tag="250"  />
           <FieldMarc tag="260" />
         </Box>
         <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>

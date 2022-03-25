@@ -2,11 +2,12 @@ import { useRouter } from "next/router";
 
 export default function Teste() {
     const router = useRouter()
+    const { id } = router.query
 
     return (
         <div>
             <h1>Home</h1>
-            <h2>push()</h2>
+            <h2>Item: {id}</h2>
             <p>
             <button onClick={() => router.push('/')}>
           Go to the feedback page
