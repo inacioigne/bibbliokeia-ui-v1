@@ -61,7 +61,7 @@ export default function Cataloguing() {
     }]
     
     const data = new Object();
-    data['040'] = [{'a': "BR-MnINPA"}, {"b": "por"}]
+    data['040'] = {'a': "BR-MnINPA", "b": "por"}
 
     for (const [k, v] of formData.entries()) {
       if (v != "" & k != 'lider' & k != "008") {
@@ -79,25 +79,25 @@ export default function Cataloguing() {
         }
       }
     }
-   
-    const datalist = [];
+    console.log(data)
 
-    Object.entries(data).forEach(([k, v]) => {
+    // const datalist = [];
+
+    // Object.entries(data).forEach(([k, v]) => {
       
-      if (k.includes("r")) {
-        datalist.push({ [k.split("-")[1]]: v });
-      } else {
-        datalist.push({ [k]: v });
-      }
-    });
+    //   if (k.includes("r")) {
+    //     datalist.push({ [k.split("-")[1]]: v });
+    //   } else {
+    //     datalist.push({ [k]: v });
+    //   }
+    // });
     
     const marc = {
         "leader": "    "+lider.join("").replaceAll("|", " "),
         "controlfield": controfields,
-        "datafield": datalist
+        "datafield": data
+       // "datafield": datalist
     }
-    
-    
     //console.log(marc)
     axios.post(
       "http://localhost:8000/cataloguing/create",
@@ -114,10 +114,6 @@ export default function Cataloguing() {
 
   return (
     <Box 
-    // sx={{ 
-    //   position: 'relative',
-     
-    // }}
     >
       <Tabs 
       
