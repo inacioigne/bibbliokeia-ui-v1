@@ -724,6 +724,78 @@
         "6": "6 - Ligação",
         "8": "8 - Campo de ligação e número de sequência"
       }
+    },
+    "856": {
+      "description": "856 - LOCALIZAÇÃO E ACESSO ELETRÔNICO",
+      "indicators": {
+        "Ind1": [
+          {
+            "value": "#",
+            "label": "# - Nenhuma informação fornecida"
+          },
+            {
+              "value": "0",
+              "label": "0 - Email"
+            },
+            {
+              "value": "1",
+              "label": "1 - FTP"
+            },
+            {
+              "value": "2",
+              "label": "2 - Acesso remoto - Telnet"
+            },
+            {
+              "value": "3",
+              "label": "3 - Linha de acesso discado - Dial-up"
+            },
+            {
+              "value": "4",
+              "label": "4 - HTTP"
+            },
+            {
+              "value": "7",
+              "label": "7 - Método especificado no subcampo $2"
+            }
+          ],
+          "Ind2": [
+            {
+              "value": "#",
+              "label": "# - Nenhuma informação fornecida"
+            },
+              {
+                "value": "0",
+                "label": "0 - Recurso"
+              },
+              {
+                "value": "1",
+                "label": "1 - Versão do recurso"
+              },
+              {
+                "value": "2",
+                "label": "2 - Recurso relacionado"
+              },
+              {
+                "value": "8",
+                "label": "8 - Não gera visualização"
+              }
+            ]
+      },
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Nome do servidor"
+        },
+        {
+          "value": "u",
+          "label": "u - Identificador uniforme de recurso - URI"
+        },
+        {
+          "value": "3",
+          "label": "3 Material especificado"
+        }
+      ],
+      "repeatable": true
     }
   }
 }

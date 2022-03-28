@@ -23,7 +23,6 @@ export default function FieldMarc(props) {
 
   const handleClick = () => {
     setRepeatle(repeatle + 1)
-    console.log(repeatle)
   }
   return (
     <Box>

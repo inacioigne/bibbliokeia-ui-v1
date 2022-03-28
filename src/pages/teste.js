@@ -1,33 +1,30 @@
-import { useRouter } from "next/router";
+import { DataGrid } from '@mui/x-data-grid';
 
 export default function Teste() {
-    const router = useRouter()
-    const { id } = router.query
+  
+  return (
+    <div style={{ height: 250, width: '100%' }}>
+      <DataGrid 
+      columns={[{ field: 'Tag' }, 
+      { field: 'Subfield' }, 
+     
+      ]}
+      rows={[
+          {
+            id: 1,
+            Tag: 'Leader',
+            Subfield: "    nam#a22     4a#4500",
+          },
+          {
+            id: 2,
+            Tag: "003",
+            Subfield: "BR-MnINPA",
+          },
+        ]}
 
-    return (
-        <div>
-            <h1>Home</h1>
-            <h2>Item: {id}</h2>
-            <p>
-            <button onClick={() => router.push('/')}>
-          Go to the feedback page
-        </button>
-            </p>
-            <p>
-        <input
-          type="checkbox"
-          onChange={() => router.push('/cataloguing')}
-        ></input> Check me to go to the feedback page
-      </p>
-      <br />
-      <h2>replace()</h2>
-      <div>
-        <button onClick={() => router.replace('/index')}>
-          Go to the feedback page and not go back
-        </button>
-      </div>
-
-
-        </div>
+      />
+    </div>
+      
     )
+        
 }

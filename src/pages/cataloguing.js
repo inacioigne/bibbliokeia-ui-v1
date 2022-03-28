@@ -53,12 +53,11 @@ export default function Cataloguing() {
     
     {/**  Control Fields */}
     const tag008 = formData.getAll('008')
-    const controfields = [{
+    const controfields = {
       "003": "BR-MnINPA",
       "005": Time(),
       '008': tag008.join(""),
-
-    }]
+    }
     
     const data = new Object();
     data['040'] = {'a': "BR-MnINPA", "b": "por"}
@@ -79,7 +78,20 @@ export default function Cataloguing() {
         }
       }
     }
-    console.log(data)
+    const subjects = []
+
+  if (data['650']) {
+    subjects.push(data['650'])
+    
+    Object.entries(data).forEach(([k, v]) => {
+      if (k.includes("r") & k.includes("650")) {
+        subjects.push(data[k])
+        delete data[k]
+      }
+    })
+  }
+data[650] = subjects
+
 
     // const datalist = [];
 
@@ -99,6 +111,7 @@ export default function Cataloguing() {
        // "datafield": datalist
     }
     //console.log(marc)
+    // 
     axios.post(
       "http://localhost:8000/cataloguing/create",
       marc
@@ -108,7 +121,7 @@ export default function Cataloguing() {
       console.log(response);
     }).catch(function (error) {
       console.log(error);
-    });
+    });  
   
   };
 
@@ -131,6 +144,8 @@ export default function Cataloguing() {
         <Tab label="Tags 4XX" {...a11yProps(4)} />
         <Tab label="Tags 5XX" {...a11yProps(5)} />
         <Tab label="Tags 6XX" {...a11yProps(6)} />
+        <Tab label="Tags 7XX" {...a11yProps(7)} />
+        <Tab label="Tags 8XX" {...a11yProps(8)} />
       </Tabs>
       <Box 
       sx={{
@@ -162,6 +177,12 @@ export default function Cataloguing() {
         </Box>
         <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
           <FieldMarc tag="650" repeatle="true" />
+        </Box>
+        <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
+          TAGS 7XX
+        </Box>
+        <Box sx={value == 8 ? { display: "block" } : { display: "none" }}>
+        <FieldMarc tag="856" repeatle="true" />
         </Box>
         <Button variant="contained" type="submit">
           Salvar
