@@ -42,7 +42,8 @@ export default function Indicators(props) {
           name={props.repeatle ? 
             `${props.repeatle}-${props.tag}.${props.ind}` :
             `${props.tag}.${props.ind}`}
-          value="#"
+            value={"#"}
+            disabled
         />
       )}
     </Box>
