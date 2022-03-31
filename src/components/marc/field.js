@@ -39,7 +39,7 @@ export default function FieldMarc(props) {
             </Typography>
           </Grid>
         </AccordionSummary>
-        <Subfield tag={props.tag} />
+        <Subfield tag={props.tag} meta={props.meta} />
         { repeatle > 0 && <Subfield tag={props.tag} repeatle="r1" />}
         { repeatle > 1 && <Subfield tag={props.tag} repeatle="r2"/>}
         { repeatle > 2 && <Subfield tag={props.tag} repeatle="r3"/>}

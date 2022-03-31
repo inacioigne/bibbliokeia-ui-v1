@@ -5,6 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 export default function Indicators(props) {
   const formik = props.formik;
   const indicators = props.metadata;
+  //console.log("INDICATORS: ",props.meta)
 
   return (
     <Box 
@@ -13,7 +14,7 @@ export default function Indicators(props) {
       {indicators ? (
         <TextField
           select
-          defaultValue={""}
+          defaultValue={props.meta?  props.meta : ""}
           id={props.ind}
           label={props.ind}
           variant="outlined"
@@ -22,7 +23,6 @@ export default function Indicators(props) {
           name={props.repeatle ? 
             `${props.repeatle}-${props.tag}.${props.ind}` :
             `${props.tag}.${props.ind}`}          
-         
         >
         <MenuItem value="">
             
@@ -43,7 +43,7 @@ export default function Indicators(props) {
             `${props.repeatle}-${props.tag}.${props.ind}` :
             `${props.tag}.${props.ind}`}
             value={"#"}
-            disabled
+            //disabled
         />
       )}
     </Box>

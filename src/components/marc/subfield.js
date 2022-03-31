@@ -41,13 +41,15 @@ export default function Subfield(props) {
         >
           <Indicators
             tag={props.tag}
-            repeatle= {props.repeatle }
+            meta={props.meta?.Ind1}
+            repeatle={props.repeatle}
             ind="Ind1"
             metadata={metadata.indicators.Ind1}
           />
           <Indicators
             tag={props.tag}
-            repeatle= {props.repeatle}
+            meta={props.meta?.Ind2}
+            repeatle={props.repeatle}
             ind="Ind2"
             metadata={metadata.indicators.Ind2}
           />
@@ -84,35 +86,46 @@ export default function Subfield(props) {
             rowGap: 2,
           }}
         >
-          {metadata.subfields.map((subfield) => (
-            subfield['required'] ? 
-            <TextField
-            required
-              name={ props.repeatle ? 
-                  `${props.repeatle}-${props.tag}.${subfield.value}` : `${props.tag}.${subfield.value}` }
-              key={subfield.value}
-              fullWidth
-              label={subfield.label}
-              size="small"
-              sx={
-                subList[subfield.value]
-                  ? { display: "block", width: 500 }
-                  : { display: "none" }
-              }
-            /> : <TextField
-              name={ props.repeatle ? 
-                  `${props.repeatle}-${props.tag}.${subfield.value}` : `${props.tag}.${subfield.value}` }
-              key={subfield.value}
-              fullWidth
-              label={subfield.label}
-              size="small"
-              sx={
-                subList[subfield.value]
-                  ? { display: "block", width: 500 }
-                  : { display: "none" }
-              }
-            />
-          ))}
+          {metadata.subfields.map((subfield) =>
+            subfield["required"] ? (
+              <TextField
+                required
+                defaultValue={props.meta ? props.meta[`${subfield.value}`] : ""}
+                name={
+                  props.repeatle
+                    ? `${props.repeatle}-${props.tag}.${subfield.value}`
+                    : `${props.tag}.${subfield.value}`
+                }
+                key={subfield.value}
+                fullWidth
+                label={subfield.label}
+                size="small"
+                sx={
+                  subList[subfield.value]
+                    ? { display: "block", width: 500 }
+                    : { display: "none" }
+                }
+              />
+            ) : (
+              <TextField
+                defaultValue={props.meta ? props.meta[`${subfield.value}`] : ""}
+                name={
+                  props.repeatle
+                    ? `${props.repeatle}-${props.tag}.${subfield.value}`
+                    : `${props.tag}.${subfield.value}`
+                }
+                key={subfield.value}
+                fullWidth
+                label={subfield.label}
+                size="small"
+                sx={
+                  subList[subfield.value]
+                    ? { display: "block", width: 500 }
+                    : { display: "none" }
+                }
+              />
+            )
+          )}
         </Box>
       </Box>
     </Grid>

@@ -1,0 +1,45 @@
+{
+	"040": {
+		"description": "040 - FONTE DA CATALOGAÇÃO",
+		"indicators": {
+			"Ind1": false,
+			"Ind2": false
+		},
+		"subfields": [
+		{
+          "value": "a",
+          "label": "a - Código da Agência Catalogadora"
+        },
+		{
+          "value": "b",
+          "label": "b - Idioma da catalogação"
+		  
+        },
+		{
+          "value": "c",
+          "label": "c - Agência que transcreveu o registro em formato legível por máquina"
+		  
+        },
+		{
+          "value": "d",
+          "label": "d - Agência que alterou o registro"
+		  
+        },
+		{
+          "value": "e",
+          "label": "e - Fontes convencionais de descrições de dados"
+		  
+        },
+		{
+          "value": "6",
+          "label": "6 - Ligação"
+		  
+        },
+		{
+          "value": "8",
+          "label": "8 - Campo de ligação e número de sequência"
+		  
+        }
+		]		
+	}
+}

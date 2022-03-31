@@ -1,0 +1,148 @@
+{
+  "800": {
+    "description": "800 - ENTRADA SECUNDÁRIA DE SÉRIE - NOME PESSOAL",
+    "indicators": {
+      "Ind1": [
+        {
+          "value": "0",
+          "label": "0 - Prenome"
+        },
+        {
+          "value": "1",
+          "label": "1 - Sobrenome"
+        },
+        {
+          "value": "3",
+          "label": "3 - Nome de família"
+        }
+      ],
+      "Ind2": false
+    },
+    "subfields": [
+      {
+        "value": "a",
+        "label": "a - Nome pessoal"
+      },
+      {
+        "value": "b",
+        "label": "b - Algarismos romanos que seguem o prenome"
+      },
+      {
+        "value": "c",
+        "label": "c - Títulos e outras palavras associadas ao nome"
+      },
+      {
+        "value": "d",
+        "label": "d - Datas associadas ao nome"
+      },
+
+      {
+        "value": "e",
+        "label": "e - Termo de relação"
+      },
+      {
+        "value": "f",
+        "label": "f - Data da publicação do trabalho"
+      },
+      {
+        "value": "g",
+        "label": "g - Informações adicionais"
+      },
+      {
+        "value": "h",
+        "label": "h - Meio"
+      },
+      {
+        "value": "j",
+        "label": "j - Atributo"
+      },
+      {
+        "value": "k",
+        "label": "k- Subcabeçalho"
+      },
+      {
+        "value": "l",
+        "label": "l - Idioma da publicação"
+      },
+      {
+        "value": "m",
+        "label": "m - Meio de execução para música"
+      },
+      {
+        "value": "n",
+        "label": "n - Número da parte/seção da publicação"
+      },
+      {
+        "value": "o",
+        "label": "o - Arranjo musical"
+      },
+
+      {
+        "value": "p",
+        "label": "p - Nome da parte/seção da publicação"
+      },
+      {
+        "value": "q",
+        "label": "q - Forma completa do nome"
+      },
+      {
+        "value": "r",
+        "label": "r - Escala musical"
+      },
+      {
+        "value": "s",
+        "label": "s - Versão"
+      },
+      {
+        "value": "t",
+        "label": "t - Título da publicação"
+      },
+      {
+        "value": "u",
+        "label": "u - Afiliação"
+      },
+      {
+        "value": "v",
+        "label": "v - Número do volume ou designação sequencial da série"
+      },
+
+      {
+        "value": "w",
+        "label": "w - Número de controle do registro bibliográfico"
+      },
+      {
+        "value": "x",
+        "label": "x - ISSN"
+      },
+
+      {
+        "value": "0",
+        "label": "0 - Número de controle do registro de autoridade"
+      },
+      {
+        "value": "3",
+        "label": "3 - Material especificado"
+      },
+      {
+        "value": "4",
+        "label": "4 - Relação"
+      },
+      {
+        "value": "5",
+        "label": "5 - Código da instituição"
+      },
+      {
+        "value": "6",
+        "label": "6 - Ligação"
+      },
+      {
+        "value": "7",
+        "label": "7 - Subcampo de controle"
+      },
+      {
+        "value": "8",
+        "label": "8 - Ligação entre campos e número de sequência"
+      }
+    ]
+  }
+}

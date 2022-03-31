@@ -8,6 +8,9 @@ import Lider from "../components/marc/lider"
 import Tag008 from "../components/marc/tag008"
 import axios from "axios";
 import { useRouter } from "next/router";
+import api from "../services/api";
+import Container from '@mui/material/Container';
+
 
 function a11yProps(index) {
   return {
@@ -16,7 +19,7 @@ function a11yProps(index) {
   };
 }
 
-const Time = () => {
+export const Time = () => {
   const date = new Date()
   const year = date.getFullYear()
   const m = date.getMonth()+1
@@ -112,8 +115,8 @@ data[650] = subjects
     }
     //console.log(marc)
     // 
-    axios.post(
-      "http://localhost:8000/cataloguing/create",
+    api.post(
+      "/cataloguing/create",
       marc
     ).then(function (response) {
       //alert(response.data.msg)
@@ -126,6 +129,8 @@ data[650] = subjects
   };
 
   return (
+
+    <Container>
     <Box 
     >
       <Tabs 
@@ -189,5 +194,6 @@ data[650] = subjects
         </Button>
       </Box>
     </Box>
+    </Container>
   );
 }
