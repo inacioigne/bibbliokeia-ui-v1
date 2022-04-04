@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/router";
 import api from "../services/api";
-import TabCataloguing from "../components/tabCataloguing"
+//import TabCataloguing from "../components/tabCataloguing"
 import Container from '@mui/material/Container';
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
@@ -10,7 +10,8 @@ import Tab from "@mui/material/Tab";
 import Lider from "../components/marc/newLider";
 import Tag008 from "../components/marc/tag008";
 import FieldMarc from "../components/marc/field";
-import Time from "./cataloguing"
+import Time from "../function/time"
+
 
 function a11yProps(index) {
   return {
@@ -82,63 +83,81 @@ export default function EditItem() {
        "005": Time(),
        '008': tag008.join(""),
      }
-     console.log("SUMBIT: ", controfields)
      
-//      const data = new Object();
-//      data['040'] = {'a': "BR-MnINPA", "b": "por"}
- 
-//      for (const [k, v] of formData.entries()) {
-//        if (v != "" & k != 'lider' & k != "008") {
-//          let tag = k.split(".")[0];
-//          let code = k.split(".")[1];
-//          if (Object.keys(data).includes(tag)) {
-//            //data[tag].push({ [code]: v });
-//            data[tag][code] = v
-//          } else {
-//            //data[tag] = [];
-//            //data[tag].push({ [code]: v });
-//            data[tag] = new Object();
-//            data[tag][code] = v
- 
-//          }
-//        }
-//      }
-//      const subjects = []
- 
-//    if (data['650']) {
-//      subjects.push(data['650'])
      
-//      Object.entries(data).forEach(([k, v]) => {
-//        if (k.includes("r") & k.includes("650")) {
-//          subjects.push(data[k])
-//          delete data[k]
-//        }
-//      })
-//    }
-//  data[650] = subjects
+     const data = new Object();
+     data['040'] = {'a': "BR-MnINPA", "b": "por"}
  
+     for (const [k, v] of formData.entries()) {
+       if (v != "" & k != 'lider' & k != "008") {
+         let tag = k.split(".")[0];
+         let code = k.split(".")[1];
+         if (Object.keys(data).includes(tag)) {
+           //data[tag].push({ [code]: v });
+           data[tag][code] = v
+         } else {
+           //data[tag] = [];
+           //data[tag].push({ [code]: v });
+           data[tag] = new Object();
+           data[tag][code] = v
  
-//      // const datalist = [];
- 
-//      // Object.entries(data).forEach(([k, v]) => {
-       
-//      //   if (k.includes("r")) {
-//      //     datalist.push({ [k.split("-")[1]]: v });
-//      //   } else {
-//      //     datalist.push({ [k]: v });
-//      //   }
-//      // });
+         }
+       }
+     }
      
-//      const marc = {
-//          "leader": "    "+lider.join("").replaceAll("|", " "),
-//          "controlfield": controfields,
-//          "datafield": data
-//      }
+     const subjects = []
+ 
+   if (data['650']) {
+     subjects.push(data['650'])
      
-//     console.log('SUBMIT: ', marc )
+     Object.entries(data).forEach(([k, v]) => {
+       if (k.includes("r") & k.includes("650")) {
+         subjects.push(data[k])
+         delete data[k]
+       }
+     })
+   }
+ data[650] = subjects
 
+     const datalist = [];
+ 
+     Object.entries(data).forEach(([k, v]) => {
+       
+       if (k.includes("r")) {
+         datalist.push({ [k.split("-")[1]]: v });
+       } else {
+         datalist.push({ [k]: v });
+       }
+     });
+     
+     const marc = {
+         "leader": "    "+lider.join("").replaceAll("|", " "),
+         "controlfield": controfields,
+         "datafield": data
+     }
+
+     const { id } = router.query;
+
+     const requestsData = {
+       'id': id,
+       'marc': marc
+     }
+
+     api.put(
+      "/cataloguing/update",
+      requestsData
+    ).then(function (response) {
+      //alert(response.data.msg)
+      router.push(`/item?id=${id}`)
+      console.log(response);
+    }).catch(function (error) {
+      console.log(error);
+    });  
 
   }
+
+
+
   return (
     <Container fixed>
     {/*<TabCataloguing meta={meta && meta}  />*/}
@@ -211,7 +230,7 @@ export default function EditItem() {
         {
           datafield?.tag6.map(([k, v]) => (
             v.map((a, i) => (
-              <FieldMarc key={i} tag={k} meta={a} />
+              <FieldMarc key={i} tag={k} meta={a} repeatle={i}/>
             ))
           )) }
         </Box>
@@ -224,7 +243,7 @@ export default function EditItem() {
         <Box sx={value == 8 ? { display: "block" } : { display: "none" }}>
         {
           datafield?.tag8.map(([k, v]) => (
-              <FieldMarc key={k} tag={k} meta={v} />
+              <FieldMarc key={k} tag={k} meta={v}  />
           )) }
         </Box>
         <Button variant="contained" type="submit" onSubmit={handleSubmit} >

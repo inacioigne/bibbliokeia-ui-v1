@@ -22,6 +22,16 @@ import Tooltip from "@mui/material/Tooltip";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import { DataGrid } from "@mui/x-data-grid";
+import { styled } from "@mui/material/styles";
+import Dialog from "@mui/material/Dialog";
+import DialogTitle from "@mui/material/DialogTitle";
+import DialogContent from "@mui/material/DialogContent";
+import DialogActions from "@mui/material/DialogActions";
+import CloseIcon from "@mui/icons-material/Close";
+import PropTypes from "prop-types";
+import TextField from "@mui/material/TextField";
+import AddIcon from "@mui/icons-material/Add";
+import { SendTimeExtension } from "@mui/icons-material";
 
 function getTitle(field, tag) {
   if (Object.keys(field).includes(tag)) {
@@ -45,13 +55,67 @@ const useFakeMutation = () => {
   );
 };
 
+{
+  /** EXEMPLARES */
+}
+
+const BootstrapDialog = styled(Dialog)(({ theme }) => ({
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
+
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <CloseIcon />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
+
 export default function Item() {
   const router = useRouter();
   const [item, setItem] = useState(false);
   const [rows, setRows] = useState([]);
+  const [rowsEx, setRowsEx] = useState([]);
   const [anchor, setAnchor] = useState(null);
   const [value, setValue] = useState(0);
+  const [exemplar, setExemplar] = useState({ exemplar: false });
   const mutateRow = useFakeMutation();
+
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setOpenModal(false);
+  };
 
   const patchData = async (data) => {
     const res = await api.patch("/cataloguing/edit", data);
@@ -109,9 +173,9 @@ export default function Item() {
   const handleTagMarc = () => {
     setValue(1);
   };
-  
 
   useEffect(() => {
+    let cancel = false
     if (router.isReady) {
       const { id } = router.query;
       const url = `/cataloguing/item/${id}/json`;
@@ -120,6 +184,8 @@ export default function Item() {
         const res = await api.get(url);
         let title = res.data.datafield[245];
         let publication = res.data.datafield[260];
+        const exs = await  api.get(`cataloguing/item/${id}/exemplares`)
+        if (cancel) return
         setItem({
           title: title.b ? `${title.a}${title.b}` : title.a,
           authorship: title.c,
@@ -127,6 +193,22 @@ export default function Item() {
           subjects: res.data.datafield[650],
           img: res.data.datafield[856].u,
         });
+        //console.log(exs.data)
+        const exm = exs.data.map((i) => {
+          //console.log(i)
+          
+          return {
+            id: i.id,
+            Biblioteca: i.library,
+            Localização: i.shelf,
+            Chamada: i.callnumber,
+            Volume: i.volume,
+            Exemplar: i.created_at,
+            Registro: i.number
+          }
+        })
+        //console.log(exm)
+        setRowsEx(exm)
 
         const r = [
           {
@@ -184,20 +266,67 @@ export default function Item() {
 
         setRows(r);
       };
-      
       getData().catch((err) => {
         console.error("ops! ocorreu um erro" + err);
       });
+
+      //GET EXEMPLARES
+      // api.get(`cataloguing/item/${id}/exemplares`)
+      // .then(function (response) {
+      //   console.log(response)
+      //   if (cancel) return
+      //   setRowsEx(response.data)
+      // })
+      // .catch((err) => {
+      //   console.error("ops! ocorreu um erro" + err);
+      // });
+
+    } 
+    return () => {
+      cancel = true
     }
   }, [router.isReady]);
 
-  const handleEdit = (e) => {
-    e.preventDefault()
-    const { id } = router.query;
-    console.log("EDITAR: ", id)
-    router.push(`editItem?id=${id}`)
+  
 
-  }
+  const handleEdit = (e) => {
+    e.preventDefault();
+    const { id } = router.query;
+    //console.log("EDITAR: ", id);
+    router.push(`editItem?id=${id}`);
+  };
+
+  const handleExemplar = (e) => {
+    e.preventDefault();
+    let { id } = router.query;
+    const formData = new FormData(e.target);
+
+    const ex = new Object();
+
+    for (const [k, v] of formData.entries()) {
+      ex[`${k}`] = v;
+    }
+    const exs = { exs: [ex] };
+    //console.log(exs)
+    api
+      .post(`/cataloguing/item/${id}/exemplar`, exs)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+
+  const getNumber = async () => {
+    const res = await api.get("/cataloguing/exemplar");
+  };
+
+  useEffect(() => {
+    api.get("/cataloguing/exemplar").then((res) => {
+      setExemplar(res.data);
+    });
+  });
 
   return (
     <Container>
@@ -270,15 +399,10 @@ export default function Item() {
 
         <CardContent>
           {/** Record */}
-          <Box sx={
-                value == 0 ? { display: "block", gap: 3, 
-                } : { display: "none" }
-              }>
-            <Box
-              sx={
-                { display: "flex", gap: 3 } 
-              }
-            >
+          <Box
+            sx={value == 0 ? { display: "block", gap: 3 } : { display: "none" }}
+          >
+            <Box sx={{ display: "flex", gap: 3 }}>
               <CardMedia
                 component="img"
                 height="194"
@@ -336,7 +460,6 @@ export default function Item() {
                 </ButtonGroup>
               </Box>
             </Box>
-            
           </Box>
 
           {/** Tags Marc */}
@@ -361,13 +484,134 @@ export default function Item() {
               processRowUpdate={processRowUpdate}
             />
           </Box>
+          <Box style={{ height: 250, width: "100%" }}>
+            Exemplares
+            <DataGrid
+              columns={[
+                { field: "Biblioteca" }, 
+              { field: "Localização" },
+              { field: "Chamada"},
+              { field: "Localização" }, 
+              { field: "Volume" },
+              { field: "Exemplar" }, 
+              { field: "Registro" }, 
+              { field: "Status" }
+              ]}
+              // rows={[
+              //   {
+              //     id: 1,
+              //     Biblioteca: "Biblioteca do INPA",
+              //     Localização: "II-VII",
+              //     Chamada: "651.7",
+              //     Volume: "",
+              //     Exemplar: "Ex. 1",
+              //     Registro: "22-0001",
+              //     Status: "Disponivel"
+              //   },
+              // ]}
+              rows={rowsEx}
+            />
+          </Box>
         </CardContent>
-        <Box sx={{borderTop: 1, mt: 2, p:2, 
-            display: "flex", gap: 3}}>
-            <Button variant="outlined" onClick={handleEdit}>Editar</Button>
-            <Button variant="outlined">Adicionar Exemplar</Button>
-            </Box>
+        <Box sx={{ borderTop: 1, mt: 2, p: 2, display: "flex", gap: 3 }}>
+          <Button variant="outlined" onClick={handleEdit}>
+            Editar
+          </Button>
+          <Button variant="outlined" onClick={handleClickOpen}>
+            Adicionar Exemplar
+          </Button>
+        </Box>
       </Card>
+      <BootstrapDialog
+        onClose={handleCloseModal}
+        aria-labelledby="customized-dialog-title"
+        open={openModal}
+        maxWidth={false}
+      >
+        <BootstrapDialogTitle
+          id="customized-dialog-title"
+          onClose={handleCloseModal}
+        >
+          Adicionar Exemplar
+        </BootstrapDialogTitle>
+        <form onSubmit={handleExemplar}>
+          <DialogContent dividers>
+            <Box sx={{ display: "flex", gap: 1 }}>
+              <TextField
+                id="library"
+                name="library"
+                label="Biblioteca"
+                variant="outlined"
+                size="small"
+                defaultValue="Biblioteca do INPA"
+                sx={{ width: 100 }}
+              />
+              <TextField
+                id="shelf"
+                name="shelf"
+                label="Local"
+                variant="outlined"
+                size="small"
+                sx={{ width: 100 }}
+              />
+              <TextField
+                id="callnumber"
+                name="callnumber"
+                label="Chamada"
+                variant="outlined"
+                size="small"
+                sx={{ width: 100 }}
+              />
+
+              <TextField
+                id="collection"
+                label="Coleção"
+                variant="outlined"
+                size="small"
+                sx={{ width: 100 }}
+              />
+              <TextField
+                id="volume"
+                label="v."
+                variant="outlined"
+                size="small"
+                sx={{ width: 50 }}
+              />
+              <TextField
+                id="ex"
+                label="ex."
+                variant="outlined"
+                size="small"
+                sx={{ width: 50 }}
+              />
+              <TextField
+                id="number"
+                name="number"
+                label="Registro"
+                variant="outlined"
+                size="small"
+                defaultValue={exemplar?.exemplar}
+                sx={{ width: 100 }}
+              />
+              <Box
+                onClick={getNumber}
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <AddIcon color="primary" />
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions>
+            <Button autoFocus type="submit">
+              Salvar
+            </Button>
+          </DialogActions>
+        </form>
+      </BootstrapDialog>
     </Container>
   );
 }

@@ -2,6 +2,7 @@
     "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-        "@/marcSchema":["src/schema/marcJson.json"]}
+        "@/marcSchema":["src/schema/marcJson.json"],
+        "@/function/time": ["src/function/time"]}
     }
 }
