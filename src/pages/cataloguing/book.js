@@ -8,6 +8,7 @@ import Lider from "../../components/marc/lider";
 import Tag008 from "../../components/marc/tag008";
 import marc from "src/schema/marc_book.json";
 import Field from "../../components/marc/newField";
+import Typography from '@mui/material/Typography';
 
 
 function a11yProps(index) {
@@ -35,16 +36,21 @@ export default function Cataloguing_Book() {
   return (
     <Container>
       <Box>
-        <Tabs value={value} onChange={handleChange} variant="fullWidth">
-          <Tab label="Tags 0XX" {...a11yProps(0)} />
-          <Tab label="Tags 1XX" {...a11yProps(1)} />
-          <Tab label="Tags 2XX" {...a11yProps(2)} />
-          <Tab label="Tags 3XX" {...a11yProps(3)} />
-          <Tab label="Tags 4XX" {...a11yProps(4)} />
-          <Tab label="Tags 5XX" {...a11yProps(5)} />
-          <Tab label="Tags 6XX" {...a11yProps(6)} />
-          <Tab label="Tags 7XX" {...a11yProps(7)} />
-          <Tab label="Tags 8XX" {...a11yProps(8)} />
+        <Tabs 
+        value={value} 
+        onChange={handleChange} 
+        variant="fullWidth"
+        
+        >
+          <Tab label="Tags 0XX" {...a11yProps(0)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 1XX" {...a11yProps(1)} sx={{ borderRight: 1 }} />
+          <Tab label="Tags 2XX" {...a11yProps(2)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 3XX" {...a11yProps(3)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 4XX" {...a11yProps(4)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 5XX" {...a11yProps(5)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 6XX" {...a11yProps(6)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 7XX" {...a11yProps(7)} sx={{ borderRight: 1 }}/>
+          <Tab label="Tags 8XX" {...a11yProps(8)} sx={{ borderRight: 1 }}/>
         </Tabs>
         <Box>
         <Box sx={value == 0 ? { display: 'grid', rowGap: 3} : { display: "none" }}>

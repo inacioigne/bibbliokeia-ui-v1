@@ -26,7 +26,8 @@
       "subfields": [
         {
           "value": "a",
-          "label": "a - Código da Agência Catalogadora"
+          "label": "a - Código da Agência Catalogadora",
+          "defaultValue": "Br-INPA"
         },
         {
           "value": "b",
@@ -59,7 +60,7 @@
       "repeatable": false,
       "description": "082 - CDD",
       "indicators": {
-        "Ind1": [
+        "Ind1": [ 
           {
             "value": "0",
             "label": "0 - Edição completa"

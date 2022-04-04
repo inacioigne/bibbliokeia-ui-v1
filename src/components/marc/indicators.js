@@ -17,7 +17,7 @@ export default function Indicators(props) {
           defaultValue={props.meta?  props.meta : ""}
           id={props.ind}
           label={props.ind}
-          variant="outlined"
+          variant="outlined" 
           size="small"
           style = {{width: 100}}
           name={props.repeatle ? 
