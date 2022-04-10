@@ -17,7 +17,7 @@ export default function Lider(props) {
           id="header"
           sx={{ borderBottom: 1 }}
         >
-          <Typography variant="h6" component="div" gutterBottom>
+          <Typography variant="h7" component="div" gutterBottom>
           Lider
           </Typography>
         </AccordionSummary>

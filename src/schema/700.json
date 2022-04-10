@@ -1,0 +1,41 @@
+{
+    "tag": "700",
+    "repeatable": true,
+    "description": "700 - ENTRADA SECUNDÁRIA - NOME PESSOAL",
+    "indicators": {
+      "Ind1": [
+        {
+          "value": "0",
+          "label": "0 - Prenome"
+        },
+        {
+          "value": "1",
+          "label": "1 - Sobrenome"
+        },
+        {
+          "value": "3",
+          "label": "3 - Nome de família"
+        }
+      ],
+      "Ind2": [
+        {
+          "value": "#",
+          "label": "# - Informação não fornecida"
+        },
+        {
+          "value": "2",
+          "label": "2 - Entrada analítica"
+        }
+      ]
+    },
+    "subfields": [
+      {
+        "value": "a",
+        "label": "a - Nome pessoal"
+      },
+      {
+        "value": "e",
+        "label": "e - Termo de relação"
+      }
+    ]
+  }

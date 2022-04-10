@@ -1,0 +1,125 @@
+"811": {
+      "description": "811 - ENTRADA SECUNDÁRIA DE SÉRIE - EVENTOS",
+      "indicators": {
+        "Ind1": "0 - Nome invertido",
+		{
+            "value": "0",
+            "label": "0 - Nome invertido"
+          },
+          {
+            "value": "1",
+            "label": "1 - Nome da jurisdição ou lugar"
+          },
+          {
+            "value": "2",
+            "label": "2 - Nome na ordem direta"
+          }
+        "Ind2": false
+      }
+      "subfields": [
+        {
+          "value": "a",
+          "label": "a - Nome do evento ou do lugar"
+        },
+        {
+          "value": "c",
+          "label": "c - Local de realização do evento"
+        },
+        {
+          "value": "d",
+          "label": "d - Data de realização do evento"
+        },
+        {
+          "value": "e",
+          "label": "e - Unidades subordinadas "
+        },
+        {
+          "value": "f",
+          "label": "f - Data da publicação do trabalho"
+        },
+        {
+          "value": "g",
+          "label": "g - Informações adicionais"
+        },
+		{
+		  "value": "h",
+          "label": "h - Meio"		  
+		},
+		{
+		  "value": "j",
+          "label": "j - Termo de relação"		  
+		},
+		{
+		  "value": "k",
+          "label": "k - Subcabeçalho"		  
+		},
+		{
+		  "value": "l",
+          "label": "l - Idioma da publicação"		  
+		},
+		{
+		  "value": "n",
+          "label": "n - Número da parte/seção/evento"		  
+		},
+		{
+		  "value": "p",
+          "label": "p - Nome da parte/seção da publicação"		  
+		},
+		{
+		  "value": "q",
+          "label": "q - Nome do evento seguindo o nome da jurisdição"		  
+		},
+		{
+		  "value": "s",
+          "label": "s - Versão"		  
+		},
+		{
+		  "value": "t",
+          "label": "t - Título da publicação"		  
+		},
+		{
+		  "value": "u",
+          "label": "u - Afiliação"		  
+		},
+		{
+		  "value": "v",
+          "label": "v - Número do volume ou designação sequencial da série"		  
+		},
+		{
+		  "value": "w",
+          "label": "w - Número de controle do registro bibliográfico"		  
+		},
+		{
+		  "value": "x",
+          "label": "x - ISSN"		  
+		},
+		{
+		  "value": "0",
+          "label": "0 - Número de controle do registro de autoridade"		  
+		},
+		{
+		  "value": "3",
+          "label": "3 - Material especificado"		  
+		},
+		{
+		  "value": "4",
+          "label": "4 - Relação"		  
+		},
+		{
+		  "value": "5",
+          "label": "5 - Código da instituição"		  
+		},
+		{
+		  "value": "6",
+          "label": "6 - Ligação"		  
+		},
+		{
+		  "value": "7",
+          "label": "7 - Subcampo de controle"		  
+		},
+		{
+		  "value": "8",
+          "label": "8 - Ligação entre campos e número de sequência"		  
+		}
+		]
+    }

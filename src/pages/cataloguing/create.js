@@ -29,7 +29,7 @@ export default function Cataloguing() {
   const handleSubmit = (event) => {
     event.preventDefault();
     const formData = new FormData(event.target);
-    let lider = formData.getAll("lider");
+    let lider = formData.getAll("lider"); 
 
     {
       /**  Control Fields */
