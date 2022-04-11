@@ -16,6 +16,9 @@ import Button from "@mui/material/Button";
 import Time from "../../function/time";
 import api from "../../services/api";
 import { useRouter } from "next/router";
+import { useContext } from 'react';
+import { AuthContext } from 'src/admin/contexts/AuthContext';
+import { parseCookies } from 'nookies'
 
 function a11yProps(index) {
   return {
@@ -142,15 +145,9 @@ export default function Cataloguing_Book() {
     });
     //console.log(marc)
 
-
-   
-  
-  
-  
-  
-  
 }
-
+// const { user } = useContext(AuthContext);
+//     console.log("BOOK: ", user)
 
   return (
     <Container>
@@ -173,6 +170,7 @@ export default function Cataloguing_Book() {
               value == 0 ? { display: "grid", rowGap: 3 } : { display: "none" }
             }
           >
+          {/* <h1>{user?.name}</h1> */}
             <Lider />
             <Tag008 />
             {tags0.map((e, i) => (
@@ -240,3 +238,24 @@ export default function Cataloguing_Book() {
 Cataloguing_Book.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
 };
+
+export const getServerSideProps = async (ctx) => {
+  
+  // const apiClient = getAPIClient(ctx);
+   const { ['bibliokeia.token']: token } = parseCookies(ctx)
+   //console.log("TOKEN: ", token)
+  if (!token) {
+    return {
+      redirect: {
+        destination: '/login',
+        permanent: false,
+      }
+    }
+  }
+
+  // await apiClient.get('/users')
+
+  return {
+    props: {}
+  }
+}

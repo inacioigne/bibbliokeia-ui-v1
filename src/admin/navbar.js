@@ -12,6 +12,9 @@ import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
+import { useContext } from 'react';
+import { AuthContext } from 'src/admin/contexts/AuthContext';
+
 
 function ScrollTop(props) {
     const { children, window } = props;
@@ -60,6 +63,9 @@ ScrollTop.propTypes = {
 
 
 export default function Navbar(props) {
+  const { user, signIn } = useContext(AuthContext);
+    console.log("NAV: ", user)
+  
 
     return (
         <>
@@ -79,6 +85,7 @@ export default function Navbar(props) {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
           BiblioKeia
           </Typography>
+          <p>{user?.name}</p>
           <Button color="inherit">Login</Button>
         </Toolbar>
         </AppBar>  
