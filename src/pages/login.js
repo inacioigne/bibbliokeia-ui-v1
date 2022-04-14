@@ -10,9 +10,6 @@ import { setCookie } from "nookies"
 import { useContext } from 'react';
 import { AuthContext } from 'src/admin/contexts/AuthContext';
 
-
-
-
 export default function Login() {
     const { control, handleSubmit } = useForm({
         defaultValues: {
@@ -22,12 +19,12 @@ export default function Login() {
     });
     //const contxt = useContext(AuthContext)
     const { user, signIn } = useContext(AuthContext);
-    //console.log("LOGIN: ", user)
+  
 
     async function handleSignIn(data) {
       
       const res = await signIn(data)
-      console.log(res)
+  
     }
 
 
@@ -79,9 +76,6 @@ export default function Login() {
     
 
         </Box>
-
-         
-
         </Container>
        
     )

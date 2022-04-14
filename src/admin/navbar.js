@@ -8,12 +8,14 @@ import Button from '@mui/material/Button';
 import Zoom from '@mui/material/Zoom';
 import Fab from '@mui/material/Fab';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import Container from '@mui/material/Container';
+//import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import useScrollTrigger from '@mui/material/useScrollTrigger';
 import PropTypes from 'prop-types';
 import { useContext } from 'react';
 import { AuthContext } from 'src/admin/contexts/AuthContext';
+import Switch from '@mui/material/Switch';
+import FormControlLabel from '@mui/material/FormControlLabel';
 
 
 function ScrollTop(props) {
@@ -60,11 +62,18 @@ ScrollTop.propTypes = {
     window: PropTypes.func,
   };
 
-
+  const label = { inputProps: { 'aria-label': 'Switch demo' } };
 
 export default function Navbar(props) {
-  const { user, signIn } = useContext(AuthContext);
-    console.log("NAV: ", user)
+  const { user, signIn, signOut } = useContext(AuthContext);
+
+  async function handleSignOut(ctx) {
+      
+    await signOut(ctx)
+
+  }
+  
+
   
 
     return (
@@ -86,7 +95,11 @@ export default function Navbar(props) {
           BiblioKeia
           </Typography>
           <p>{user?.name}</p>
-          <Button color="inherit">Login</Button>
+        
+          <FormControlLabel control={<Switch 
+          defaultChecked 
+          color="secondary" 
+          onClick={handleSignOut} />} label="SAIR" />
         </Toolbar>
         </AppBar>  
         <ScrollTop {...props}>

@@ -63,7 +63,6 @@ export default function CreateExemplar(props) {
     .catch((err) => {
                console.error("ops! ocorreu um erro" + err);
           });
-     //console.log("data", data);
     }
 
   return (

@@ -9,6 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
+import { RowingSharp } from "@mui/icons-material";
 
 const useFakeMutation = () => {
   return useCallback(
@@ -34,7 +35,71 @@ function computeMutation(newRow, oldRow) {
 }
 
 export default function TagsMarc(props) {
-  const cellEditable = ["245","250", "856"]
+  
+  function setRows(props) {
+    if (props.item) {
+      let rows = [
+        {
+          id: "000",
+          Tag: "000",
+          Ind1: "#",
+          Ind2: "#",
+          Subcampos: props.item.leader,
+        },
+      ];
+      {/** CONTROLFIELDS */}
+      for (let [k, v] of Object.entries(props.item.controlfields)) {
+        rows.push({
+          id: k,
+          Tag: k,
+          Ind1: "#",
+          Ind2: "#",
+          Subcampos: v
+        })
+      }
+
+      {/** DATAFIELDS */}
+        for (let [k, v] of Object.entries(props.item.datafields)) {
+          if (! Array.isArray(v)) {
+            let subfield = JSON.stringify(v.subfields)
+            .replaceAll('":"',' ')
+            .replace('{"', '|')
+            .replaceAll('","', ' |')
+            .replace('"}','')
+            
+            rows.push({
+              id: k,
+              Tag: k,
+              Ind1: v.indicators.Ind1 ,
+              Ind2: v.indicators.Ind2,
+              Subcampos: subfield
+            })
+          } else {
+            for (let [i, field] of Object.entries(v)) {
+              let subfield = JSON.stringify(field.subfields)
+              .replaceAll('":"',' ')
+              .replace('{"', '|')
+              .replaceAll('","', ' |')
+              .replace('"}','')
+              rows.push({
+                id: `${k}_${i}`,
+                Tag: k,
+                Ind1: field.indicators.Ind1 ,
+                Ind2: field.indicators.Ind2,
+                Subcampos: subfield
+              })
+            }
+          }
+        }
+      return rows
+    } else {
+      return false
+    }
+  }
+  const rows = setRows(props)
+
+
+  const cellEditable = ["245","250", "260", "300", "020", "082", "090"]
   const patchData = async (data) => {
     const res = await api.patch(`cataloguing/item/${props.itemId}/patch`, data);
   };
@@ -143,7 +208,7 @@ export default function TagsMarc(props) {
           { field: "Ind2" },
           { field: "Subcampos", width: 600, editable: true },
         ]}
-        rows={props.rows}
+        rows={rows}
         experimentalFeatures={{ newEditingApi: true }}
         processRowUpdate={processRowUpdate}
         isCellEditable={(params) => cellEditable.includes(params.row.Tag)}

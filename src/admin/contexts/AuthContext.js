@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
-import api from "../../services/api"
+import { api } from "../../services/api"
 import qs from 'qs';
-import { setCookie, parseCookies } from "nookies"
+import { setCookie, parseCookies, destroyCookie } from "nookies"
 import Router from 'next/router'
 
 
@@ -16,12 +16,14 @@ export function AuthProvider({ children }) {
     if (token) {
       //Pegar informações do usuario
       setUser({name: 'admin', 'id': 1})
-      //console.log(user.name)
+      api.defaults.headers["Authorization"] = `Bearer ${token}`;
+      
     }
 
   }, [])
 
 async function signIn(data) {
+  
   const response = await api.post( "usuarios/login", 
   qs.stringify(data),
   {headers: { 'content-type': 'application/x-www-form-urlencoded' }}
@@ -29,17 +31,25 @@ async function signIn(data) {
   setCookie(undefined, 'bibliokeia.token',
   response.data.access_token, {
     maxAge: 60 * 60 * 1,
+    path: '/'
   } )
   setUser(response.data.user)
 
   Router.push('/cataloguing/book')
-  console.log(response.data)
 
 }
 
-    
+async function signOut(ctx) {
+  setUser(null)
+  destroyCookie(null, 'bibliokeia.token', {
+    path: '/',
+  })
+  
+  Router.push('/')
+}
+
     return (
-        <AuthContext.Provider value={{ user, isAuthenticated, signIn }}>
+        <AuthContext.Provider value={{ user, isAuthenticated, signIn, signOut }}>
           {children}
         </AuthContext.Provider>
       )

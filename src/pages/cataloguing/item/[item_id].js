@@ -1,8 +1,7 @@
 import { useRouter } from "next/router";
 import { useState, useEffect, useCallback } from "react";
-//import axios from "axios";
 import Container from "@mui/material/Container";
-import api from "../../services/api";
+import { api } from "../../../services/api"
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
@@ -10,32 +9,24 @@ import CardHeader from "@mui/material/CardHeader";
 import Avatar from "@mui/material/Avatar";
 import { red } from "@mui/material/colors";
 import CardContent from "@mui/material/CardContent";
-//import CardMedia from "@mui/material/CardMedia";
-//import { func } from "prop-types";
 import Button from "@mui/material/Button";
-//import ButtonGroup from "@mui/material/ButtonGroup";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
-//import Image from "next/image";
 import IconButton from "@mui/material/IconButton";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import Tooltip from "@mui/material/Tooltip";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
-//import { DataGrid } from "@mui/x-data-grid";
 import { styled } from "@mui/material/styles";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
-//import DialogContent from "@mui/material/DialogContent";
-//import DialogActions from "@mui/material/DialogActions";
 import CloseIcon from "@mui/icons-material/Close";
 import PropTypes from "prop-types";
-//import TextField from "@mui/material/TextField";
-//import { SendTimeExtension } from "@mui/icons-material";
-import Record from "../../components/display_record/record"
-import TagsMarc from "../../components/display_record/tagsMarc"
-import Exemplares from "../../components/display_record/exemplares"
+import Record  from "src/components/display_item/record";
+import TagsMarc  from "src/components/display_item/tagsMarc";
+import Exemplares  from "src/components/display_item/exemplares";
 import Layout from "src/admin/layout";
-import CreateExemplar from "./createExemplar"
+import CreateExemplar from "src/pages/cataloguing/createExemplar"
+import { parseCookies } from "nookies";
 
 function getTitle(field, tag) {
   if (Object.keys(field).includes(tag)) {
@@ -87,8 +78,9 @@ BootstrapDialogTitle.propTypes = {
 
 export default function Item() {
   const router = useRouter();
-  const [item, setItem] = useState(false);
-  const [itemId, setItemId] = useState(false)
+  const { item_id } = router.query
+  const [item, setItem] = useState(null);
+  //console.log(item)
   const [rows, setRows] = useState([]);
   const [rowsEx, setRowsEx] = useState([]);
   const [anchor, setAnchor] = useState(null);
@@ -127,32 +119,34 @@ export default function Item() {
   useEffect(() => {
     let cancel = false
     if (router.isReady) {
-      const { id } = router.query;
-      setItemId(id)
+      //const { id } = router.query;
+      //setItemId(id)
 
-      const url = `/cataloguing/item/${id}/json`;
+      //const url = `/cataloguing/item/${id}/json`;
 
       const getData = async () => {
-        const res = await api.get(url);
-        let title = res.data.datafield[245];
-        let publication = res.data.datafield[260];
-        const exs = await  api.get(`cataloguing/item/${id}/exemplares`)
+        const response = await api.get(`cataloging/item/${item_id}`);
+        setItem(response.data)
+
+                // let title = res.data.datafield[245];
+        // let publication = res.data.datafield[260];
+        // const exs = await  api.get(`cataloguing/item/${id}/exemplares`)
         if (cancel) return
-        const img = res.data.datafield[856].filter((e) => {
-          return e[3] == "capa"
-        })
+        // const img = res.data.datafield[856].filter((e) => {
+        //   return e[3] == "capa"
+       // })
         
         //console.log(res.data.datafield["852"].c)
-        setItem({
-          title: title.b ? `${title.a}${title.b}` : title.a,
-          authorship: title.c,
-          publication: publication.a + publication.b + publication.c,
-          subjects: res.data.datafield[650],
-          img: img[0].u,
-          chamada: `${res.data.datafield["090"].a} ${res.data.datafield["090"].b}`,
-          location: res.data.datafield["852"].c,
-          colletion: res.data.datafield["852"].b
-        });
+        // setItem({
+        //   title: title.b ? `${title.a}${title.b}` : title.a,
+        //   authorship: title.c,
+        //   publication: publication.a + publication.b + publication.c,
+        //   subjects: res.data.datafield[650],
+        //   img: img[0].u,
+        //   chamada: `${res.data.datafield["090"].a} ${res.data.datafield["090"].b}`,
+        //   location: res.data.datafield["852"].c,
+        //   colletion: res.data.datafield["852"].b
+        // });
         
         const exm = exs.data.map((i) => {
           
@@ -239,15 +233,14 @@ export default function Item() {
   const handleEdit = (e) => {
     e.preventDefault();
     const { id } = router.query;
-    //console.log("EDITAR: ", id);
     router.push(`editItem?id=${id}`);
   };
 
-  useEffect(() => {
-    api.get("/cataloguing/exemplar").then((res) => {
-      setExemplar(res.data);
-    });
-  });
+  // useEffect(() => {
+  //   api.get("/cataloguing/exemplar").then((res) => {
+  //     setExemplar(res.data);
+  //   });
+  // });
 
   return (
     <Container>
@@ -258,7 +251,7 @@ export default function Item() {
               <MenuBookIcon />
             </Avatar>
           }
-          title={<Typography variant="h5">{item?.title}</Typography>}
+          title={<Typography variant="h5">{item?.datafields[245].subfields.a}</Typography>}
           action={
             <Tooltip title="Account settings">
               <IconButton
@@ -328,9 +321,10 @@ export default function Item() {
           {/** Tags Marc */}
           {value == 1 && 
           <TagsMarc 
-         // value={value}
-         itemId={itemId}
-          rows={rows}
+          value={value}
+          item={item}
+         
+          //rows={rows}
           />}
           
          {/** exemplares */}
@@ -361,15 +355,11 @@ export default function Item() {
         >
           Adicionar Exemplar
         </BootstrapDialogTitle>
-        {/* <ExemplaresAdd 
-            item={item}
-            exemplar={exemplar}
-            itemId={itemId}
-          /> */}
+        
           <CreateExemplar 
-            item={item}
-            exemplar={exemplar}
-            itemId={itemId}
+           // item={item}
+           // exemplar={exemplar}
+           // itemId={itemId}
           />
    
       </BootstrapDialog>
@@ -379,4 +369,21 @@ export default function Item() {
 
 Item.getLayout = function getLayout(page) {
   return <Layout>{page}</Layout>;
+};
+
+export const getServerSideProps = async (ctx) => {
+  const { ["bibliokeia.token"]: token } = parseCookies(ctx);
+  if (!token) {
+    //console.log("BOOK: SEM TOKEN")
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    } 
+  } 
+
+  return {
+    props: {},
+  };
 };
