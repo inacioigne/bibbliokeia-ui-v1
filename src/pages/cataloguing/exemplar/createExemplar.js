@@ -7,20 +7,24 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import api from "../../services/api"
+import { api } from "src/services/api"
+import { useContext } from "react";
+import { ItemContext } from "src/admin/contexts/itemContext";
 
 export default function CreateExemplar(props) {
+  const { item_id, item } = useContext(ItemContext);
+  console.log("EX:", item.datafields["090"].subfields.b)
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
       exemplares: [
         {
           library: "Biblioteca do INPA",
-          shelf: props.item.location,
-          callnumber: props.item.chamada,
+          shelf: item.datafields["090"].subfields.b,
+          callnumber: item.datafields["090"].subfields.b,
           collection: "",
           volume: "",
           ex: "",
-          number: props.exemplar?.exemplar,
+          number: "",
           status: "disponivel",
         },
       ],

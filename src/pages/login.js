@@ -4,9 +4,9 @@ import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { useForm, Controller } from "react-hook-form";
-import api from "../services/api"
-import qs from 'qs';
-import { setCookie } from "nookies"
+//import api from "../services/api"
+//import qs from 'qs';
+//import { setCookie } from "nookies"
 import { useContext } from 'react';
 import { AuthContext } from 'src/admin/contexts/AuthContext';
 
@@ -17,7 +17,7 @@ export default function Login() {
             password: ""
           }
     });
-    //const contxt = useContext(AuthContext)
+
     const { user, signIn } = useContext(AuthContext);
   
 

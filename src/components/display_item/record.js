@@ -4,32 +4,18 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import Button from "@mui/material/Button";
 import Skeleton from '@mui/material/Skeleton';
 import { red } from "@mui/material/colors";
-import { useState, useEffect } from "react";
-import { getImageListItemBarUtilityClass } from "@mui/material";
-import { resolveHref } from "next/dist/shared/lib/router/router";
+import { useState, useEffect, useContext } from "react";
+import { ItemContext } from "src/admin/contexts/itemContext";
 
 
 
 export default function Record(props) {
+  const { item } = useContext(ItemContext);
+  //console.log("RECORD: ", item);
 
-  // function imgField() {
-  //   return new Promise((resolve, reject) => {
-  //     if (props.item) {
-  //       resolve(
-  //         props.item.datafields[856].filter((e) => {
-  //           return e.subfields[3] == 'capa'
-  //         })
-  //       ) 
-  //     } else {
-  //       reject(null)
-  //     }
-  //   })
-   
-  // }
-
- function getImagem(props) {
-   if (props.item) {
-    let [f] = props.item.datafields[856].filter((field) => {return field.subfields[3] == 'capa'})
+ function getImagem() {
+   if (item) {
+    let [f] = item.datafields[856].filter((field) => {return field.subfields[3] == 'capa'})
      return f
    } else {
      return false
@@ -64,27 +50,27 @@ export default function Record(props) {
 
         <Box sx={{ display: "flex", gap: 1, flexDirection: "column" }}>
           {/** Autoria */}
-          { props.item ?
+          { item ?
             <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button>Autoria</Button>
             <Button style={{ textTransform: "none" }}>
-              {props.item.datafields[245].subfields.c}
+              {item.datafields[245].subfields.c}
             </Button>
           </ButtonGroup> :
           <Skeleton variant="rectangular" width={250} height={35} />
           }
           
           {/** Publicação */}
-          { props.item ?
+          { item ?
           <ButtonGroup
             variant="outlined"
             aria-label="outlined button group"
           >
             <Button>Publicação</Button>
             <Button style={{ textTransform: "none" }}>
-              {`${props.item.datafields[260].subfields.a}
-              ${props.item.datafields[260].subfields.b}
-              ${props.item.datafields[260].subfields.c}
+              {`${item.datafields[260].subfields.a}
+              ${item.datafields[260].subfields.b}
+              ${item.datafields[260].subfields.c}
               `}
             </Button>
           </ButtonGroup> :
@@ -92,11 +78,11 @@ export default function Record(props) {
 
 
           {/** Assuntos */}
-          { props.item ?
+          { item ?
           <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button>Assuntos</Button>
 
-            {props.item.datafields[650].map((field, index) => (
+            {item.datafields[650].map((field, index) => (
               <Button key={index} style={{ textTransform: "none" }}>
                 <Box
                   sx={{
@@ -115,12 +101,12 @@ export default function Record(props) {
           <Skeleton variant="rectangular" width={250} height={35} /> }
 
           {/** Chamada */}
-          { props.item ?
+          { item ?
           <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button>Chamada</Button>
             <Button style={{ textTransform: "none" }}>
-              {`${props.item.datafields["082"].subfields.a}
-              ${props.item.datafields["090"].subfields.b}
+              {`${item.datafields["082"].subfields.a}
+              ${item.datafields["090"].subfields.b}
               `}
             </Button>
           </ButtonGroup> :

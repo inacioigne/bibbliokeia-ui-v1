@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import { DataGrid } from "@mui/x-data-grid";
 import { useCallback, useRef, useState } from "react";
-import api from "../../services/api";
+import { api } from "../../services/api"
 import Snackbar from "@mui/material/Snackbar";
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
@@ -9,7 +9,9 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import Button from "@mui/material/Button";
 import Alert from "@mui/material/Alert";
-import { RowingSharp } from "@mui/icons-material";
+//import { RowingSharp } from "@mui/icons-material";
+import { useContext } from 'react';
+import { ItemContext } from "src/admin/contexts/itemContext"
 
 const useFakeMutation = () => {
   return useCallback(
@@ -29,26 +31,30 @@ const useFakeMutation = () => {
 
 function computeMutation(newRow, oldRow) {
   if (newRow.Subcampos !== oldRow.Subcampos) {
-    return `Name from '${oldRow.Subcampos}' to '${newRow.Subcampos}`;
+    return `Subcampo '${oldRow.Subcampos}' por '${newRow.Subcampos}`;
   }
   return null;
 }
 
 export default function TagsMarc(props) {
+
+  const { item_id, item, setItem } = useContext(ItemContext);
   
-  function setRows(props) {
-    if (props.item) {
+  
+  
+  function setRows(item) {
+    if (item.controlfields) {
       let rows = [
         {
           id: "000",
           Tag: "000",
           Ind1: "#",
           Ind2: "#",
-          Subcampos: props.item.leader,
+          Subcampos: item.leader,
         },
       ];
       {/** CONTROLFIELDS */}
-      for (let [k, v] of Object.entries(props.item.controlfields)) {
+      for (let [k, v] of Object.entries(item.controlfields)) {
         rows.push({
           id: k,
           Tag: k,
@@ -59,7 +65,7 @@ export default function TagsMarc(props) {
       }
 
       {/** DATAFIELDS */}
-        for (let [k, v] of Object.entries(props.item.datafields)) {
+        for (let [k, v] of Object.entries(item.datafields)) {
           if (! Array.isArray(v)) {
             let subfield = JSON.stringify(v.subfields)
             .replaceAll('":"',' ')
@@ -96,12 +102,16 @@ export default function TagsMarc(props) {
       return false
     }
   }
-  const rows = setRows(props)
+  const rows = setRows(item)
 
 
   const cellEditable = ["245","250", "260", "300", "020", "082", "090"]
   const patchData = async (data) => {
-    const res = await api.patch(`cataloguing/item/${props.itemId}/patch`, data);
+    const res = await api.patch(
+      `cataloging/item/${item_id}`, data);
+      
+      setItem(res.data)
+
   };
 
   const mutateRow = useFakeMutation();
@@ -116,7 +126,9 @@ export default function TagsMarc(props) {
       new Promise((resolve, reject) => {
         const mutation = computeMutation(newRow, oldRow);
         if (mutation) {
+          
           setPromiseArguments({ resolve, reject, newRow, oldRow });
+         
         } else {
           resolve(oldRow);
         }
@@ -133,27 +145,29 @@ export default function TagsMarc(props) {
   const handleYes = async () => {
     const { newRow, oldRow, reject, resolve } = promiseArguments;
     try {
-      //requests
-      const sb = newRow.Subcampos.split("|");
-      sb.shift();
+      let sub = newRow.Subcampos.split("|")
+      sub.shift()
       const obj = new Object();
-      obj["Ind1"] = newRow.Ind1;
-      obj["Ind2"] = newRow.Ind2;
-      sb.forEach((e) => {
+      sub.forEach((e) => {
         obj[e.split(" ", 1)[0]] = e.substr(2);
-      });
-      const tagMarc = {
-        marc: newRow.id.split("-")[0],
-        tag: newRow.Tag,
-        subfield: obj,
-      };
-      patchData(tagMarc).catch((err) => {
-   console.error("ops! ocorreu um erro" + err);
-   });
+
+      })
+
+      let data = {
+        tag: newRow.id,
+        subfields: obj
+      }
+      //console.log("NEWROW: ", data)
+
+    patchData(data).catch((err) => {
+     console.error("ops! ocorreu um erro" + err);
+     });
       const response = await mutateRow(newRow);
-      console.log(response);
-      setSnackbar({ children: "User successfully saved", severity: "success" });
+      //console.log("RES:", response);
+      setSnackbar({ children: "Item atualizado com sucesso", severity: "success" });
       resolve(response);
+      
+      
       setPromiseArguments(null);
     } catch (error) {
       setSnackbar({ children: "Name can't be empty", severity: "error" });
@@ -179,15 +193,15 @@ export default function TagsMarc(props) {
         TransitionProps={{ onEntered: handleEntered }}
         open={!!promiseArguments}
       >
-        <DialogTitle>Are you sure?</DialogTitle>
+        <DialogTitle>Tem certeza?</DialogTitle>
         <DialogContent dividers>
-          {`Pressing 'Yes' will change ${mutation}.`}
+          {`Deseja substituir os ${mutation}.`}
         </DialogContent>
         <DialogActions>
           <Button ref={noButtonRef} onClick={handleNo}>
-            No
+            Não
           </Button>
-          <Button onClick={handleYes}>Yes</Button>
+          <Button onClick={handleYes}>Sim</Button>
         </DialogActions>
       </Dialog>
     );
