@@ -18,12 +18,13 @@ import {
 import { red } from "@mui/material/colors";
 import { MenuBook, MoreVert, Close } from "@mui/icons-material";
 import { ItemContext } from "src/admin/contexts/itemContext";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect  } from "react";
 import PropTypes from "prop-types";
 import Record from "./record"
 import TagsMarc from "./tagsMarc"
 import Exemplares from "./exemplares"
 import CreateExemplar from "src/pages/cataloguing/exemplar/createExemplar"
+import { api } from "src/services/api"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
       "& .MuiDialogContent-root": {
@@ -64,12 +65,27 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
         };
 
 export default function ItemCard() {
-  const { item } = useContext(ItemContext);
+  const { item, openModal, setOpenModal } = useContext(ItemContext);
   
 
   const [anchor, setAnchor] = useState(null);
-  const [openModal, setOpenModal] = useState(false);
+  //const [openModal, setOpenModal] = useState(false);
   const [value, setValue] = useState(0);
+  const [lastEx, setLastEx] = useState({});
+
+  const getData = async () => {
+    const response = await api.get(`cataloging/exemplar/last_exemplar/`);
+    
+    setLastEx(response.data)
+    console.log(lastEx)
+
+}
+
+useEffect(() => {
+  getData()
+  console.log('EX: ', lastEx)
+
+}, [])
 
   const open = Boolean(anchor);
 
@@ -205,10 +221,9 @@ export default function ItemCard() {
         >
           Adicionar Exemplar
         </BootstrapDialogTitle>
-
-        
         {/*CreateExemplar */}
-         <CreateExemplar /> 
+         <CreateExemplar nextEx={lastEx?.exemplar} /> 
+       
       </BootstrapDialog>
       </Card>
     </Container>

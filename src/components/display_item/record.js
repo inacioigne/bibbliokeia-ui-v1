@@ -11,7 +11,7 @@ import { ItemContext } from "src/admin/contexts/itemContext";
 
 export default function Record(props) {
   const { item } = useContext(ItemContext);
-  //console.log("RECORD: ", item);
+
 
  function getImagem() {
    if (item) {
@@ -105,9 +105,7 @@ export default function Record(props) {
           <ButtonGroup variant="outlined" aria-label="outlined button group">
             <Button>Chamada</Button>
             <Button style={{ textTransform: "none" }}>
-              {`${item.datafields["082"].subfields.a}
-              ${item.datafields["090"].subfields.b}
-              `}
+              {`${item.datafields["082"].subfields.a} ${item.datafields["090"].subfields.b}`}
             </Button>
           </ButtonGroup> :
           <Skeleton variant="rectangular" width={250} height={35} /> }

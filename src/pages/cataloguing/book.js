@@ -60,10 +60,7 @@ export default function Cataloguing_Book() {
     setValue(newValue);
   };
  
-  // useEffect(() => {
-  //   console.log("API BOOK: ", api.defaults.headers)
-
-  // })
+  
 
   const handleSubmit = (event) => {
     event.preventDefault();

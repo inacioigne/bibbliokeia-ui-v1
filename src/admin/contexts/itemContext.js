@@ -9,6 +9,8 @@ export const ItemProvider = ({ children }) => {
     const { item_id } = router.query
    
     const [item, setItem] = useState(null);
+    const [rowsEx, setRowsEx] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     const getData = async () => {
         const response = await api.get(`cataloging/item/${item_id}`);
@@ -16,11 +18,31 @@ export const ItemProvider = ({ children }) => {
         
     }
 
+    
+
+  const getExemplar = async () => {
+    const response = await api.get(`cataloging/exemplar/${item_id}`);
+    const exm = response.data.exemplares.map((i) => {
+          
+                return {
+                  id: i.id,
+                  Biblioteca: i.library,
+                  Localização: i.shelf,
+                  Chamada: i.callnumber,
+                  Volume: i.volume,
+                  Exemplar: i.ex,
+                  Registro: i.number,
+                  Status: i.status                  
+                }
+              })
+              setRowsEx(exm)
+             
+
+}
+
     useEffect(() => {
         getData()
-        //console.log("ITEM: ",item)
-        
-    
+        getExemplar()
       }, [])
 
     
@@ -30,7 +52,9 @@ export const ItemProvider = ({ children }) => {
 
 
 
-    return <ItemContext.Provider value={{item_id, item, setItem, getData}}>
+    return <ItemContext.Provider value={{item_id, 
+    item, rowsEx, setItem, setRowsEx, getData, 
+    getExemplar, openModal, setOpenModal}}>
         { children}
     </ItemContext.Provider>
 }

@@ -1,30 +1,43 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import TextField from "@mui/material/TextField";
+import {TextField, Stack, Button, Snackbar, MuiAlert, IconButton  } from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import AddIcon from "@mui/icons-material/Add";
+import {Add, Close} from "@mui/icons-material";
 import RemoveIcon from "@mui/icons-material/Remove";
-import Button from "@mui/material/Button";
+//import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
 import { api } from "src/services/api"
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ItemContext } from "src/admin/contexts/itemContext";
+import { ConnectingAirportsOutlined } from "@mui/icons-material";
+
+// const Alert = React.ForwardRef(function Alert(props, ref) {
+//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+// });
+const Alert = React.forwardRef(({props}, ref) => 
+   {
+  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
+})
 
 export default function CreateExemplar(props) {
-  const { item_id, item } = useContext(ItemContext);
-  console.log("EX:", item.datafields["090"].subfields.b)
+  const { item_id, item, rowsEx, setRowsEx, getExemplar, openModal, setOpenModal  } = useContext(ItemContext);
+  const [openSnack, setOpenSnack] = useState()
+
+  
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
       exemplares: [
         {
           library: "Biblioteca do INPA",
           shelf: item.datafields["090"].subfields.b,
-          callnumber: item.datafields["090"].subfields.b,
+          callnumber: `${item.datafields["082"].subfields.a} ${item.datafields["090"].subfields.b}`,
           collection: "",
           volume: "",
           ex: "",
-          number: "",
+          number: props.nextEx,
           status: "disponivel",
         },
       ],
@@ -39,8 +52,8 @@ export default function CreateExemplar(props) {
   const addField = (index) => {
     append({
         library: "Biblioteca do INPA",
-        shelf: props.item.location,
-        callnumber: props.item.chamada,
+        shelf: item.datafields["090"].subfields.b,
+        callnumber: `${item.datafields["082"].subfields.a} ${item.datafields["090"].subfields.b}`,
         collection: "",
         volume: "",
         ex: "",
@@ -51,7 +64,7 @@ export default function CreateExemplar(props) {
 
   const getRegister = () => {
       const q = fields.length
-    const r = props.exemplar?.exemplar
+    const r = props.nextEx
     const n = parseInt(r.split("-")[1]) + q
     
     const ano = r.split("-")[0]
@@ -59,7 +72,8 @@ export default function CreateExemplar(props) {
 
   }
   const postExemplar = async (data) => {
-    const res = await api.post(`cataloguing/item/${props.itemId}/exemplar`, data);
+    const res = await api.post(`cataloging/exemplar/${item_id}`, data);
+    getExemplar()
     console.log(res)
   };
   const onSubmit = (data) => {
@@ -68,6 +82,43 @@ export default function CreateExemplar(props) {
                console.error("ops! ocorreu um erro" + err);
           });
     }
+
+    const handleCloseModal = () => {
+      setOpenSnack(true);
+      setOpenModal(false);
+      
+    };
+    {/** SNACKBAR */}
+    
+    const handleClickSnack = () => {
+      setOpenSnack(true);
+    };
+
+    const handleCloseSnack = (event, reason) => {
+      if (reason === 'clickaway') {
+        return;
+      }
+  
+      setOpenSnack(false);
+    };
+
+    const action = (
+      <React.Fragment>
+        <Button 
+        color="secondary" 
+        size="small" 
+        onClick={handleCloseSnack}>
+          UNDO
+        </Button>
+        <IconButton
+          size="small"
+          aria-label="close"
+          color="inherit"
+          onClick={handleCloseSnack}
+        >
+          <Close fontSize="small" />
+        </IconButton>
+      </React.Fragment>)
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -198,7 +249,7 @@ export default function CreateExemplar(props) {
                 alignItems: "center",
               }}
             >
-              <AddIcon color="primary" onClick={addField} />
+              <Add color="primary" onClick={addField} />
             </Box>
             <Box
               sx={{
@@ -214,10 +265,27 @@ export default function CreateExemplar(props) {
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button autoFocus type="submit">
+        <Button autoFocus type="submit" onClick={handleCloseModal}>
           Salvar
         </Button>
       </DialogActions>
+      {/** SNACKBAR */}
+      <Stack spacing={2} sx={{ width: '100%' }}>
+      <Button variant="outlined" onClick={handleClickSnack}>
+      Open success snackbar
+      </Button>
+      <Snackbar 
+      open={openSnack} 
+      autoHideDuration={6000} 
+      onClose={handleCloseSnack}
+      message="Note archived"
+      action={action}
+      >
+    
+      </Snackbar>
+
+      </Stack>
+
     </form>
   );
 }
