@@ -14,59 +14,70 @@ import {
   Dialog,
   styled,
   DialogTitle,
+  Stack,
+  Snackbar,
+  ButtonGroup,
+  Popper,
+  Grow,
+  Paper,
+  ClickAwayListener,
+  MenuList
+
 } from "@mui/material";
+import React from "react";
 import { red } from "@mui/material/colors";
-import { MenuBook, MoreVert, Close } from "@mui/icons-material";
+import { MenuBook, MoreVert, Close, ArrowDropDown } from "@mui/icons-material";
 import { ItemContext } from "src/admin/contexts/itemContext";
-import { useContext, useState, useEffect  } from "react";
+import { useContext, useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import Record from "./record"
-import TagsMarc from "./tagsMarc"
-import Exemplares from "./exemplares"
-import CreateExemplar from "src/pages/cataloguing/exemplar/createExemplar"
-import { api } from "src/services/api"
+import Record from "./record";
+import TagsMarc from "./tagsMarc";
+import Exemplares from "./exemplares";
+import CreateExemplar from "src/components/cataloguing/createExemplar";
+import { api } from "src/services/api";
+import BtnDelete from "src/components/cataloguing/btn_delete"
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-      "& .MuiDialogContent-root": {
-        padding: theme.spacing(2),
-      },
-      "& .MuiDialogActions-root": {
-        padding: theme.spacing(1),
-      },
-    }));
+  "& .MuiDialogContent-root": {
+    padding: theme.spacing(2),
+  },
+  "& .MuiDialogActions-root": {
+    padding: theme.spacing(1),
+  },
+}));
 
-    const BootstrapDialogTitle = (props) => {
-          const { children, onClose, ...other } = props;
-        
-          return (
-            <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
-              {children}
-              {onClose ? (
-                <IconButton
-                  aria-label="close"
-                  onClick={onClose}
-                  sx={{
-                    position: "absolute",
-                    right: 8,
-                    top: 8,
-                    color: (theme) => theme.palette.grey[500],
-                  }}
-                >
-                  <Close />
-                </IconButton>
-              ) : null}
-            </DialogTitle>
-          );
-        };
-        
-        BootstrapDialogTitle.propTypes = {
-          children: PropTypes.node,
-          onClose: PropTypes.func.isRequired,
-        };
+const BootstrapDialogTitle = (props) => {
+  const { children, onClose, ...other } = props;
+
+  return (
+    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+      {children}
+      {onClose ? (
+        <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{
+            position: "absolute",
+            right: 8,
+            top: 8,
+            color: (theme) => theme.palette.grey[500],
+          }}
+        >
+          <Close />
+        </IconButton>
+      ) : null}
+    </DialogTitle>
+  );
+};
+
+BootstrapDialogTitle.propTypes = {
+  children: PropTypes.node,
+  onClose: PropTypes.func.isRequired,
+};
 
 export default function ItemCard() {
-  const { item, openModal, setOpenModal } = useContext(ItemContext);
-  
+  const { item, openModal, setOpenModal, openSnack, setOpenSnack } =
+    useContext(ItemContext);
 
   const [anchor, setAnchor] = useState(null);
   //const [openModal, setOpenModal] = useState(false);
@@ -75,17 +86,15 @@ export default function ItemCard() {
 
   const getData = async () => {
     const response = await api.get(`cataloging/exemplar/last_exemplar/`);
-    
-    setLastEx(response.data)
-    console.log(lastEx)
 
-}
+    setLastEx(response.data);
+    //console.log(lastEx);
+  };
 
-useEffect(() => {
-  getData()
-  console.log('EX: ', lastEx)
-
-}, [])
+  useEffect(() => {
+    getData();
+    //console.log("EX: ", lastEx);
+  }, []);
 
   const open = Boolean(anchor);
 
@@ -115,6 +124,43 @@ useEffect(() => {
   const handleCloseModal = () => {
     setOpenModal(false);
   };
+
+  {
+    /** SNACKBAR */
+  }
+  //const [openSnack, setOpenSnack] = useState()
+  const handleClickSnack = () => {
+    setOpenSnack(true);
+  };
+
+  const handleCloseSnack = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpenSnack(false);
+  };
+  const action = (
+    <React.Fragment>
+      {/**<Button 
+      color="secondary" 
+      size="small" 
+      onClick={handleCloseSnack}>
+        UNDO
+      </Button>*/}
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleCloseSnack}
+      >
+        <Close fontSize="small" />
+      </IconButton>
+    </React.Fragment>
+  );
+
+
+  
 
   return (
     <Container>
@@ -193,12 +239,10 @@ useEffect(() => {
           <Record value={value} />
 
           {/** Tags Marc */}
-          {value == 1 && (
-            <TagsMarc value={value}/>
-          )}
+          {value == 1 && <TagsMarc value={value} />}
 
           {/** exemplares*/}
-          <Exemplares /> 
+          <Exemplares />
         </CardContent>
         <Box sx={{ borderTop: 1, mt: 2, p: 2, display: "flex", gap: 3 }}>
           <Button variant="outlined" onClick={handleEdit}>
@@ -207,25 +251,44 @@ useEffect(() => {
           <Button variant="outlined" onClick={handleClickOpen}>
             Adicionar Exemplar
           </Button>
+          {/* <Button variant="outlined" onClick={handleClickOpen}>
+            Excluir
+          </Button> */}
+          {/** EXCLUIR */}
+          <BtnDelete />
+          
         </Box>
         {/** MODAL */}
         <BootstrapDialog
-        onClose={handleCloseModal}
-        aria-labelledby="customized-dialog-title"
-        open={openModal}
-        maxWidth={false}
-      >
-        <BootstrapDialogTitle
-          id="customized-dialog-title"
           onClose={handleCloseModal}
+          aria-labelledby="customized-dialog-title"
+          open={openModal}
+          maxWidth={false}
         >
-          Adicionar Exemplar
-        </BootstrapDialogTitle>
-        {/*CreateExemplar */}
-         <CreateExemplar nextEx={lastEx?.exemplar} /> 
-       
-      </BootstrapDialog>
+          <BootstrapDialogTitle
+            id="customized-dialog-title"
+            onClose={handleCloseModal}
+          >
+            Adicionar Exemplar
+          </BootstrapDialogTitle>
+          {/*CreateExemplar */}
+          <CreateExemplar nextEx={lastEx?.exemplar} />
+        </BootstrapDialog>
       </Card>
+      {/** SNACKBAR */}
+      <Stack spacing={2} sx={{ width: "100%" }}>
+        {/**
+      <Button variant="outlined" onClick={handleClickSnack}>
+      Open success snackbar
+      </Button>*/}
+        <Snackbar
+          open={openSnack}
+          autoHideDuration={6000}
+          onClose={handleCloseSnack}
+          message="Exemplar salvo com sucesso!!"
+          action={action}
+        ></Snackbar>
+      </Stack>
     </Container>
   );
 }

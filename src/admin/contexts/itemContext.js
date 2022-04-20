@@ -11,6 +11,8 @@ export const ItemProvider = ({ children }) => {
     const [item, setItem] = useState(null);
     const [rowsEx, setRowsEx] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [openSnack, setOpenSnack] = useState()
+    const [checkboxExemplares, setCheckboxExemplares] = useState(false);
 
     const getData = async () => {
         const response = await api.get(`cataloging/item/${item_id}`);
@@ -45,16 +47,12 @@ export const ItemProvider = ({ children }) => {
         getExemplar()
       }, [])
 
-    
-
-    
-    
-
-
 
     return <ItemContext.Provider value={{item_id, 
     item, rowsEx, setItem, setRowsEx, getData, 
-    getExemplar, openModal, setOpenModal}}>
+    getExemplar, openModal, setOpenModal,
+    openSnack, setOpenSnack, 
+    checkboxExemplares, setCheckboxExemplares}}>
         { children}
     </ItemContext.Provider>
 }

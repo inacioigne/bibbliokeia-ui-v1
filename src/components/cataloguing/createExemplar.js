@@ -23,8 +23,10 @@ const Alert = React.forwardRef(({props}, ref) =>
 })
 
 export default function CreateExemplar(props) {
-  const { item_id, item, rowsEx, setRowsEx, getExemplar, openModal, setOpenModal  } = useContext(ItemContext);
-  const [openSnack, setOpenSnack] = useState()
+  const { item_id, item, rowsEx, setRowsEx, 
+    getExemplar, openModal, setOpenModal,
+    openSnack, setOpenSnack  } = useContext(ItemContext);
+  //const [openSnack, setOpenSnack] = useState()
 
   
   const { control, register, handleSubmit } = useForm({
@@ -88,7 +90,7 @@ export default function CreateExemplar(props) {
       setOpenModal(false);
       
     };
-    {/** SNACKBAR */}
+    {/** SNACKBAR 
     
     const handleClickSnack = () => {
       setOpenSnack(true);
@@ -118,7 +120,7 @@ export default function CreateExemplar(props) {
         >
           <Close fontSize="small" />
         </IconButton>
-      </React.Fragment>)
+      </React.Fragment>)*/}
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -269,7 +271,7 @@ export default function CreateExemplar(props) {
           Salvar
         </Button>
       </DialogActions>
-      {/** SNACKBAR */}
+      {/** SNACKBAR 
       <Stack spacing={2} sx={{ width: '100%' }}>
       <Button variant="outlined" onClick={handleClickSnack}>
       Open success snackbar
@@ -281,10 +283,8 @@ export default function CreateExemplar(props) {
       message="Note archived"
       action={action}
       >
-    
       </Snackbar>
-
-      </Stack>
+      </Stack>*/}
 
     </form>
   );
