@@ -13,6 +13,8 @@ export const ItemProvider = ({ children }) => {
     const [openModal, setOpenModal] = useState(false);
     const [openSnack, setOpenSnack] = useState()
     const [checkboxExemplares, setCheckboxExemplares] = useState(false);
+    const [snackbar, setSnackbar] = useState(null);
+    const handleCloseSnackbar = () => setSnackbar(null);
 
     const getData = async () => {
         const response = await api.get(`cataloging/item/${item_id}`);
@@ -28,13 +30,14 @@ export const ItemProvider = ({ children }) => {
           
                 return {
                   id: i.id,
-                  Biblioteca: i.library,
-                  Localização: i.shelf,
-                  Chamada: i.callnumber,
-                  Volume: i.volume,
-                  Exemplar: i.ex,
-                  Registro: i.number,
-                  Status: i.status                  
+                  library: i.library,
+                  shelf: i.shelf,
+                  callnumber: i.callnumber,
+                  collection: i.collection,
+                  volume: i.volume,
+                  ex: i.ex,
+                  number: i.number,
+                  status: i.status                  
                 }
               })
               setRowsEx(exm)
@@ -52,7 +55,8 @@ export const ItemProvider = ({ children }) => {
     item, rowsEx, setItem, setRowsEx, getData, 
     getExemplar, openModal, setOpenModal,
     openSnack, setOpenSnack, 
-    checkboxExemplares, setCheckboxExemplares}}>
+    checkboxExemplares, setCheckboxExemplares,
+    snackbar, setSnackbar, handleCloseSnackbar}}>
         { children}
     </ItemContext.Provider>
 }

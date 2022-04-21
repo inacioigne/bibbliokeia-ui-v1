@@ -6,6 +6,8 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { api } from "src/services/api";
@@ -22,8 +24,9 @@ export default function Exemplares(props) {
     setRowsEx,
     checkboxExemplares,
     setCheckboxExemplares,
+    snackbar, setSnackbar, handleCloseSnackbar
   } = useContext(ItemContext);
-  console.log('EX: ', rowsEx)
+  //console.log('EX: ', rowsEx)
   const [selectionModel, setSelectionModel] = useState([]);
 
   const handleDelete = () => {
@@ -96,7 +99,7 @@ export default function Exemplares(props) {
             rowsEx.filter((row) => {
       return selectionModel.includes(row.id);
      }).map((row) => (            
-            <p key={row.id}>{row.Registro}</p>
+            <p key={row.id}>{row.number}</p>
           ))}
         </DialogContent>
         <DialogActions>
@@ -108,25 +111,7 @@ export default function Exemplares(props) {
       </Dialog>
     );
   };
-  {/** UPDATE EXEMPLAR */}
-  
-  // const processRowUpdate = useCallback(
-
-  //   (newRow, oldRow) =>
-    
-  //     new Promise((resolve, reject) => {
-  //       console.log('UP: ', newRow, oldRow)
-  //       const mutation = computeMutation(newRow, oldRow);
-  //       if (mutation) {
-          
-  //         setPromiseArguments({ resolve, reject, newRow, oldRow });
-         
-  //       } else {
-  //         resolve(oldRow);
-  //       }
-  //     }),
-  //   []
-  // );
+ 
   const handleNoUpdate = () => {
     const { oldRow, resolve } = promiseUpdateEx;
     resolve(oldRow);
@@ -137,25 +122,23 @@ export default function Exemplares(props) {
   const handleYesUpdate = async () => {
     const { newRow, oldRow, reject, resolve } = promiseUpdateEx;
     try {
-      
 
-     
-      console.log("NEWROW: ", newRow)
-
-    // patchData(data).catch((err) => {
-    //  console.error("ops! ocorreu um erro" + err);
-    //  });
-    //   const response = await mutateRow(newRow);
-    //   //console.log("RES:", response);
-    //   setSnackbar({ children: "Item atualizado com sucesso", severity: "success" });
-    //   resolve(response);
-      
-      
-      setPromiseArguments(null);
+      //console.log("NEWROW: ", newRow)
+      api.put(`/cataloging/exemplar/${newRow.id}`, newRow)
+      .then((response) => console.log("UPDATE: ", response))
+      .catch((error) => {
+        if (error.response) {
+          console.log(error.response);
+        }
+      });
+      setSnackbar({ children: 'Exemplar atualizado', severity: 'success' });
+      resolve(newRow);
+      setPromiseUpdateEx(null);
     } catch (error) {
-      setSnackbar({ children: "Name can't be empty", severity: "error" });
+      //setSnackbar({ children: "Name can't be empty", severity: "error" });
+      console.log("ERROU!!!: ", error)
       reject(oldRow);
-      setPromiseArguments(null);
+      setPromiseUpdateEx(null);
     }
   };
 
@@ -172,9 +155,9 @@ export default function Exemplares(props) {
         TransitionProps={{ onEntered: handleEntered }}
         open={!!promiseUpdateEx}
       >
-        <DialogTitle>Tem certeza?</DialogTitle>
+        <DialogTitle>Deseja substituir: </DialogTitle>
         <DialogContent dividers>
-          {`Deseja substituir os ${mutation}.`}
+          {`${mutation}?`}
         </DialogContent>
         <DialogActions>
           <Button ref={noButtonRef} onClick={handleNoUpdate}>
@@ -186,10 +169,13 @@ export default function Exemplares(props) {
     );
   };
   function computeMutation(newRow, oldRow) {
-    if (newRow !== oldRow) {
-      //console.log('MUT :', oldRow.Registro)
-      return `Exemplar '${oldRow.Registro}'`;
+    if (newRow.library !== oldRow.library) {      
+      return `${oldRow.library} por ${newRow.library}`;
     }
+    if (newRow.volume !== oldRow.volume) {      
+      return `${oldRow.volume} por ${newRow.volume}`;
+    }
+    
     return null;
   }
   const [promiseUpdateEx, setPromiseUpdateEx] = useState(null);
@@ -200,7 +186,7 @@ export default function Exemplares(props) {
       const mutation = computeMutation(newRow, oldRow);
       if (mutation) {
         setPromiseUpdateEx({ resolve, reject, newRow, oldRow });
-        console.log('UP: ', promiseUpdateEx)
+        //console.log('UP: ', promiseUpdateEx)
 
       } else {
                  resolve(oldRow);
@@ -218,13 +204,14 @@ export default function Exemplares(props) {
       <Box style={{ height: 250, width: "100%" }}>
         <DataGrid
           columns={[
-            { field: "Biblioteca", width: 200, editable: true },
-            { field: "Localização", width: 150, editable: true },
-            { field: "Chamada", width: 150, editable: true },
-            { field: "Volume", editable: true },
-            { field: "Exemplar", editable: true },
-            { field: "Registro" },
-            { field: "Status", editable: true },
+            { field: "library",  headerName: 'Biblioteca', width: 200, editable: true },
+            { field: "shelf", headerName: 'Localização', width: 150, editable: true },
+            { field: "callnumber", headerName: 'Chamada', width: 150, editable: true },
+            { field: "collection", headerName: 'Coleção', width: 150, editable: true },
+            { field: "volume", headerName: 'Volume', editable: true },
+            { field: "ex", headerName: 'Exemplar', editable: true },
+            { field: "number", headerName: 'Registro',},
+            { field: "status", headerName: 'Status', editable: true },
           ]}
           rows={rowsEx}
           hideFooter
@@ -247,6 +234,11 @@ export default function Exemplares(props) {
       >
         Excluir <DeleteIcon />
       </Button>
+      {!!snackbar && (
+        <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
+          <Alert {...snackbar} onClose={handleCloseSnackbar} />
+        </Snackbar>
+      )}
     </Box>
   );
 }

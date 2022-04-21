@@ -1,34 +1,42 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 import DialogContent from "@mui/material/DialogContent";
 import Box from "@mui/material/Box";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import {TextField, Stack, Button, Snackbar, MuiAlert, IconButton  } from "@mui/material";
+import {
+  TextField,
+  Stack,
+  Button,
+  Snackbar,
+  MuiAlert,
+  IconButton,
+} from "@mui/material";
 import MenuItem from "@mui/material/MenuItem";
-import {Add, Close} from "@mui/icons-material";
+import { Add, Close } from "@mui/icons-material";
 import RemoveIcon from "@mui/icons-material/Remove";
 //import Button from "@mui/material/Button";
 import DialogActions from "@mui/material/DialogActions";
-import { api } from "src/services/api"
+import { api } from "src/services/api";
 import { useContext, useEffect, useState } from "react";
 import { ItemContext } from "src/admin/contexts/itemContext";
 import { ConnectingAirportsOutlined } from "@mui/icons-material";
 
-// const Alert = React.ForwardRef(function Alert(props, ref) {
-//   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-// });
-const Alert = React.forwardRef(({props}, ref) => 
-   {
-  return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
-})
+
 
 export default function CreateExemplar(props) {
-  const { item_id, item, rowsEx, setRowsEx, 
-    getExemplar, openModal, setOpenModal,
-    openSnack, setOpenSnack  } = useContext(ItemContext);
-  //const [openSnack, setOpenSnack] = useState()
+  const {
+    item_id,
+    item,
+    rowsEx,
+    setRowsEx,
+    getExemplar,
+    openModal,
+    setOpenModal,
+    openSnack,
+    setOpenSnack,
+  } = useContext(ItemContext);
 
-  
+
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
       exemplares: [
@@ -36,9 +44,9 @@ export default function CreateExemplar(props) {
           library: "Biblioteca do INPA",
           shelf: item.datafields["090"].subfields.b,
           callnumber: `${item.datafields["082"].subfields.a} ${item.datafields["090"].subfields.b}`,
-          collection: "",
+          collection: "Obras Gerais",
           volume: "",
-          ex: "",
+          ex: `ex. ${rowsEx.length + 1}`,
           number: props.nextEx,
           status: "disponivel",
         },
@@ -52,75 +60,44 @@ export default function CreateExemplar(props) {
     }
   );
   const addField = (index) => {
+   
     append({
-        library: "Biblioteca do INPA",
-        shelf: item.datafields["090"].subfields.b,
-        callnumber: `${item.datafields["082"].subfields.a} ${item.datafields["090"].subfields.b}`,
-        collection: "",
-        volume: "",
-        ex: "",
-        number: getRegister(index),
-        status: "disponivel",
-      },);
+      library: "Biblioteca do INPA",
+      shelf: item.datafields["090"].subfields.b,
+      callnumber: `${item.datafields["082"].subfields.a} ${item.datafields["090"].subfields.b}`,
+      collection: "Obras Gerais",
+      volume: "",
+      ex: `ex. ${rowsEx.length+fields.length+1}`,
+      number: getRegister(index),
+      status: "disponivel",
+    });
   };
 
   const getRegister = () => {
-      const q = fields.length
-    const r = props.nextEx
-    const n = parseInt(r.split("-")[1]) + q
-    
-    const ano = r.split("-")[0]
-    return `${ano}-${("0000" + n).slice(-4)}`
+    const q = fields.length;
+    const r = props.nextEx;
+    const n = parseInt(r.split("-")[1]) + q;
 
-  }
+    const ano = r.split("-")[0];
+    return `${ano}-${("0000" + n).slice(-4)}`;
+  };
   const postExemplar = async (data) => {
+    
     const res = await api.post(`cataloging/exemplar/${item_id}`, data);
-    getExemplar()
-    console.log(res)
+    getExemplar();
+    
   };
   const onSubmit = (data) => {
-    postExemplar(data)
-    .catch((err) => {
-               console.error("ops! ocorreu um erro" + err);
-          });
-    }
+    postExemplar(data).catch((err) => {
+      console.error("ops! ocorreu um erro" + err);
+    });
+  };
 
-    const handleCloseModal = () => {
-      setOpenSnack(true);
-      setOpenModal(false);
-      
-    };
-    {/** SNACKBAR 
-    
-    const handleClickSnack = () => {
-      setOpenSnack(true);
-    };
-
-    const handleCloseSnack = (event, reason) => {
-      if (reason === 'clickaway') {
-        return;
-      }
-  
-      setOpenSnack(false);
-    };
-
-    const action = (
-      <React.Fragment>
-        <Button 
-        color="secondary" 
-        size="small" 
-        onClick={handleCloseSnack}>
-          UNDO
-        </Button>
-        <IconButton
-          size="small"
-          aria-label="close"
-          color="inherit"
-          onClick={handleCloseSnack}
-        >
-          <Close fontSize="small" />
-        </IconButton>
-      </React.Fragment>)*/}
+  const handleCloseModal = () => {
+    setOpenSnack(true);
+    setOpenModal(false);
+  };
+ 
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -208,7 +185,7 @@ export default function CreateExemplar(props) {
                     label="Ex."
                     variant="outlined"
                     size="small"
-                    sx={{ width: 50 }}
+                    sx={{ width: 70 }}
                   />
                 )}
               />
@@ -244,24 +221,24 @@ export default function CreateExemplar(props) {
                   </TextField>
                 )}
               />
-               <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Add color="primary" onClick={addField} />
-            </Box>
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <RemoveIcon color="primary" onClick={() => remove(index)}/>
-            </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Add color="primary" onClick={addField} />
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <RemoveIcon color="primary" onClick={() => remove(index)} />
+              </Box>
             </Box>
           ))}
         </Box>
@@ -285,7 +262,6 @@ export default function CreateExemplar(props) {
       >
       </Snackbar>
       </Stack>*/}
-
     </form>
   );
 }
