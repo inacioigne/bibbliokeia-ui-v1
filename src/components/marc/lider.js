@@ -8,6 +8,7 @@ import Grid from "@mui/material/Grid";
 import MenuItem from "@mui/material/MenuItem";
 
 export default function Lider(props) {
+
   return (
     <Box>
       <Accordion>
@@ -25,14 +26,16 @@ export default function Lider(props) {
           <TextField 
           label="00-04 - Tamanho do registro" 
           size="small"
-          disabled
-          defaultValue={"||||"}
+          defaultValue={"####"}
+          InputProps={{
+            readOnly: true,
+          }}
           sx={{ width: 210 }}
           name="lider" />
           <TextField
             label="05 - Status do registro"
             select
-            defaultValue={"n"}
+            defaultValue={props.metadata?  props.metadata[4] : "n"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -56,7 +59,7 @@ export default function Lider(props) {
           <TextField
             label="06 - Tipo de registro"
             select
-            defaultValue={"a"}
+            defaultValue={props.metadata?  props.metadata[5] : "a"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -107,7 +110,7 @@ export default function Lider(props) {
           <TextField
             label="07 - Nível bibliográfico"
             select
-            defaultValue={"m"}
+            defaultValue={props.metadata?  props.metadata[6] :"m"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -137,7 +140,7 @@ export default function Lider(props) {
           <TextField
             label="08 - Tipo de controle"
             select
-            defaultValue={"#"}
+            defaultValue={props.metadata?  props.metadata[7]: "#"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -152,7 +155,7 @@ export default function Lider(props) {
           <TextField
             label="09 - Esquema de Codificação de Caractere"
             select
-            defaultValue={"a"}
+            defaultValue={props.metadata?  props.metadata[8] : "a"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -176,7 +179,7 @@ export default function Lider(props) {
           <TextField
             label="17 - Nível de Codificação"
             select
-            defaultValue={"4"}
+            defaultValue={props.metadata?  props.metadata[18] : "4"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -215,7 +218,7 @@ export default function Lider(props) {
           <TextField
             label="18 - Forma de Catalogação Descritiva"
             select
-            defaultValue={"a"}
+            defaultValue={props.metadata?  props.metadata[19] :"a"}
             size="small"
             sx={{ width: 210 }}
             name="lider"
@@ -239,7 +242,7 @@ export default function Lider(props) {
           <TextField
             label="19 - Nível de registro de recurso em várias partes"
             select
-            defaultValue={"#"}
+            defaultValue={props.metadata?  props.metadata[20] :"#"}
             size="small"
             sx={{ width: 210 }}
             name="lider"

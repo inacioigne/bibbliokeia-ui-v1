@@ -175,6 +175,21 @@ export default function Exemplares(props) {
     if (newRow.volume !== oldRow.volume) {      
       return `${oldRow.volume} por ${newRow.volume}`;
     }
+    if (newRow.ex !== oldRow.ex) {      
+      return `${oldRow.ex} por ${newRow.ex}`;
+    }
+    if (newRow.shelf !== oldRow.shelf) {      
+      return `${oldRow.shelf} por ${newRow.shelf}`;
+    }
+    if (newRow.callnumber !== oldRow.callnumber) {      
+      return `${oldRow.callnumber} por ${newRow.callnumber}`;
+    }
+    if (newRow.collection !== oldRow.collection) {      
+      return `${oldRow.collection} por ${newRow.collection}`;
+    }
+    if (newRow.status !== oldRow.status) {      
+      return `${oldRow.status} por ${newRow.status}`;
+    }
     
     return null;
   }

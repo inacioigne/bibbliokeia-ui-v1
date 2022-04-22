@@ -12,7 +12,7 @@ import Field from "../../components/marc/newField";
 import FieldNote from "../../components/marc/fieldNote";
 import Button from "@mui/material/Button";
 import Time from "../../function/time";
-import { api } from "../../services/api"
+import { api } from "../../services/api";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
 
@@ -59,8 +59,6 @@ export default function Cataloguing_Book() {
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
- 
-  
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -76,45 +74,40 @@ export default function Cataloguing_Book() {
       "005": Time(),
       "008": tag008.join(""),
     };
-    {/** Datafiels - Subfields */}
+    {
+      /** Datafiels - Subfields */
+    }
 
     const datafields = new Object();
 
     for (const [k, v] of formData.entries()) {
       let tag = k.split(".")[0];
       let code = k.split(".")[1];
-      if (
-        (v != "") &
-        (k != "lider") &
-        (k != "008") &
-        (! k.includes("Ind"))
-      ) {
-          if (Object.keys(datafields).includes(tag)) {
-            datafields[tag]['subfields'][code] = v
-          } else {
-            datafields[tag] = {'subfields': {[code]: v}}
-            datafields[tag]['indicators'] = {
-              'Ind1': formData.get(tag+'.Ind1'),
-              'Ind2': formData.get(tag+'.Ind2')
-            }
-            
-          }
+      if ((v != "") & (k != "lider") & (k != "008") & !k.includes("Ind")) {
+        if (Object.keys(datafields).includes(tag)) {
+          datafields[tag]["subfields"][code] = v;
+        } else {
+          datafields[tag] = { subfields: { [code]: v } };
+          datafields[tag]["indicators"] = {
+            Ind1: formData.get(tag + ".Ind1"),
+            Ind2: formData.get(tag + ".Ind2"),
+          };
+        }
       }
     }
 
     Object.entries(datafields).map(([k, v]) => {
       if (k.includes("r")) {
-        let tag = k.split('_')[1]
+        let tag = k.split("_")[1];
         if (Object.keys(datafields).includes(tag)) {
-          datafields[tag].push(v)
-          delete datafields[k]
+          datafields[tag].push(v);
+          delete datafields[k];
         } else {
-          datafields[tag] = [v]
-          delete datafields[k]
+          datafields[tag] = [v];
+          delete datafields[k];
         }
       }
-    }) 
-  
+    });
 
     const marc = {
       leader: "    " + lider.join("").replaceAll("|", " "),
@@ -123,24 +116,24 @@ export default function Cataloguing_Book() {
     };
 
     //console.log(marc)
-    {/** POST ITEM */}
+    {
+      /** POST ITEM */
+    }
     //console.log("API BOOK: ", api.defaults.headers)
-    api.post("/cataloging/item/create", marc)    
+    api
+      .post("/cataloging/item/create", marc)
       .then(function (response) {
         if (response.status == 201) {
           router.push(`/cataloguing/item/${response.data.item_id}`);
         }
-      
-       // router.push(`/cataloguing/item?id=${response.data.id}`);
+
+        // router.push(`/cataloguing/item?id=${response.data.id}`);
         console.log(response);
       })
       .catch(function (error) {
         console.log(error);
       });
- 
   };
- 
-
 
   return (
     <Container>
@@ -165,7 +158,6 @@ export default function Cataloguing_Book() {
                   : { display: "none" }
               }
             >
-              {/* <h1>{user?.name}</h1> */}
               <Lider />
               <Tag008 />
               {tags0.map((e, i) => (
@@ -272,11 +264,11 @@ export const getServerSideProps = async (ctx) => {
         destination: "/login",
         permanent: false,
       },
-    } 
+    };
   } else {
     //console.log("BOOK: ", token)
     //api.defaults.headers["Authorization"] = `Bearer ${token}`;
-  };
+  }
 
   // await apiClient.get('/users')
 

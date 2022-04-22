@@ -242,7 +242,8 @@ export default function ItemCard() {
           {value == 1 && <TagsMarc value={value} />}
 
           {/** exemplares*/}
-          <Exemplares />
+          {value == 0 && <Exemplares />}
+          
         </CardContent>
         <Box sx={{ borderTop: 1, mt: 2, p: 2, display: "flex", gap: 3 }}>
           <Button variant="outlined" onClick={handleEdit}>
