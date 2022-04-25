@@ -3,18 +3,21 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef } from "react";
 import Lider from "../../components/marc/lider";
 import Tag008 from "../../components/marc/tag008";
 import Tag090 from "../../components/marc/tag090";
 import marc from "src/schema/marc_book.json";
-import Field from "../../components/marc/newField";
+//import Field from "../../components/marc/newField";
+import Field from "src/components/marc/field";
 import FieldNote from "../../components/marc/fieldNote";
+import FieldSubject from "src/components/cataloguing/fieldSubject"
 import Button from "@mui/material/Button";
 import Time from "../../function/time";
 import { api } from "../../services/api";
 import { useRouter } from "next/router";
 import { parseCookies } from "nookies";
+import { Add, Close } from "@mui/icons-material";
 
 function a11yProps(index) {
   return {
@@ -45,6 +48,11 @@ export default function Cataloguing_Book() {
   const tags6 = marc.datafields.filter(function (currentValue) {
     return currentValue.tag[0] == "6";
   });
+  {/** Assunto */}
+  const [metaAssunto] = marc.datafields.filter(function (currentValue) {
+    return currentValue.tag == "650";
+  });
+  console.log("ASSUNTO: ", metaAssunto)
   const tags7 = marc.datafields.filter(function (currentValue) {
     return currentValue.tag[0] == "7";
   });
@@ -114,20 +122,15 @@ export default function Cataloguing_Book() {
       controlfields: controfields,
       datafields: datafields,
     };
-
-    //console.log(marc)
     {
       /** POST ITEM */
     }
-    //console.log("API BOOK: ", api.defaults.headers)
     api
       .post("/cataloging/item/create", marc)
       .then(function (response) {
         if (response.status == 201) {
           router.push(`/cataloguing/item/${response.data.item_id}`);
         }
-
-        // router.push(`/cataloguing/item?id=${response.data.id}`);
         console.log(response);
       })
       .catch(function (error) {
@@ -226,10 +229,17 @@ export default function Cataloguing_Book() {
                   ? { display: "grid", rowGap: 3 }
                   : { display: "none" }
               }
-            >
-              {tags6.map((e, i) => (
+            > 
+            <FieldSubject meta={metaAssunto} />
+            {/* 
+            <Box>
+            <Field key={1} meta={metaAssunto} />
+            <Add color="primary" />
+            </Box>
+          
+             {tags6.map((e, i) => (
                 <Field key={i} meta={e} />
-              ))}
+              ))} */}
             </Box>
             <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
               {tags7.map((e, i) => (
@@ -258,19 +268,14 @@ Cataloguing_Book.getLayout = function getLayout(page) {
 export const getServerSideProps = async (ctx) => {
   const { ["bibliokeia.token"]: token } = parseCookies(ctx);
   if (!token) {
-    //console.log("BOOK: SEM TOKEN")
+    
     return {
       redirect: {
         destination: "/login",
         permanent: false,
       },
     };
-  } else {
-    //console.log("BOOK: ", token)
-    //api.defaults.headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  // await apiClient.get('/users')
+  } 
 
   return {
     props: {},

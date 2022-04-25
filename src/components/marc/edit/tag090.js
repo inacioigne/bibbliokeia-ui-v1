@@ -10,12 +10,8 @@ import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 
 export default function FieldMarc(props) {
-  // const [repeatle, setRepeatle] = useState(0)
-  // console.log(props.meta)
+  //console.log("090: ", props)
 
-  // const handleClick = () => {
-  //     setRepeatle(repeatle + 1)
-  //   }
 
   return (
     <Box>
@@ -67,6 +63,7 @@ export default function FieldMarc(props) {
                 key="ind2"
               />
             </Box>
+            {props.dados &&
             <Box
               sx={{
                 display: "grid",
@@ -91,7 +88,7 @@ export default function FieldMarc(props) {
                 key="090.b"
                 label="b - Cutter"
                 size="small"
-                defaultValue=""
+                defaultValue={props.dados?.subfields?.b}
                 fullWidth
               />
                {/* <TextField
@@ -103,7 +100,7 @@ export default function FieldMarc(props) {
                 defaultValue=""
                 fullWidth
               /> */}
-            </Box>
+            </Box>}
           </Box>
         </Box>
       </Accordion>

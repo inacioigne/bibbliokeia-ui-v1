@@ -1,4 +1,5 @@
-import Box from "@mui/material/Box";
+import {Box, 
+  Select } from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -35,15 +36,16 @@ export default function Tag008(props) {
           sx={{ borderBottom: 1 }}
         >
           <Typography variant="h7" component="div" gutterBottom>
-            008 - CAMPO DE TAMANHO FIXO {item?.controlfields["008"].substring(7,11)}
+            008 - CAMPO DE TAMANHO FIXO
           </Typography>
         </AccordionSummary>
-        <Grid container spacing={2} gap={2} sx={{ p: 3, mt: 1 }}>
+        {item &&
+          <Grid container spacing={2} gap={2} sx={{ p: 3, mt: 1 }}>
           <TextField
             label="00-05 - Data de entrada"
             size="small"
             name="008"
-            defaultValue={CreateDate()} 
+            defaultValue={item?.controlfields['008']?.substring(0,6)} 
            
             sx={{ width: 210 }}
           />
@@ -101,78 +103,30 @@ export default function Tag008(props) {
               | - Não codificado
             </MenuItem>
           </TextField>
-          <TextField label="07-10 - Date 1" size="small" name="008" />
+          <TextField 
+          label="07-10 - Date 1" size="small" name="008"
+          defaultValue={item?.controlfields['008']?.substring(7,11)}   />
           <TextField label="11-14 - Date 2" size="small" defaultValue={"||||"} name="008" />
           <TextField
             label="15-17 Lugar de publicação"
             size="small"
-            defaultValue={"bl "}
+            defaultValue={item?.controlfields['008']?.substring(15,18)} 
             name="008"
           />
-          <TextField
-            label="18-21 Ilustrações"
-            select
-            defaultValue={"#"}
-            size="small"
-            sx={{ width: 210 }}
-            name="008"
+          {/** 18-21 Ilustrações */}
+          <TextField 
+          label="18-21 Ilustrações"
+          size="small"
+          name="008"
+          defaultValue={item?.controlfields['008']?.substring(18,22)} 
           >
-            <MenuItem key="#" value="#">
-              # - Sem ilustrações
-            </MenuItem>
-            <MenuItem key="a" value="a">
-              a - Com ilustrações
-            </MenuItem>
-            <MenuItem key="b" value="b">
-              b - Mapas
-            </MenuItem>
-            <MenuItem key="c" value="c">
-              c - Retratos
-            </MenuItem>
-            <MenuItem key="d" value="d">
-              d - Gráficos
-            </MenuItem>
-            <MenuItem key="e" value="e">
-              e - Plantas
-            </MenuItem>
-            <MenuItem key="f" value="f">
-              f - Lâminas
-            </MenuItem>
-            <MenuItem key="g" value="g">
-              g - Música
-            </MenuItem>
-            <MenuItem key="h" value="h">
-              h - Fac-símiles
-            </MenuItem>
-            <MenuItem key="i" value="i">
-              i - Escudo ou brasões
-            </MenuItem>
-            <MenuItem key="j" value="j">
-              j - Tabela genealógica
-            </MenuItem>
-            <MenuItem key="k" value="k">
-              k - Fórmulas
-            </MenuItem>
-            <MenuItem key="l" value="l">
-              l - Amostras
-            </MenuItem>
-            <MenuItem key="m" value="m">
-              m - Gravações
-            </MenuItem>
-            <MenuItem key="o" value="o">
-              o - Fotografias
-            </MenuItem>
-            <MenuItem key="p" value="p">
-              p - Iluminuras
-            </MenuItem>
-            <MenuItem key="|" value="|">
-              | - Não codificado
-            </MenuItem>
           </TextField>
+
+         
           <TextField
             label="22 Público alvo"
             select
-            defaultValue={"#"}
+            defaultValue={item?.controlfields["008"][22]}
             size="small"
             sx={{ width: 210 }}
             name="008"
@@ -211,7 +165,7 @@ export default function Tag008(props) {
           <TextField
             label="23 Forma do documento"
             select
-            defaultValue={"#"}
+            defaultValue={item?.controlfields["008"][22]}
             size="small"
             sx={{ width: 210 }}
             name="008"
@@ -250,99 +204,14 @@ export default function Tag008(props) {
               | - Não codificado
             </MenuItem>
           </TextField>
-          <TextField
-            label="24-27 Natureza do conteúdo"
-            select
-            defaultValue={"#"}
-            size="small"
-            sx={{ width: 210 }}
-            name="008"
-          >
-            <MenuItem key="#" value="#">
-              # - Nenhum dos códigos seguintes
-            </MenuItem>
-            <MenuItem key="a" value="a">
-              a - Resumos
-            </MenuItem>
-            <MenuItem key="b" value="b">
-              b - Bibliografias
-            </MenuItem>
-            <MenuItem key="c" value="c">
-              c - Catálogos
-            </MenuItem>
-            <MenuItem key="d" value="d">
-              d - Dicionários
-            </MenuItem>
-            <MenuItem key="e" value="e">
-              e - Enciclopédia
-            </MenuItem>
-            <MenuItem key="f" value="f">
-              f - Manuais
-            </MenuItem>
-            <MenuItem key="g" value="g">
-              g - Artigos jurídicos
-            </MenuItem>
-            <MenuItem key="i" value="i">
-              i - Índices
-            </MenuItem>
-            <MenuItem key="j" value="j">
-              j - Patentes
-            </MenuItem>
-            <MenuItem key="k" value="k">
-              k - Discografias
-            </MenuItem>
-            <MenuItem key="l" value="l">
-              l - Legislação
-            </MenuItem>
-            <MenuItem key="m" value="m">
-              m - Teses e dissertações
-            </MenuItem>
-            <MenuItem key="n" value="n">
-              n - Revisão de literatura
-            </MenuItem>
-            <MenuItem key="o" value="o">
-              o - Recensão
-            </MenuItem>
-            <MenuItem key="p" value="p">
-              p - Textos programados
-            </MenuItem>
-            <MenuItem key="q" value="q">
-              q - Filmografia
-            </MenuItem>
-            <MenuItem key="r" value="r">
-              r - Diretórios
-            </MenuItem>
-            <MenuItem key="s" value="s">
-              s - Estatísticas
-            </MenuItem>
-            <MenuItem key="t" value="t">
-              t - Relatórios técnicos
-            </MenuItem>
-            <MenuItem key="u" value="u">
-              u - Normas/Especificações
-            </MenuItem>
-            <MenuItem key="w" value="w">
-              w - Relatório de legislação
-            </MenuItem>
-            <MenuItem key="y" value="y">
-              y - Anuários
-            </MenuItem>
-            <MenuItem key="z" value="z">
-              z - Tratados
-            </MenuItem>
-            <MenuItem key="2" value="2">
-              2 - Separata
-            </MenuItem>
-            <MenuItem key="5" value="5">
-              5 - Calendários
-            </MenuItem>
-            <MenuItem key="6" value="6">
-              6 - História em quadrinhos
-            </MenuItem>
-            <MenuItem key="|" value="|">
-              | - Não codificado
-            </MenuItem>
-          </TextField>
+          {/** 24-27 Natureza do conteúdo */}
+          <TextField 
+          label="24-27 Natureza do conteúdo"
+          size="small"
+          name="008"
+          defaultValue={item?.controlfields['008']?.substring(18,22)} 
+          />
+         
           <TextField
             label="28 Publicação governamental"
             select
@@ -586,6 +455,8 @@ export default function Tag008(props) {
             </MenuItem> 
           </TextField>
         </Grid>
+        }
+        
       </Accordion>
     </Box>
   );

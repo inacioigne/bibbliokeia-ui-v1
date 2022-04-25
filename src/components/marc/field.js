@@ -1,29 +1,17 @@
-import marc from "@/marcSchema";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import MenuItem from "@mui/material/MenuItem";
-import Grid from "@mui/material/Grid";
-import Indicators from "./indicators";
-import Subfield from "./subfield";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-import FormGroup from "@mui/material/FormGroup";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import { useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import AccordionDetails from "@mui/material/AccordionDetails";
+import Typography from "@mui/material/Typography";
+//import Subfield from "./newSubfield";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { useState, useRef } from "react";
+import MenuItem from "@mui/material/MenuItem";
 
 export default function FieldMarc(props) {
-  const metadata = marc.dataFields[props.tag];
-  const [repeatle, setRepeatle] = useState(0)
 
-  const handleClick = () => {
-    setRepeatle(repeatle + 1)
-  }
+
   return (
     <Box>
       <Accordion>
@@ -33,23 +21,150 @@ export default function FieldMarc(props) {
           id="header"
           sx={{ borderBottom: 1 }}
         >
-          <Grid item xs={12}>
-            <Typography variant="h6" component="div" gutterBottom>
-              {metadata.description}
-            </Typography>
-          </Grid>
+          <Typography variant="h7" component="div" gutterBottom>
+            {props.meta.description}
+          </Typography>
         </AccordionSummary>
-        <Subfield tag={props.tag} meta={props.meta} repeatle={props.repeatle ? `r${props.repeatle}`: false} />
-        { repeatle > 0 && <Subfield tag={props.tag} repeatle="r2" />}
-        { repeatle > 1 && <Subfield tag={props.tag} repeatle="r3"/>}
-        { repeatle > 2 && <Subfield tag={props.tag} repeatle="r4"/>}
 
+        <Box sx={{ p: 3 }}>
         
-        <Button 
-        variant="contained"  
-        onClick={handleClick} 
-        sx={props.repeatle ? { display: "block", ml: 3, mb: 2} : { display: "none" }}    
-        >Repetir Campo</Button>
+            <Box
+              sx={{
+                display: "flex",
+                gap: 2,
+              }}
+              //key={field.key}
+            >
+          
+              <Box>
+                {/**INDICADORES */}
+                <Box style={{ width: 215 }}>
+                  {props.meta.indicators.Ind1 ? (
+                    <TextField
+                      name={ props.meta.repeatable ? 
+                        `r${props.index}_${props.meta.tag}.Ind1`:
+                        `${props.meta.tag}.Ind1`
+                        }
+                      sx={{ mr: 1 }}
+                      select
+                      label="Ind1"
+                      size="small"
+                      style={{ width: 75 }}
+                      defaultValue={props.meta.indicators.Ind1.defaultValue}
+                    >
+                      <MenuItem value="">
+                        <em></em>
+                      </MenuItem>
+                      {props.meta.indicators.Ind1.options.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : (
+                    <TextField
+                    
+                      name={`${props.meta.tag}.Ind1`}
+                      sx={{ mr: 1 }}
+                      style={{ width: 75 }}
+                      label="Ind1"
+                      size="small"
+                      defaultValue="#"
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  )}
+                  {/** IND2 */}
+                  {props.meta.indicators.Ind2 ? (
+                    <TextField
+                      name={ props.meta.repeatable ? 
+                        `r${props.index}_${props.meta.tag}.Ind2`:
+                        `${props.meta.tag}.Ind2`
+                        }
+                      sx={{ mr: 1 }}
+                      select
+                      label="Ind2"
+                      size="small"
+                      style={{ width: 75 }}
+                      defaultValue={props.meta.indicators.Ind2.defaultValue}
+                    >
+                      <MenuItem value="">
+                        <em></em>
+                      </MenuItem>
+                      {props.meta.indicators.Ind2.options.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                          {option.label}
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  ) : (
+                    <TextField
+                   // disabled
+                      name={`${props.meta.tag}.Ind2`}
+                      sx={{ mr: 1 }}
+                      style={{ width: 75 }}
+                      label="Ind2"
+                      size="small"
+                      defaultValue="#"
+                      InputProps={{
+                        readOnly: true,
+                      }}
+                    />
+                  )}
+                </Box>
+
+          
+              </Box>
+
+              <Box
+                sx={{
+                  display: "grid",
+                  columnGap: 3,
+                  rowGap: 2,
+                  gridTemplateColumns: "repeat(2, 1fr)",
+                  mb: 4,
+                }}
+                style={{ width: "100%" }}
+              >
+                {props.meta.subfields.map((e) =>
+                  e.required ? (
+                    <TextField
+                      required
+                      name={ props.meta.repeatable ? 
+                        `r${i}_${props.meta.tag}.${e.value}`:
+                        `${props.meta.tag}.${e.value}` 
+                        }
+                      key={`${e.value}`}
+                      label={e.label}
+                      size="small"
+                      defaultValue={props.dados ? props?.dados?.subfields[e.value] : ""}
+                      fullWidth
+                    />
+                  ) : (
+                    <TextField
+                      name={ props.meta.repeatable ? 
+                        `r${props.index}_${props.meta.tag}.${e.value}`:
+                        `${props.meta.tag}.${e.value}` 
+                        }
+                      key={`${e.value}`}
+                      label={e.label}
+                      size="small"
+                      //defaultValue={e.defaultValue ? e.defaultValue : ""}
+                      defaultValue={props?.dados ? props?.dados?.subfields[e.value] : ""}
+                      fullWidth
+                    />
+                  )
+                )}
+              </Box>
+              
+            </Box>
+        
+
+         
+       
+         
+        </Box>
       </Accordion>
     </Box>
   );

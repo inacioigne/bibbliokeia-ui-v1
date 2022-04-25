@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.8.1",
     "@material-ui/lab": "^4.0.0-alpha.60",
     "@mui/icons-material": "^5.5.1",
+    "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.5.1",
     "@mui/styled-engine-sc": "^5.4.2",
     "@mui/x-data-grid": "^5.7.0",

@@ -3,39 +3,14 @@ import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Typography from "@mui/material/Typography";
-import Subfield from "./newSubfield";
+//import Subfield from "./newSubfield";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import { useState, useRef } from "react";
-//import Indicators from "./newIndicators";
 import MenuItem from "@mui/material/MenuItem";
 
 export default function FieldMarc(props) {
-  const [repeatle, setRepeatle] = useState(0);
-  const [fields, setFields] = useState([
-    {
-      meta: props.meta,
-      key: Date.now(),
-    },
-  ]);
-  
 
-  const addField = () => {
-    setFields((prevState) => [...prevState, {
-      meta: props.meta,
-      key: Date.now(),
-      subfield: {}
-    }]);
-  };
-  const remove = (key) => {
-   
-    setFields(prevState => prevState.filter(field => field.key !== key))
-    
-  }
-
-  const handleClick = () => {
-    setRepeatle(repeatle + 1);
-  };
 
   return (
     <Box>
@@ -52,13 +27,13 @@ export default function FieldMarc(props) {
         </AccordionSummary>
 
         <Box sx={{ p: 3 }}>
-          {fields.map((field, i) => (
+        
             <Box
               sx={{
                 display: "flex",
                 gap: 2,
               }}
-              key={field.key}
+              //key={field.key}
             >
           
               <Box>
@@ -67,7 +42,7 @@ export default function FieldMarc(props) {
                   {props.meta.indicators.Ind1 ? (
                     <TextField
                       name={ props.meta.repeatable ? 
-                        `r${i}_${props.meta.tag}.Ind1`:
+                        `r${props.index}_${props.meta.tag}.Ind1`:
                         `${props.meta.tag}.Ind1`
                         }
                       sx={{ mr: 1 }}
@@ -104,7 +79,7 @@ export default function FieldMarc(props) {
                   {props.meta.indicators.Ind2 ? (
                     <TextField
                       name={ props.meta.repeatable ? 
-                        `r${i}_${props.meta.tag}.Ind2`:
+                        `r${props.index}_${props.meta.tag}.Ind2`:
                         `${props.meta.tag}.Ind2`
                         }
                       sx={{ mr: 1 }}
@@ -139,12 +114,7 @@ export default function FieldMarc(props) {
                   )}
                 </Box>
 
-                <Button 
-                onClick={() => remove(field.key)}
-                variant="outlined" 
-                sx={{ mt: 2 }}>
-                  Remover
-                </Button>
+          
               </Box>
 
               <Box
@@ -168,19 +138,20 @@ export default function FieldMarc(props) {
                       key={`${e.value}`}
                       label={e.label}
                       size="small"
-                      defaultValue={e.defaultValue ? e.defaultValue : ""}
+                      defaultValue={props.dados ? props?.dados?.subfields[e.value] : ""}
                       fullWidth
                     />
                   ) : (
                     <TextField
                       name={ props.meta.repeatable ? 
-                        `r${i}_${props.meta.tag}.${e.value}`:
+                        `r${props.index}_${props.meta.tag}.${e.value}`:
                         `${props.meta.tag}.${e.value}` 
                         }
                       key={`${e.value}`}
                       label={e.label}
                       size="small"
-                      defaultValue={e.defaultValue ? e.defaultValue : ""}
+                      //defaultValue={e.defaultValue ? e.defaultValue : ""}
+                      defaultValue={props?.dados ? props?.dados?.subfields[e.value] : ""}
                       fullWidth
                     />
                   )
@@ -188,21 +159,6 @@ export default function FieldMarc(props) {
               </Box>
               
             </Box>
-          ))}
-
-         
-          <Button
-            variant="contained"
-            onClick={addField}
-            sx={
-              props.meta.repeatable
-                ? { display: "block", mb: 2, mt: 2 }
-                : { display: "none" }
-            }
-          >
-            Adicionar
-          </Button>
-         
         </Box>
       </Accordion>
     </Box>

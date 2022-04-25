@@ -36,6 +36,7 @@ import Exemplares from "./exemplares";
 import CreateExemplar from "src/components/cataloguing/createExemplar";
 import { api } from "src/services/api";
 import BtnDelete from "src/components/cataloguing/btn_delete"
+import { useRouter } from "next/router";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -76,7 +77,8 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function ItemCard() {
-  const { item, openModal, setOpenModal, openSnack, setOpenSnack } =
+  const router = useRouter();
+  const { item_id, item, openModal, setOpenModal, openSnack, setOpenSnack } =
     useContext(ItemContext);
 
   const [anchor, setAnchor] = useState(null);
@@ -113,8 +115,8 @@ export default function ItemCard() {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    const { id } = router.query;
-    router.push(`editItem?id=${id}`);
+    //const { id } = router.query;
+    router.push(`edit/${item_id}`);
   };
 
   const handleClickOpen = () => {
@@ -246,6 +248,9 @@ export default function ItemCard() {
           
         </CardContent>
         <Box sx={{ borderTop: 1, mt: 2, p: 2, display: "flex", gap: 3 }}>
+        <Button variant="outlined" onClick={() => {router.push(`/cataloguing/book`)}}>
+            Novo
+          </Button>
           <Button variant="outlined" onClick={handleEdit}>
             Editar
           </Button>

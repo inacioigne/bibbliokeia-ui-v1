@@ -249,6 +249,15 @@ export default function Exemplares(props) {
       >
         Excluir <DeleteIcon />
       </Button>
+      <Button
+        sx={checkboxExemplares ? { mt: 1, ml: 1 } : { display: "none" }}
+        aria-label="delete"
+        size="small"
+        variant="outlined"
+        onClick={handleDelete}
+      >
+        Cancelar 
+      </Button>
       {!!snackbar && (
         <Snackbar open onClose={handleCloseSnackbar} autoHideDuration={6000}>
           <Alert {...snackbar} onClose={handleCloseSnackbar} />
