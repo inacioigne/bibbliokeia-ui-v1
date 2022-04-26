@@ -1,15 +1,21 @@
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
-import Box from "@mui/material/Box";
+import Layout from "src/admin/layout";
+import {
+  Container,
+  Tabs,
+  Tab,
+  Box,
+  TextField,
+  MenuItem,
+  Button,
+} from "@mui/material";
+import { parseCookies } from "nookies";
 import { useState } from "react";
-import FieldMarc from "../../components/marc/field";
-import Button from "@mui/material/Button";
-import Lider from "../../components/marc/lider";
-import Tag008 from "../../components/marc/tag008";
-import { useRouter } from "next/router";
-import api from "../../services/api";
-import Container from "@mui/material/Container";
-import Time from "../../function/time";
+import { useForm, useFieldArray, Controller } from "react-hook-form";
+import marc from "./json_marc.json"
+import schema from "src/schema/marc_book.json"
+import Lider from "src/components/forms/lider"
+import Tag008 from "src/components/forms/tag008"
+import Datafield from "src/components/forms/datafield";
 
 function a11yProps(index) {
   return {
@@ -18,158 +24,144 @@ function a11yProps(index) {
   };
 }
 
-export default function Cataloguing() {
-  const router = useRouter();
+export default function Cataloguing_Book() {
+  console.log("MARC: ", schema.datafields)
   const [value, setValue] = useState(0);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-    let lider = formData.getAll("lider"); 
-
+  const { control, register, handleSubmit } = useForm({
+    defaultValues: marc
+   
+  });
+  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
-      /**  Control Fields */
+      control,
+      name: "datafields[650]",
     }
-    const tag008 = formData.getAll("008");
-    const controfields = {
-      "003": "BR-MnINPA",
-      "005": Time(),
-      "008": tag008.join(""),
-    };
+  );
+  //fields.map((field, index) => console.log("FIELD: ", field));
 
-    const data = new Object();
-    data["040"] = { a: "BR-MnINPA", b: "por" };
-
-    for (const [k, v] of formData.entries()) {
-      if ((v != "") & (k != "lider") & (k != "008")) {
-        
-        let tag = k.split(".")[0];
-        let code = k.split(".")[1];
-        
-        if (Object.keys(data).includes(tag)) {
-      
-          data[tag][code] = v;
-        } else {
- 
-          data[tag] = new Object();
-          data[tag][code] = v;
-        }
-      }
-    }
- 
-    const rep = new Object()
-
-    Object.entries(data).map(([k, v]) => {
-      if (k.includes('r')) {
-        let rtag = k.split('-')[1]
-        if (Object.keys(rep).includes(rtag)) {
-          rep[rtag].push(v)
-        } else {
-          rep[rtag] = []
-          rep[rtag].push(v)
-         
-        }
-        delete data[k]
-      }
-    })
-
-    Object.entries(rep).forEach(([k, v]) => {
-      data[k] = v
-    })
-
-
-
-
-    const marc = {
-      leader: "    " + lider.join("").replaceAll("|", " "),
-      controlfield: controfields,
-      datafield: data,
-     
-    };
-    
-    api.post(
-      "/cataloguing/create",
-      marc
-    ).then(function (response) {
-      //alert(response.data.msg)
-      router.push(`/item?id=${response.data.id}`)
-      console.log(response);
-    }).catch(function (error) {
-      console.log(error);
-    });
-  };
-
+  const onSubmit = (data) => console.log("SUBMIT: ", data);
   return (
     <Container>
-      <Box>
-        <Tabs
-          sx={{
-            position: "fixed",
-            top: "0%",
-            zIndex: "tooltip",
-            backgroundColor: "white",
-          }}
-          value={value}
-          onChange={handleChange}
-        >
-          <Tab label="Tags 0XX" {...a11yProps(0)} />
-          <Tab label="Tags 1XX" {...a11yProps(1)} />
-          <Tab label="Tags 2XX" {...a11yProps(2)} />
-          <Tab label="Tags 3XX" {...a11yProps(3)} />
-          <Tab label="Tags 4XX" {...a11yProps(4)} />
-          <Tab label="Tags 5XX" {...a11yProps(5)} />
-          <Tab label="Tags 6XX" {...a11yProps(6)} />
-          <Tab label="Tags 7XX" {...a11yProps(7)} />
-          <Tab label="Tags 8XX" {...a11yProps(8)} />
-        </Tabs>
-        <Box
-          sx={{
-            mt: 5,
-          }}
-          component="form"
-          onSubmit={handleSubmit}
-        >
-          <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
-            <Lider />
-            <Tag008 />
-            <FieldMarc tag="020" />
-            <FieldMarc tag="082" />
-          </Box>
-          <Box sx={value == 1 ? { display: "block" } : { display: "none" }}>
-            <FieldMarc tag="100" />
-          </Box>
-          <Box sx={value == 2 ? { display: "block" } : { display: "none" }}>
-            <FieldMarc tag="245" />
-            <FieldMarc tag="250" />
-            <FieldMarc tag="260" />
-          </Box>
-          <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>
-            <FieldMarc tag="300" />
-          </Box>
-          <Box sx={value == 4 ? { display: "block" } : { display: "none" }}>
-            Tags 4XX
-          </Box>
-          <Box sx={value == 5 ? { display: "block" } : { display: "none" }}>
-            <FieldMarc tag="520" />
-          </Box>
-          <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
-            <FieldMarc tag="650" repeatle="true" />
-          </Box>
-          <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
-            TAGS 7XX
-          </Box>
-          <Box sx={value == 8 ? { display: "block" } : { display: "none" }}>
-            <FieldMarc tag="856" />
-          </Box>
-          <Button variant="contained" type="submit">
-            Salvar
-          </Button>
+      <Tabs
+        value={value}
+        onChange={(event, newValue) => {
+          setValue(newValue);
+        }}
+        variant="fullWidth"
+      >
+        <Tab label="Tags 0XX" {...a11yProps(0)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 1XX" {...a11yProps(1)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 2XX" {...a11yProps(2)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 3XX" {...a11yProps(3)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 4XX" {...a11yProps(4)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 5XX" {...a11yProps(5)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 6XX" {...a11yProps(6)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 7XX" {...a11yProps(7)} sx={{ borderRight: 1 }} />
+        <Tab label="Tags 8XX" {...a11yProps(8)} sx={{ borderRight: 1 }} />
+      </Tabs>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
+        <Box> 
+        <Lider control={control}/>
+        <Tag008 control={control}/>
+        <Datafield control={control} tag="020"/>
+        
+        
+          
+          
         </Box>
-      </Box>
+       
+        <Box>
+        <Controller
+            name={"datafields[020].indicators.Ind1"}
+            control={control}
+            defaultValue={"datafields[020].indicators.Ind1"}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Ind1"
+                variant="outlined"
+                size="small"
+                sx={{ width: 170 }}
+              />
+            )}
+          />
+          <Controller
+            name={"datafields[020].indicators.Ind2"}
+            control={control}
+            defaultValue={"datafields[020].indicators.Ind2"}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="Ind2"
+                variant="outlined"
+                size="small"
+                sx={{ width: 170 }}
+              />
+            )}
+          />
+        <Controller
+            name={"datafields[020].subfields.a"}
+            control={control}
+            defaultValue={"datafields[020].subfields.a"}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                label="ISBN"
+                variant="outlined"
+                size="small"
+                sx={{ width: 170 }}
+              />
+            )}
+          />
+
+        </Box>
+        <Box>
+          {fields.map((field, index) => (
+            <Box key={field.id} sx={{ display: "flex", gap: 1 }}>
+            <Controller
+                name={`datafields[650][${index}].subfields.a`}
+                control={control}
+                //defaultValue={field.subfields.a}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    label="Assunto"
+                    variant="outlined"
+                    size="small"
+                    sx={{ width: 170 }}
+                  />
+                )}
+              />
+
+            </Box>
+          ))}
+        </Box>
+        </Box>
+        
+        <Button variant="outlined" sx={{ m: 2 }} type="submit">
+          Salvar
+        </Button>
+      </form>
     </Container>
   );
 }
+
+Cataloguing_Book.getLayout = function getLayout(page) {
+  return <Layout>{page}</Layout>;
+};
+
+export const getServerSideProps = async (ctx) => {
+  const { ["bibliokeia.token"]: token } = parseCookies(ctx);
+  if (!token) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {},
+  };
+};

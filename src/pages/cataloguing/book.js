@@ -1,7 +1,7 @@
 import Layout from "src/admin/layout";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import Tabs from "@mui/material/Tabs";
+import Tabs from "@mui/material/Tabs"; 
 import Tab from "@mui/material/Tab";
 import { useState, useRef } from "react";
 import Lider from "../../components/marc/lider";

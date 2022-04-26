@@ -1,0 +1,32 @@
+{
+  "lider": {
+    "lider04": "",
+    "lider05": "a"
+  },
+  "tag008": {
+    "tag008_05": "",
+    "tag008_06": "s"
+  },
+  "datafields": {
+    "020": {
+      "subfields": {
+        "a": ""
+      },
+      "indicators": {
+        "Ind1": "",
+        "Ind2": ""
+      }
+    },
+    "650": [
+      {
+        "subfields": {
+          "a": ""
+        },
+        "indicators": {
+          "Ind1": "",
+          "Ind2": ""
+        }
+      }
+    ]
+  }
+}
