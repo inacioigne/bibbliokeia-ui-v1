@@ -65,10 +65,6 @@ export default function Cataloguing_Book() {
         <Lider control={control}/>
         <Tag008 control={control}/>
         <Datafield control={control} tag="020"/>
-        
-        
-          
-          
         </Box>
        
         <Box>
