@@ -17,7 +17,7 @@ export default function Tag008(props) {
         <Controller
           name={"tag008.tag008_05"}
           control={props.control}
-          defaultValue={"tag008.tag008_05"}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
@@ -31,7 +31,7 @@ export default function Tag008(props) {
         <Controller
           name={"tag008.tag008_06"}
           control={props.control}
-          defaultValue={"tag008.tag008_06"}
+          defaultValue="s"
           render={({ field }) => (
             <TextField
               {...field}

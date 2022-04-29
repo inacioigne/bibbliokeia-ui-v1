@@ -11,11 +11,13 @@ import {
 import { parseCookies } from "nookies";
 import { useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import marc from "./json_marc.json"
-import schema from "src/schema/marc_book.json"
-import Lider from "src/components/forms/lider"
-import Tag008 from "src/components/forms/tag008"
+import marc from "./json_marc.json";
+import schema from "src/schema/marc_book.json";
+import Lider from "src/components/forms/lider";
+import Tag008 from "src/components/forms/tag008";
 import Datafield from "src/components/forms/datafield";
+import Indicators from "src/components/forms/indicators"
+import { Add, Close } from "@mui/icons-material";
 
 function a11yProps(index) {
   return {
@@ -25,19 +27,70 @@ function a11yProps(index) {
 }
 
 export default function Cataloguing_Book() {
-  console.log("MARC: ", schema.datafields)
   const [value, setValue] = useState(0);
   const { control, register, handleSubmit } = useForm({
-    defaultValues: marc
-   
-  });
-  const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
-    {
-      control,
-      name: "datafields[650]",
+    defaultValues: {
+      "datafields": {
+        "650": [
+          {}
+        ],
+        "700": [
+          {}
+        ],
+        "856": [
+          {}
+        ]
+      }
     }
-  );
-  //fields.map((field, index) => console.log("FIELD: ", field));
+  });
+
+  const {
+    fields: Fields650,
+    append: Append650,
+    remove: Remove650
+  } = useFieldArray({ control, name: "datafields[650]" });
+
+  const {
+    fields: Fields700,
+    append: Append700,
+    remove: Remove700
+  } = useFieldArray({ control, name: "datafields[700]" });
+  const {
+    fields: Fields856,
+    append: Append856,
+    remove: Remove856
+  } = useFieldArray({ control, name: "datafields[856]" });
+ 
+  const [tag650] = schema.datafields.filter((field) => {
+    return field.tag == "650";
+  });
+  const [tag700] = schema.datafields.filter((field) => {
+    return field.tag == "700";
+  });
+  const [tag856] = schema.datafields.filter((field) => {
+    return field.tag == "856";
+  });
+  const tags0 = schema.datafields.filter((field) => {
+    return field.tag[0] == "0";
+  });
+  const tags1 = schema.datafields.filter((field) => {
+    return field.tag[0] == "1";
+  });
+  const tags2 = schema.datafields.filter((field) => {
+    return field.tag[0] == "2";
+  });
+  const tags3 = schema.datafields.filter((field) => {
+    return field.tag[0] == "3";
+  });
+  const tags4 = schema.datafields.filter((field) => {
+    return field.tag[0] == "4";
+  });
+  const tags5 = schema.datafields.filter((field) => {
+    return field.tag[0] == "5";
+  });
+  
+  //console.log("MARC: ", tags0);
+
 
   const onSubmit = (data) => console.log("SUBMIT: ", data);
   return (
@@ -61,80 +114,64 @@ export default function Cataloguing_Book() {
       </Tabs>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
-        <Box> 
-        <Lider control={control}/>
-        <Tag008 control={control}/>
-        <Datafield control={control} tag="020"/>
-        </Box>
-       
-        <Box>
-        <Controller
-            name={"datafields[020].indicators.Ind1"}
-            control={control}
-            defaultValue={"datafields[020].indicators.Ind1"}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Ind1"
-                variant="outlined"
-                size="small"
-                sx={{ width: 170 }}
-              />
-            )}
-          />
-          <Controller
-            name={"datafields[020].indicators.Ind2"}
-            control={control}
-            defaultValue={"datafields[020].indicators.Ind2"}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="Ind2"
-                variant="outlined"
-                size="small"
-                sx={{ width: 170 }}
-              />
-            )}
-          />
-        <Controller
-            name={"datafields[020].subfields.a"}
-            control={control}
-            defaultValue={"datafields[020].subfields.a"}
-            render={({ field }) => (
-              <TextField
-                {...field}
-                label="ISBN"
-                variant="outlined"
-                size="small"
-                sx={{ width: 170 }}
-              />
-            )}
-          />
-
-        </Box>
-        <Box>
-          {fields.map((field, index) => (
-            <Box key={field.id} sx={{ display: "flex", gap: 1 }}>
-            <Controller
-                name={`datafields[650][${index}].subfields.a`}
-                control={control}
-                //defaultValue={field.subfields.a}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    label="Assunto"
-                    variant="outlined"
-                    size="small"
-                    sx={{ width: 170 }}
-                  />
-                )}
-              />
-
-            </Box>
+          <Lider control={control} />
+          <Tag008 control={control} />
+          {tags0.map((field, index) => (
+            <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
+        <Box sx={value == 1 ? { display: "block" } : { display: "none" }}>
+          {tags1.map((field, index) => (
+            <Datafield key={index} control={control} metadata={field} />
+          ))}
         </Box>
-        
+        <Box sx={value == 2 ? { display: "block" } : { display: "none" }}>
+          {tags2.map((field, index) => (
+            <Datafield key={index} control={control} metadata={field} />
+          ))}
+        </Box>
+        <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>
+          {tags3.map((field, index) => (
+            <Datafield key={index} control={control} metadata={field} />
+          ))}
+        </Box>
+        <Box sx={value == 4 ? { display: "block" } : { display: "none" }}>
+          {tags4.map((field, index) => (
+            <Datafield key={index} control={control} metadata={field} />
+          ))}
+        </Box>
+        <Box sx={value == 5 ? { display: "block" } : { display: "none" }}>
+          {tags5.map((field, index) => (
+            <Datafield key={index} control={control} metadata={field} />
+          ))}
+        </Box>
+        <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
+        <Datafield control={control} 
+        metadata={tag650} 
+        fields={Fields650} 
+        append={Append650} 
+        remove={Remove650} />
+
+          
+        </Box>
+       
+         <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
+         <Datafield control={control} 
+        metadata={tag700} 
+        fields={Fields700} 
+        append={Append700} 
+        remove={Remove700} />
+         
+        </Box> 
+        <Box sx={value == 8 ? { display: "block" } : { display: "none" }}>
+         <Datafield control={control} 
+        metadata={tag856} 
+        fields={Fields856} 
+        append={Append856} 
+        remove={Remove856} />
+         
+        </Box> 
+
         <Button variant="outlined" sx={{ m: 2 }} type="submit">
           Salvar
         </Button>

@@ -17,7 +17,7 @@ export default function Lider(props) {
         <Controller
           name={"lider.lider04"}
           control={props.control}
-          defaultValue={"lider.lider04"}
+          defaultValue=""
           render={({ field }) => (
             <TextField
               {...field}
@@ -31,7 +31,7 @@ export default function Lider(props) {
         <Controller
           name={`lider.lider05`}
           control={props.control}
-          defaultValue={"lider.lider05"}
+          defaultValue="a"
           render={({ field }) => (
             <TextField
               {...field}

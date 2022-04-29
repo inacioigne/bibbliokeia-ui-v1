@@ -60,24 +60,25 @@
               "value": "7",
               "label": "7 - Outra edição especificada no subcampo $2"
             }
-          ],
-          "Ind2": {
-            "defaultValue": "//",
-            "options": [
-              {
-                "value": "//",
-                "label": "# - Informação não fornecida"
-              },
-              {
-                "value": "0",
-                "label": "0 - Atribuído pela LC"
-              },
-              {
-                "value": "4",
-                "label": "4 - Atribuído por outra agência"
-              }
-            ]
-          }
+          ]
+          
+        },
+        "Ind2": {
+          "defaultValue": "//",
+          "options": [
+            {
+              "value": "//",
+              "label": "# - Informação não fornecida"
+            },
+            {
+              "value": "0",
+              "label": "0 - Atribuído pela LC"
+            },
+            {
+              "value": "4",
+              "label": "4 - Atribuído por outra agência"
+            }
+          ]
         }
       },
       "subfields": [
