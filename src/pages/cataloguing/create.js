@@ -16,8 +16,9 @@ import schema from "src/schema/marc_book.json";
 import Lider from "src/components/forms/lider";
 import Tag008 from "src/components/forms/tag008";
 import Datafield from "src/components/forms/datafield";
-import Indicators from "src/components/forms/indicators"
+import Indicators from "src/components/forms/indicators";
 import { Add, Close } from "@mui/icons-material";
+import Time from "src/function/time";
 
 function a11yProps(index) {
   return {
@@ -30,37 +31,31 @@ export default function Cataloguing_Book() {
   const [value, setValue] = useState(0);
   const { control, register, handleSubmit } = useForm({
     defaultValues: {
-      "datafields": {
-        "650": [
-          {}
-        ],
-        "700": [
-          {}
-        ],
-        "856": [
-          {}
-        ]
-      }
-    }
+      datafields: {
+        650: [{}],
+        700: [{}],
+        856: [{}],
+      },
+    },
   });
 
   const {
     fields: Fields650,
     append: Append650,
-    remove: Remove650
+    remove: Remove650,
   } = useFieldArray({ control, name: "datafields[650]" });
 
   const {
     fields: Fields700,
     append: Append700,
-    remove: Remove700
+    remove: Remove700,
   } = useFieldArray({ control, name: "datafields[700]" });
   const {
     fields: Fields856,
     append: Append856,
-    remove: Remove856
+    remove: Remove856,
   } = useFieldArray({ control, name: "datafields[856]" });
- 
+
   const [tag650] = schema.datafields.filter((field) => {
     return field.tag == "650";
   });
@@ -88,11 +83,25 @@ export default function Cataloguing_Book() {
   const tags5 = schema.datafields.filter((field) => {
     return field.tag[0] == "5";
   });
-  
-  //console.log("MARC: ", tags0);
 
+  const onSubmit = (data) => {
+    const lider = Object.values(data.lider);
+    const tag008 = Object.values(data.tag008);
+    const marc = {
+      lider: lider.join(""),
+      controlfields: {
+        "003": "BR-MnINPA",
+        "005": Time(),
+        "008": tag008.join(""),
+      },
+      datafields: data.datafields
+    };
+    for (const [k, v] of Object.entries(data.datafields)) {
+      console.log(k, v);
 
-  const onSubmit = (data) => console.log("SUBMIT: ", data);
+    }
+    
+  };
   return (
     <Container>
       <Tabs
@@ -146,31 +155,33 @@ export default function Cataloguing_Book() {
           ))}
         </Box>
         <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
-        <Datafield control={control} 
-        metadata={tag650} 
-        fields={Fields650} 
-        append={Append650} 
-        remove={Remove650} />
-
-          
+          <Datafield
+            control={control}
+            metadata={tag650}
+            fields={Fields650}
+            append={Append650}
+            remove={Remove650}
+          />
         </Box>
-       
-         <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
-         <Datafield control={control} 
-        metadata={tag700} 
-        fields={Fields700} 
-        append={Append700} 
-        remove={Remove700} />
-         
-        </Box> 
+
+        <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
+          <Datafield
+            control={control}
+            metadata={tag700}
+            fields={Fields700}
+            append={Append700}
+            remove={Remove700}
+          />
+        </Box>
         <Box sx={value == 8 ? { display: "block" } : { display: "none" }}>
-         <Datafield control={control} 
-        metadata={tag856} 
-        fields={Fields856} 
-        append={Append856} 
-        remove={Remove856} />
-         
-        </Box> 
+          <Datafield
+            control={control}
+            metadata={tag856}
+            fields={Fields856}
+            append={Append856}
+            remove={Remove856}
+          />
+        </Box>
 
         <Button variant="outlined" sx={{ m: 2 }} type="submit">
           Salvar

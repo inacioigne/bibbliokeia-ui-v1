@@ -45,7 +45,7 @@ export default function FieldMarc(props) {
                         `r${props.index}_${props.meta.tag}.Ind1`:
                         `${props.meta.tag}.Ind1`
                         }
-                      sx={{ mr: 1 }}
+                      sx={{ mr: 1 }} 
                       select
                       label="Ind1"
                       size="small"

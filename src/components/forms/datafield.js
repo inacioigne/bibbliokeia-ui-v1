@@ -41,12 +41,12 @@ export default function Datafield(props) {
                   <Box
                     sx={{
                       display: "flex",
-                      gap: 2,
+                      gap: 3,
                     }}
                   >
                     {/**INDICADORES */}
-                    <Box>
-                      <Box style={{ width: 215 }}>
+                 
+                      <Box sx={{ display: "flex", gap: 2 }}>
                         <Indicators
                           metadata={props.metadata.indicators.Ind1}
                           control={props.control}
@@ -61,10 +61,11 @@ export default function Datafield(props) {
                           name={`datafields[${props.metadata.tag}][${index}].indicators.Ind2`}
                         />
                       </Box>
-                    </Box>
+                 
                     {/** SUBFIELDS */}
                     <Box
                       sx={{
+                        border: "1px",
                         display: "grid",
                         columnGap: 3,
                         rowGap: 2,
@@ -74,7 +75,9 @@ export default function Datafield(props) {
                       style={{ width: "100%" }}
                     >
                       {props.metadata.subfields.map((subfield, subindex) => (
+                     
                         <Controller
+                                              
                           key={subindex}
                           name={`datafields[${props.metadata.tag}][${index}].subfields.${subfield.value}`}
                           control={props.control}
@@ -85,10 +88,12 @@ export default function Datafield(props) {
                               label={subfield.label}
                               variant="outlined"
                               size="small"
-                              sx={{ width: 170 }}
+                              //sx={{ width: 170 }}
+                              fullWidth
                             />
                           )}
                         />
+                     
                       ))}
                     </Box>
                   </Box>
@@ -140,7 +145,7 @@ export default function Datafield(props) {
           >
             {/**INDICADORES */}
             <Box>
-              <Box style={{ width: 215 }}>
+              <Box sx={{ display: "flex", gap: 2 }}>
                 <Indicators
                   metadata={props.metadata.indicators.Ind1}
                   control={props.control}
@@ -179,7 +184,8 @@ export default function Datafield(props) {
                       label={subfield.label}
                       variant="outlined"
                       size="small"
-                      sx={{ width: 170 }}
+                      //sx={{ width: 170 }}
+                      fullWidth
                     />
                   )}
                 />

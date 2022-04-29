@@ -10,6 +10,7 @@ export default function Indicators(props) {
         defaultValue={props.metadata.defaultValue}
         render={({ field }) => (
           <TextField
+          
           select
             {...field}
             label={props.label}
