@@ -97,7 +97,21 @@ export default function Cataloguing_Book() {
       datafields: data.datafields
     };
     for (const [k, v] of Object.entries(data.datafields)) {
-      console.log(k, v);
+      if (!Array.isArray(v)) {
+        // for (let [k, v] of Object.entries(v.subfields)) {
+        //   console.log(k, v)
+
+        // }
+        for (let [sk, sv] of Object.entries(v.subfields)) {
+          console.log(data.datafields[k].subfields[sk])
+
+        }
+        
+        
+        //console.log(k, Object.values(v.subfields));
+
+      }
+      
 
     }
     

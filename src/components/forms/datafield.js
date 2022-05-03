@@ -177,7 +177,7 @@ export default function Datafield(props) {
                   key={index}
                   name={`datafields[${props.metadata.tag}].subfields.${subfield.value}`}
                   control={props.control}
-                  defaultValue=""
+                  //defaultValue=""
                   render={({ field }) => (
                     <TextField
                       {...field}
