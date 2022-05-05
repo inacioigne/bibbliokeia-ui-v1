@@ -2,7 +2,7 @@ import { Accordion, AccordionSummary, Grid, TextField, MenuItem  } from "@mui/ma
 import { ExpandMore } from "@mui/icons-material/";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 
-export default function Lider(props) {
+export default function Leader(props) {
   return (
     <Accordion>
       <AccordionSummary
@@ -11,12 +11,12 @@ export default function Lider(props) {
         id="header"
         sx={{ borderBottom: 1 }}
       >
-        LIDER
+        leader
       </AccordionSummary>
       <Grid container spacing={2} gap={2} sx={{ p: 3, mt: 1 }}>
         {/** 00-04 - Tamanho do registro */}
         <Controller
-          name={"lider.lider04"}
+          name={"leader.leader04"}
           control={props.control}
           defaultValue="####"
           render={({ field }) => (
@@ -34,7 +34,7 @@ export default function Lider(props) {
         />
         {/** 05 - Status do registro */}
         <Controller
-          name={`lider.lider05`}
+          name={`leader.leader05`}
           control={props.control}
           defaultValue="a"
           render={({ field }) => (
@@ -66,7 +66,7 @@ export default function Lider(props) {
         />
          {/** 06 - Tipo de registro */}
          <Controller
-          name={`lider.lider06`}
+          name={`leader.leader06`}
           control={props.control}
           defaultValue="a"
           render={({ field }) => (
@@ -123,7 +123,7 @@ export default function Lider(props) {
         />
          {/** 07 - Nível bibliográfico */}
          <Controller
-          name={`lider.lider07`}
+          name={`leader.leader07`}
           control={props.control}
           defaultValue="m"
           render={({ field }) => (
@@ -161,7 +161,7 @@ export default function Lider(props) {
         />
         {/** 08 - Tipo de controle */}
         <Controller
-          name={`lider.lider08`}
+          name={`leader.leader08`}
           control={props.control}
           defaultValue="#"
           render={({ field }) => (
@@ -184,7 +184,7 @@ export default function Lider(props) {
         />
          {/** 09 - Esquema de Codificação de Caracteres */}
          <Controller
-          name={`lider.lider09`}
+          name={`leader.leader09`}
           control={props.control}
           defaultValue="#"
           render={({ field }) => (
@@ -207,7 +207,7 @@ export default function Lider(props) {
         />
         {/** 10 - Número de indicadores */}
         <Controller
-          name={"lider.lider10"}
+          name={"leader.leader10"}
           control={props.control}
           defaultValue="2"
           render={({ field }) => (
@@ -225,7 +225,7 @@ export default function Lider(props) {
         />
         {/** 11 - Número de subcampos */}
         <Controller
-          name={"lider.lider11"}
+          name={"leader.leader11"}
           control={props.control}
           defaultValue="2"
           render={({ field }) => (
@@ -243,7 +243,7 @@ export default function Lider(props) {
         />
         {/** 12-16 - Endereço dos dados */}
         <Controller
-          name={"lider.lider16"}
+          name={"leader.leader16"}
           control={props.control}
           defaultValue="#####"
           render={({ field }) => (
@@ -261,7 +261,7 @@ export default function Lider(props) {
         />
         {/** 17 - Nível de Codificação */}
         <Controller
-          name={`lider.lider17`}
+          name={`leader.leader17`}
           control={props.control}
           defaultValue="4"
           render={({ field }) => (
@@ -308,7 +308,7 @@ export default function Lider(props) {
         />
          {/** 18 - Forma de Catalogação Descritiva */}
          <Controller
-          name={`lider.lider18`}
+          name={`leader.leader18`}
           control={props.control}
           defaultValue="a"
           render={({ field }) => (
@@ -340,7 +340,7 @@ export default function Lider(props) {
         />
         {/** 19 - Nível de registro de recurso em várias partes */}
         <Controller
-          name={`lider.lider19`}
+          name={`leader.leader19`}
           control={props.control}
           defaultValue="a"
           render={({ field }) => (
@@ -369,7 +369,7 @@ export default function Lider(props) {
         />
         {/** 20 - Tamanho da parte correspondente ao tamanho do campo */}
         <Controller
-          name={"lider.lider20"}
+          name={"leader.leader20"}
           control={props.control}
           defaultValue="4"
           render={({ field }) => (
@@ -387,7 +387,7 @@ export default function Lider(props) {
         />
         {/** 21 - Tamanho da posição do caractere de início */}
         <Controller
-          name={"lider.lider21"}
+          name={"leader.leader21"}
           control={props.control}
           defaultValue="5"
           render={({ field }) => (
@@ -405,7 +405,7 @@ export default function Lider(props) {
         />
         {/** 22 - Tamanho da parte definida para implementação */}
         <Controller
-          name={"lider.lider22"}
+          name={"leader.leader22"}
           control={props.control}
           defaultValue="0"
           render={({ field }) => (
@@ -423,7 +423,7 @@ export default function Lider(props) {
         />
          {/** 23 - Entrada não definida */}
          <Controller
-          name={"lider.lider22"}
+          name={"leader.leader22"}
           control={props.control}
           defaultValue="0"
           render={({ field }) => (

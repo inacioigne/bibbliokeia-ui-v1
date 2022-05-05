@@ -1,9 +1,9 @@
 import {
   Accordion,
   AccordionSummary,
-  Grid,
+  //Grid,
   TextField,
-  MenuItem,
+  //MenuItem,
   Typography,
   Box,
   ButtonGroup,
@@ -15,6 +15,7 @@ import Indicators from "src/components/forms/indicators";
 import { Add, Remove } from "@mui/icons-material";
 
 export default function Datafield(props) {
+  let tag = props.metadata?.tag
   if (props.metadata.repeatable) {
     return (
       <Box>
@@ -76,12 +77,12 @@ export default function Datafield(props) {
                     >
                       {props.metadata.subfields.map((subfield, subindex) => (
                      
-                        <Controller
-                                              
+                        <Controller                
                           key={subindex}
                           name={`datafields[${props.metadata.tag}][${index}].subfields.${subfield.value}`}
                           control={props.control}
                           defaultValue=""
+                          rules={{ required: subfield.required ? true : false }}
                           render={({ field }) => (
                             <TextField
                               {...field}
@@ -93,7 +94,6 @@ export default function Datafield(props) {
                             />
                           )}
                         />
-                     
                       ))}
                     </Box>
                   </Box>
@@ -123,9 +123,10 @@ export default function Datafield(props) {
         ))}
       </Box>
     );
-  } else {
+  } else {    
+    
     return (
-      <Accordion>
+      <Accordion defaultExpanded={props.metadata.expanded}>
         <AccordionSummary
           expandIcon={<ExpandMore />}
           aria-controls="content"
@@ -173,23 +174,26 @@ export default function Datafield(props) {
               style={{ width: "100%" }}
             >
               {props.metadata.subfields.map((subfield, index) => (
+                
                 <Controller
                   key={index}
                   name={`datafields[${props.metadata.tag}].subfields.${subfield.value}`}
                   control={props.control}
-                  //defaultValue=""
+                  rules={{ required: subfield.required ? true : false }}
                   render={({ field }) => (
                     <TextField
                       {...field}
                       label={subfield.label}
                       variant="outlined"
                       size="small"
-                      //sx={{ width: 170 }}
                       fullWidth
                     />
                   )}
                 />
+             
+                
               ))}
+              
             </Box>
           </Box>
         </Box>

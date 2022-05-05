@@ -16,7 +16,7 @@ const CreateDate = () => {
 
 export default function Tag008(props) {
   return (
-    <Accordion>
+    <Accordion defaultExpanded={false}>
       <AccordionSummary
         expandIcon={<ExpandMore />}
         aria-controls="content"

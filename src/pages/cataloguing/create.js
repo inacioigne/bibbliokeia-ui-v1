@@ -1,24 +1,16 @@
 import Layout from "src/admin/layout";
-import {
-  Container,
-  Tabs,
-  Tab,
-  Box,
-  TextField,
-  MenuItem,
-  Button,
-} from "@mui/material";
+import { Container, Tabs, Tab, Box, Button, Snackbar, IconButton } from "@mui/material";
 import { parseCookies } from "nookies";
-import { useState } from "react";
-import { useForm, useFieldArray, Controller } from "react-hook-form";
-import marc from "./json_marc.json";
+import { useState, useEffect  } from "react";
+import { useForm, useFieldArray } from "react-hook-form";
 import schema from "src/schema/marc_book.json";
-import Lider from "src/components/forms/lider";
+import Leader from "src/components/forms/leader";
 import Tag008 from "src/components/forms/tag008";
 import Datafield from "src/components/forms/datafield";
-import Indicators from "src/components/forms/indicators";
-import { Add, Close } from "@mui/icons-material";
 import Time from "src/function/time";
+import { api } from "src/services/api";
+import { useRouter } from "next/router";
+import CloseIcon from '@mui/icons-material/Close';
 
 function a11yProps(index) {
   return {
@@ -28,8 +20,34 @@ function a11yProps(index) {
 }
 
 export default function Cataloguing_Book() {
+  
+  const router = useRouter();
+  //SNACKBAR
+  const [snack, setSnack] = useState({open: false, msg: null});
+  const handleClose = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+
+    setSnack({open: false, msg: null});
+  };
+  const action = (
+    <>
+      <Button color="secondary" size="small" onClick={handleClose}>
+        UNDO
+      </Button>
+      <IconButton
+        size="small"
+        aria-label="close"
+        color="inherit"
+        onClick={handleClose}
+      >
+        <CloseIcon fontSize="small" />
+      </IconButton>
+    </>
+  );
   const [value, setValue] = useState(0);
-  const { control, register, handleSubmit } = useForm({
+  const { control, register, handleSubmit, formState: { errors }  } = useForm({
     defaultValues: {
       datafields: {
         650: [{}],
@@ -85,37 +103,70 @@ export default function Cataloguing_Book() {
   });
 
   const onSubmit = (data) => {
-    const lider = Object.values(data.lider);
+    
+    
+
+    const leader = Object.values(data.leader);
     const tag008 = Object.values(data.tag008);
+
+    //EXCLUI SUBCAMPOS VAZIOS
+    for (let [k, v] of Object.entries(data.datafields)) {
+      if (!Array.isArray(v)) {
+        for (let [sk, sv] of Object.entries(v.subfields)) {
+          if (!sv) {
+            delete data.datafields[k].subfields[sk];
+            if (Object.keys(data.datafields[k].subfields).length == 0) {
+              delete data.datafields[k];
+            }
+          }
+        }
+      } else {
+        for (let [index, field] of v.entries()) {
+          for (let [sk, sv] of Object.entries(field.subfields)) {
+            if (!sv) {
+              delete data.datafields[k][index].subfields[sk];
+              if (
+                Object.keys(data.datafields[k][index].subfields).length == 0
+              ) {
+                delete data.datafields[k];
+              }
+            }
+          }
+        }
+      }
+    }
     const marc = {
-      lider: lider.join(""),
+      leader: leader.join(""),
       controlfields: {
         "003": "BR-MnINPA",
         "005": Time(),
         "008": tag008.join(""),
       },
-      datafields: data.datafields
+      datafields: data.datafields,
     };
-    for (const [k, v] of Object.entries(data.datafields)) {
-      if (!Array.isArray(v)) {
-        // for (let [k, v] of Object.entries(v.subfields)) {
-        //   console.log(k, v)
 
-        // }
-        for (let [sk, sv] of Object.entries(v.subfields)) {
-          console.log(data.datafields[k].subfields[sk])
-
-        }
-        
-        
-        //console.log(k, Object.values(v.subfields));
-
-      }
-      
-
+    {
+      /** POST ITEM */
     }
-    
+    api
+      .post("/cataloging/item/create", marc)
+      .then(function (response) {
+        if (response.status == 201) {
+          router.push(`/cataloguing/item/${response.data.item_id}`);
+        }
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    console.log("DATA: ", marc);
   };
+
+
+  
+    
+  
   return (
     <Container>
       <Tabs
@@ -136,39 +187,39 @@ export default function Cataloguing_Book() {
         <Tab label="Tags 8XX" {...a11yProps(8)} sx={{ borderRight: 1 }} />
       </Tabs>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={value == 0 ? { display: "block" } : { display: "none" }}>
-          <Lider control={control} />
+        <Box sx={value == 0 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+          <Leader control={control} />
           <Tag008 control={control} />
           {tags0.map((field, index) => (
-            <Datafield key={index} control={control} metadata={field} />
+            <Datafield key={index} control={control} metadata={field} errors={errors}/>
           ))}
         </Box>
-        <Box sx={value == 1 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 1 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           {tags1.map((field, index) => (
-            <Datafield key={index} control={control} metadata={field} />
+            <Datafield key={index} control={control} metadata={field} errors={errors}/>
           ))}
         </Box>
-        <Box sx={value == 2 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 2 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           {tags2.map((field, index) => (
-            <Datafield key={index} control={control} metadata={field} />
+            <Datafield key={index} control={control} metadata={field} errors={errors} snackbar={setSnack} />
           ))}
         </Box>
-        <Box sx={value == 3 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 3 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           {tags3.map((field, index) => (
             <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
-        <Box sx={value == 4 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 4 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           {tags4.map((field, index) => (
             <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
-        <Box sx={value == 5 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 5 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           {tags5.map((field, index) => (
             <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
-        <Box sx={value == 6 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 6 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           <Datafield
             control={control}
             metadata={tag650}
@@ -178,7 +229,7 @@ export default function Cataloguing_Book() {
           />
         </Box>
 
-        <Box sx={value == 7 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 7 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           <Datafield
             control={control}
             metadata={tag700}
@@ -187,7 +238,7 @@ export default function Cataloguing_Book() {
             remove={Remove700}
           />
         </Box>
-        <Box sx={value == 8 ? { display: "block" } : { display: "none" }}>
+        <Box sx={value == 8 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
           <Datafield
             control={control}
             metadata={tag856}
@@ -195,12 +246,19 @@ export default function Cataloguing_Book() {
             append={Append856}
             remove={Remove856}
           />
-        </Box>
+        </Box> 
 
         <Button variant="outlined" sx={{ m: 2 }} type="submit">
           Salvar
         </Button>
       </form>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        message="Note archived"
+        action={action}
+      />
     </Container>
   );
 }

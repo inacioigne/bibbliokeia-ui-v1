@@ -43,6 +43,7 @@
     {
       "tag": "082",
       "repeatable": false,
+      "expanded": true,
       "description": "082 - CDD",
       "indicators": {
         "Ind1": {
@@ -95,6 +96,7 @@
     {
       "tag": "100",
       "repeatable": false,
+      "expanded": true,
       "description": "100 - ENTRADA PRINCIPAL - NOME PESSOAL",
       "indicators": {
         "Ind1": {
@@ -164,6 +166,7 @@
     },
     {
       "tag": "245",
+      "expanded": true,
       "description": "245 - TÍTULO PRINCIPAL",
       "indicators": {
         "Ind1": {
@@ -388,6 +391,7 @@
     },
     {
       "tag": "650",
+      "expanded": true,
       "description": "650 - ASSUNTO TÓPICO",
       "repeatable": true,
       "indicators": {
