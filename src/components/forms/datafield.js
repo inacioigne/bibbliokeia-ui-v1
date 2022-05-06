@@ -3,7 +3,6 @@ import {
   AccordionSummary,
   //Grid,
   TextField,
-  //MenuItem,
   Typography,
   Box,
   ButtonGroup,
@@ -13,6 +12,7 @@ import { ExpandMore } from "@mui/icons-material/";
 import { Controller } from "react-hook-form";
 import Indicators from "src/components/forms/indicators";
 import { Add, Remove } from "@mui/icons-material";
+
 
 export default function Datafield(props) {
   let tag = props.metadata?.tag
@@ -179,6 +179,7 @@ export default function Datafield(props) {
                   key={index}
                   name={`datafields[${props.metadata.tag}].subfields.${subfield.value}`}
                   control={props.control}
+                  defaultValue=""
                   rules={{ required: subfield.required ? true : false }}
                   render={({ field }) => (
                     <TextField

@@ -1,5 +1,5 @@
 import Layout from "src/admin/layout";
-import { Container, Tabs, Tab, Box, Button, Snackbar, IconButton } from "@mui/material";
+import { Container, Tabs, Tab, Box, Button, Snackbar, IconButton,  Alert } from "@mui/material";
 import { parseCookies } from "nookies";
 import { useState, useEffect  } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
@@ -23,19 +23,19 @@ export default function Cataloguing_Book() {
   
   const router = useRouter();
   //SNACKBAR
-  const [snack, setSnack] = useState({open: false, msg: null});
+  const [snack, setSnack] = useState(false);
   const handleClose = (event, reason) => {
     if (reason === 'clickaway') {
       return;
     }
 
-    setSnack({open: false, msg: null});
+    setSnack(false);
   };
   const action = (
     <>
-      <Button color="secondary" size="small" onClick={handleClose}>
+      {/* <Button color="secondary" size="small" onClick={handleClose}>
         UNDO
-      </Button>
+      </Button> */}
       <IconButton
         size="small"
         aria-label="close"
@@ -103,8 +103,6 @@ export default function Cataloguing_Book() {
   });
 
   const onSubmit = (data) => {
-    
-    
 
     const leader = Object.values(data.leader);
     const tag008 = Object.values(data.tag008);
@@ -163,10 +161,6 @@ export default function Cataloguing_Book() {
     console.log("DATA: ", marc);
   };
 
-
-  
-    
-  
   return (
     <Container>
       <Tabs
@@ -248,17 +242,25 @@ export default function Cataloguing_Book() {
           />
         </Box> 
 
-        <Button variant="outlined" sx={{ m: 2 }} type="submit">
+        <Button variant="outlined" sx={{ m: 2 }} type="submit" onClick={() => {setSnack(true)}}>
           Salvar
         </Button>
       </form>
+
+
+ 
+      {errors.datafields && 
+     
       <Snackbar
-        open={open}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        open={snack}
         autoHideDuration={6000}
         onClose={handleClose}
-        message="Note archived"
-        action={action}
-      />
+       //message={`Campo ${ Object.keys(errors.datafields)} é obrigatório!`}
+        //action={action}
+      >
+       <Alert action={action} severity="warning">{`Campo ${ Object.keys(errors?.datafields)} é obrigatório!`}</Alert>
+      </Snackbar> }
     </Container>
   );
 }
