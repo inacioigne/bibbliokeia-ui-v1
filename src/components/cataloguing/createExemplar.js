@@ -34,28 +34,34 @@ export default function CreateExemplar(props) {
     setOpenModal,
     openSnack,
     setOpenSnack,
-    nextEx, setnextEx, getNextEx
+    //nextEx, setnextEx, getNextEx
   } = useContext(ItemContext);
 
   //console.log('EX: ', nextEx)
   //getNextEx()
 
-  //const [lastEx, setLastEx] = useState({});
+  const [nextEx, setnextEx] = useState(null);
 
-  const getLastEx = async () => {
-    const response = await api.get(`cataloging/exemplar/last_exemplar/`);
-    
-    setnextEx(response.data)
-    console.log('EX: ', nextEx)
-    //return response.data
+  const getNextEx = async () => {
+
+    api.get(`cataloging/exemplar/last_exemplar/`)
+    .then(res => {
+      
+      setnextEx(res.data)
+      
+
+    });
    
   };
 
+  console.log("STATE: ", nextEx);
   useEffect(() => {
    
     getNextEx()
     
   }, [])
+
+  let x = {exemplar: '22-0002'}
 
 
   const { control, register, handleSubmit } = useForm({
@@ -68,8 +74,8 @@ export default function CreateExemplar(props) {
           collection: "Obras Gerais",
           volume: "",
           ex: `ex. ${rowsEx.length + 1}`,
-          //number: props.nextEx,
-          number: nextEx?.exemplar,
+          //number: nextEx ? nextEx.exemplar : 'NO',
+          //number: nextEx?.exemplar,
           status: "disponivel",
         },
       ],
@@ -99,7 +105,8 @@ export default function CreateExemplar(props) {
 
   const getRegister = () => {
     const q = fields.length;
-    const r = props.nextEx;
+    //const r = props.nextEx;
+    const r = nextEx.exemplar
     const n = parseInt(r.split("-")[1]) + q;
 
     const ano = r.split("-")[0];
@@ -111,6 +118,7 @@ export default function CreateExemplar(props) {
     getExemplar();
     
   };
+
   const onSubmit = (data) => {
     postExemplar(data).catch((err) => {
       console.error("ops! ocorreu um erro" + err);
@@ -122,9 +130,14 @@ export default function CreateExemplar(props) {
     setOpenSnack(true);
     setOpenModal(false);
   };
+
+  if (!nextEx) {
+    return null
+  }
  
 
   return (
+
     <form onSubmit={handleSubmit(onSubmit)}>
       <DialogContent dividers >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
@@ -217,8 +230,8 @@ export default function CreateExemplar(props) {
               <Controller
                 name={`exemplares[${index}].number`}
                 control={control}
-                defaultValue={field.number}
-                //defaultValue={lastEx?.exemplar}
+                //defaultValue={field.number}
+                defaultValue={nextEx.exemplar}
 
                 render={({ field }) => (
                   <TextField

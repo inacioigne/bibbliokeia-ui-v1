@@ -22,19 +22,19 @@ export const ItemProvider = ({ children }) => {
         
     }
 
-    const [nextEx, setnextEx] = useState({});
+  //   const [nextEx, setnextEx] = useState({});
 
-  const getNextEx = async () => {
-    const response = await api.get(`cataloging/exemplar/last_exemplar/`);
+  // const getNextEx = async () => {
+  //   const response = await api.get(`cataloging/exemplar/last_exemplar/`);
 
-    setnextEx(response.data);
-    console.log('NT: ', nextEx)
+  //   setnextEx(response.data);
+  //   console.log('NT: ', nextEx)
 
-  };
+  // };
 
-  useEffect(() => {
-    getNextEx();
-  }, []);
+  // useEffect(() => {
+  //   getNextEx();
+  // }, []);
 
     
 
@@ -70,8 +70,7 @@ export const ItemProvider = ({ children }) => {
     getExemplar, openModal, setOpenModal,
     openSnack, setOpenSnack, 
     checkboxExemplares, setCheckboxExemplares,
-    snackbar, setSnackbar, handleCloseSnackbar, 
-    nextEx, getNextEx, setnextEx}}>
+    snackbar, setSnackbar, handleCloseSnackbar}}>
         { children}
     </ItemContext.Provider>
 }

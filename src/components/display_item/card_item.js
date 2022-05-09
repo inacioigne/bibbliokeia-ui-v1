@@ -21,21 +21,20 @@ import {
   Grow,
   Paper,
   ClickAwayListener,
-  MenuList
-
+  MenuList,
 } from "@mui/material";
 import React from "react";
 import { red } from "@mui/material/colors";
-import { MenuBook, MoreVert, Close, ArrowDropDown } from "@mui/icons-material";
+import { MenuBook, MoreVert, Close } from "@mui/icons-material";
 import { ItemContext } from "src/admin/contexts/itemContext";
-import { useContext, useState, useEffect, useRef } from "react";
+import { useContext, useState } from "react";
 import PropTypes from "prop-types";
 import Record from "./record";
 import TagsMarc from "./tagsMarc";
 import Exemplares from "./exemplares";
 import CreateExemplar from "src/components/cataloguing/createExemplar";
-import { api } from "src/services/api";
-import BtnDelete from "src/components/cataloguing/btn_delete"
+import Link from "next/link";
+import BtnDelete from "src/components/cataloguing/btn_delete";
 import { useRouter } from "next/router";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -78,25 +77,11 @@ BootstrapDialogTitle.propTypes = {
 
 export default function ItemCard() {
   const router = useRouter();
-  const { item_id, item, openModal, 
-    setOpenModal, openSnack, setOpenSnack, getNextEx } =
+  const { item_id, item, openModal, setOpenModal, openSnack, setOpenSnack } =
     useContext(ItemContext);
 
   const [anchor, setAnchor] = useState(null);
   const [value, setValue] = useState(0);
-  // const [lastEx, setLastEx] = useState({});
-
-  // const getData = async () => {
-  //   const response = await api.get(`cataloging/exemplar/last_exemplar/`);
-
-  //   setLastEx(response.data);
-  //   //console.log('IT: ', lastEx)
-
-  // };
-
-  // useEffect(() => {
-  //   getNextEx();
-  // }, []);
 
   const open = Boolean(anchor);
 
@@ -115,7 +100,6 @@ export default function ItemCard() {
 
   const handleEdit = (e) => {
     e.preventDefault();
-    //const { id } = router.query;
     router.push(`edit/${item_id}`);
   };
 
@@ -146,12 +130,6 @@ export default function ItemCard() {
   };
   const action = (
     <React.Fragment>
-      {/**<Button 
-      color="secondary" 
-      size="small" 
-      onClick={handleCloseSnack}>
-        UNDO
-      </Button>*/}
       <IconButton
         size="small"
         aria-label="close"
@@ -162,9 +140,6 @@ export default function ItemCard() {
       </IconButton>
     </React.Fragment>
   );
-
-
-  
 
   return (
     <Container>
@@ -247,21 +222,20 @@ export default function ItemCard() {
 
           {/** exemplares*/}
           {value == 0 && <Exemplares />}
-          
         </CardContent>
         <Box sx={{ borderTop: 1, mt: 2, p: 2, display: "flex", gap: 3 }}>
-        <Button variant="outlined" onClick={() => {router.push(`/cataloguing/book`)}}>
-            Novo
-          </Button>
+          <Link href="/cataloguing/create">
+            <Button variant="outlined">Novo</Button>
+          </Link>
+
           <Button variant="outlined" onClick={handleEdit}>
             Editar
           </Button>
           <Button variant="outlined" onClick={handleClickOpen}>
             Adicionar Exemplar
           </Button>
-          
+
           <BtnDelete />
-          
         </Box>
         {/** MODAL */}
         <BootstrapDialog
@@ -277,8 +251,7 @@ export default function ItemCard() {
             Adicionar Exemplar
           </BootstrapDialogTitle>
           {/*CreateExemplar */}
-          <CreateExemplar /> 
-
+          <CreateExemplar />
         </BootstrapDialog>
       </Card>
       {/** SNACKBAR */}

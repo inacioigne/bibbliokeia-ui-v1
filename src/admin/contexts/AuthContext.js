@@ -30,12 +30,12 @@ async function signIn(data) {
   )
   setCookie(undefined, 'bibliokeia.token',
   response.data.access_token, {
-    maxAge: 60 * 60 * 1,
+   // maxAge: 60 * 60 * 1,
     path: '/'
   } )
   setUser(response.data.user)
 
-  Router.push('/cataloguing/book')
+  Router.push('/cataloguing/create')
 
 }
 
