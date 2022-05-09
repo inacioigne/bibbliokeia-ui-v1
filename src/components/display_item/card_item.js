@@ -78,25 +78,25 @@ BootstrapDialogTitle.propTypes = {
 
 export default function ItemCard() {
   const router = useRouter();
-  const { item_id, item, openModal, setOpenModal, openSnack, setOpenSnack } =
+  const { item_id, item, openModal, 
+    setOpenModal, openSnack, setOpenSnack, getNextEx } =
     useContext(ItemContext);
 
   const [anchor, setAnchor] = useState(null);
-  //const [openModal, setOpenModal] = useState(false);
   const [value, setValue] = useState(0);
-  const [lastEx, setLastEx] = useState({});
+  // const [lastEx, setLastEx] = useState({});
 
-  const getData = async () => {
-    const response = await api.get(`cataloging/exemplar/last_exemplar/`);
+  // const getData = async () => {
+  //   const response = await api.get(`cataloging/exemplar/last_exemplar/`);
 
-    setLastEx(response.data);
-    //console.log(lastEx);
-  };
+  //   setLastEx(response.data);
+  //   //console.log('IT: ', lastEx)
 
-  useEffect(() => {
-    getData();
-    //console.log("EX: ", lastEx);
-  }, []);
+  // };
+
+  // useEffect(() => {
+  //   getNextEx();
+  // }, []);
 
   const open = Boolean(anchor);
 
@@ -120,11 +120,13 @@ export default function ItemCard() {
   };
 
   const handleClickOpen = () => {
+    //getData();
     setOpenModal(true);
   };
 
   const handleCloseModal = () => {
     setOpenModal(false);
+    //getData();
   };
 
   {
@@ -257,10 +259,7 @@ export default function ItemCard() {
           <Button variant="outlined" onClick={handleClickOpen}>
             Adicionar Exemplar
           </Button>
-          {/* <Button variant="outlined" onClick={handleClickOpen}>
-            Excluir
-          </Button> */}
-          {/** EXCLUIR */}
+          
           <BtnDelete />
           
         </Box>
@@ -278,7 +277,8 @@ export default function ItemCard() {
             Adicionar Exemplar
           </BootstrapDialogTitle>
           {/*CreateExemplar */}
-          <CreateExemplar nextEx={lastEx?.exemplar} />
+          <CreateExemplar /> 
+
         </BootstrapDialog>
       </Card>
       {/** SNACKBAR */}

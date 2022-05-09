@@ -94,6 +94,22 @@
       ]
     },
     {
+      "tag": "090",
+      "repeatable": false,
+      "expanded": true,
+      "description": "090 - Chamada",
+      "indicators": {
+        "Ind1": false,
+        "Ind2": false
+      },
+      "subfields": [
+        {
+          "value": "b",
+          "label": "Cutter"
+        }
+      ]
+    },
+    {
       "tag": "100",
       "repeatable": false,
       "expanded": true,

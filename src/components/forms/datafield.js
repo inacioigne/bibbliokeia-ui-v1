@@ -15,6 +15,7 @@ import { Add, Remove } from "@mui/icons-material";
 
 
 export default function Datafield(props) {
+
   let tag = props.metadata?.tag
   if (props.metadata.repeatable) {
     return (
@@ -55,12 +56,12 @@ export default function Datafield(props) {
                           name={`datafields[${props.metadata.tag}][${index}].indicators.Ind1`}
                         />
 
-                        <Indicators
+                         <Indicators
                           metadata={props.metadata.indicators.Ind2}
                           control={props.control}
                           label="Ind2"
                           name={`datafields[${props.metadata.tag}][${index}].indicators.Ind2`}
-                        />
+                        /> 
                       </Box>
                  
                     {/** SUBFIELDS */}
@@ -155,7 +156,7 @@ export default function Datafield(props) {
                 />
 
                 <Indicators
-                  metadata={props.metadata.indicators.Ind1}
+                  metadata={props.metadata.indicators.Ind2}
                   control={props.control}
                   label="Ind2"
                   name={`datafields[${props.metadata.tag}].indicators.Ind2`}
@@ -179,7 +180,7 @@ export default function Datafield(props) {
                   key={index}
                   name={`datafields[${props.metadata.tag}].subfields.${subfield.value}`}
                   control={props.control}
-                  defaultValue=""
+                  defaultValue={subfield.defaultValue ? subfield.defaultValue : "" }
                   rules={{ required: subfield.required ? true : false }}
                   render={({ field }) => (
                     <TextField

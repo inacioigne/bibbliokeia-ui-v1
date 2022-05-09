@@ -1,7 +1,16 @@
 import Layout from "src/admin/layout";
-import { Container, Tabs, Tab, Box, Button, Snackbar, IconButton,  Alert } from "@mui/material";
+import {
+  Container,
+  Tabs,
+  Tab,
+  Box,
+  Button,
+  Snackbar,
+  IconButton,
+  Alert,
+} from "@mui/material";
 import { parseCookies } from "nookies";
-import { useState, useEffect  } from "react";
+import { useState, useEffect } from "react";
 import { useForm, useFieldArray } from "react-hook-form";
 import schema from "src/schema/marc_book.json";
 import Leader from "src/components/forms/leader";
@@ -10,7 +19,7 @@ import Datafield from "src/components/forms/datafield";
 import Time from "src/function/time";
 import { api } from "src/services/api";
 import { useRouter } from "next/router";
-import CloseIcon from '@mui/icons-material/Close';
+import CloseIcon from "@mui/icons-material/Close";
 
 function a11yProps(index) {
   return {
@@ -20,22 +29,20 @@ function a11yProps(index) {
 }
 
 export default function Cataloguing_Book() {
-  
   const router = useRouter();
   //SNACKBAR
   const [snack, setSnack] = useState(false);
+  const [snackSuccess, setsnackSuccess] = useState(false);
   const handleClose = (event, reason) => {
-    if (reason === 'clickaway') {
+    if (reason === "clickaway") {
       return;
     }
 
     setSnack(false);
+    setsnackSuccess(false);
   };
   const action = (
     <>
-      {/* <Button color="secondary" size="small" onClick={handleClose}>
-        UNDO
-      </Button> */}
       <IconButton
         size="small"
         aria-label="close"
@@ -47,7 +54,12 @@ export default function Cataloguing_Book() {
     </>
   );
   const [value, setValue] = useState(0);
-  const { control, register, handleSubmit, formState: { errors }  } = useForm({
+  const {
+    control,
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     defaultValues: {
       datafields: {
         650: [{}],
@@ -103,7 +115,6 @@ export default function Cataloguing_Book() {
   });
 
   const onSubmit = (data) => {
-
     const leader = Object.values(data.leader);
     const tag008 = Object.values(data.tag008);
 
@@ -150,9 +161,10 @@ export default function Cataloguing_Book() {
       .post("/cataloging/item/create", marc)
       .then(function (response) {
         if (response.status == 201) {
+          setsnackSuccess(true)
           router.push(`/cataloguing/item/${response.data.item_id}`);
         }
-        console.log(response);
+        //console.log(response);
       })
       .catch(function (error) {
         console.log(error);
@@ -181,39 +193,69 @@ export default function Cataloguing_Book() {
         <Tab label="Tags 8XX" {...a11yProps(8)} sx={{ borderRight: 1 }} />
       </Tabs>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box sx={value == 0 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 0 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           <Leader control={control} />
           <Tag008 control={control} />
           {tags0.map((field, index) => (
-            <Datafield key={index} control={control} metadata={field} errors={errors}/>
+            <Datafield
+              key={index}
+              control={control}
+              metadata={field}
+              errors={errors}
+            />
           ))}
         </Box>
-        <Box sx={value == 1 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 1 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           {tags1.map((field, index) => (
-            <Datafield key={index} control={control} metadata={field} errors={errors}/>
+            <Datafield
+              key={index}
+              control={control}
+              metadata={field}
+              errors={errors}
+            />
           ))}
         </Box>
-        <Box sx={value == 2 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 2 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           {tags2.map((field, index) => (
-            <Datafield key={index} control={control} metadata={field} errors={errors} snackbar={setSnack} />
+            <Datafield
+              key={index}
+              control={control}
+              metadata={field}
+              errors={errors}
+              snackbar={setSnack}
+            />
           ))}
         </Box>
-        <Box sx={value == 3 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 3 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           {tags3.map((field, index) => (
             <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
-        <Box sx={value == 4 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 4 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           {tags4.map((field, index) => (
             <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
-        <Box sx={value == 5 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 5 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           {tags5.map((field, index) => (
             <Datafield key={index} control={control} metadata={field} />
           ))}
         </Box>
-        <Box sx={value == 6 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 6 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           <Datafield
             control={control}
             metadata={tag650}
@@ -223,7 +265,9 @@ export default function Cataloguing_Book() {
           />
         </Box>
 
-        <Box sx={value == 7 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 7 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           <Datafield
             control={control}
             metadata={tag700}
@@ -232,7 +276,9 @@ export default function Cataloguing_Book() {
             remove={Remove700}
           />
         </Box>
-        <Box sx={value == 8 ? { display: "grid", rowGap: 3 } : { display: "none" }}>
+        <Box
+          sx={value == 8 ? { display: "grid", rowGap: 3 } : { display: "none" }}
+        >
           <Datafield
             control={control}
             metadata={tag856}
@@ -240,27 +286,42 @@ export default function Cataloguing_Book() {
             append={Append856}
             remove={Remove856}
           />
-        </Box> 
+        </Box>
 
-        <Button variant="outlined" sx={{ m: 2 }} type="submit" onClick={() => {setSnack(true)}}>
+        <Button
+          variant="outlined"
+          sx={{ m: 2 }}
+          type="submit"
+          onClick={() => {
+            setSnack(true);
+          }}
+        >
           Salvar
         </Button>
       </form>
 
-
- 
-      {errors.datafields && 
-     
+      {errors.datafields && (
+        <Snackbar
+          anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snack}
+          autoHideDuration={6000}
+          onClose={handleClose}
+          //message={`Campo ${ Object.keys(errors.datafields)} é obrigatório!`}
+          //action={action}
+        >
+          <Alert action={action} severity="warning">{`Campo ${Object.keys(
+            errors?.datafields
+          )} é obrigatório!`}</Alert>
+        </Snackbar>
+      )}
       <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-        open={snack}
-        autoHideDuration={6000}
-        onClose={handleClose}
-       //message={`Campo ${ Object.keys(errors.datafields)} é obrigatório!`}
-        //action={action}
-      >
-       <Alert action={action} severity="warning">{`Campo ${ Object.keys(errors?.datafields)} é obrigatório!`}</Alert>
-      </Snackbar> }
+         // anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          open={snackSuccess}
+          autoHideDuration={6000}
+          onClose={handleClose}
+        >
+          <Alert action={action} severity="success">Item registrado com sucesso!</Alert>
+        </Snackbar>
     </Container>
   );
 }

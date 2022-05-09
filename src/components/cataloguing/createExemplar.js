@@ -34,7 +34,28 @@ export default function CreateExemplar(props) {
     setOpenModal,
     openSnack,
     setOpenSnack,
+    nextEx, setnextEx, getNextEx
   } = useContext(ItemContext);
+
+  //console.log('EX: ', nextEx)
+  //getNextEx()
+
+  //const [lastEx, setLastEx] = useState({});
+
+  const getLastEx = async () => {
+    const response = await api.get(`cataloging/exemplar/last_exemplar/`);
+    
+    setnextEx(response.data)
+    console.log('EX: ', nextEx)
+    //return response.data
+   
+  };
+
+  useEffect(() => {
+   
+    getNextEx()
+    
+  }, [])
 
 
   const { control, register, handleSubmit } = useForm({
@@ -47,7 +68,8 @@ export default function CreateExemplar(props) {
           collection: "Obras Gerais",
           volume: "",
           ex: `ex. ${rowsEx.length + 1}`,
-          number: props.nextEx,
+          //number: props.nextEx,
+          number: nextEx?.exemplar,
           status: "disponivel",
         },
       ],
@@ -73,6 +95,8 @@ export default function CreateExemplar(props) {
     });
   };
 
+  
+
   const getRegister = () => {
     const q = fields.length;
     const r = props.nextEx;
@@ -94,6 +118,7 @@ export default function CreateExemplar(props) {
   };
 
   const handleCloseModal = () => {
+    getNextEx()
     setOpenSnack(true);
     setOpenModal(false);
   };
@@ -101,7 +126,7 @@ export default function CreateExemplar(props) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <DialogContent dividers>
+      <DialogContent dividers >
         <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
           {fields.map((field, index) => (
             <Box key={field.id} sx={{ display: "flex", gap: 1 }}>
@@ -193,6 +218,8 @@ export default function CreateExemplar(props) {
                 name={`exemplares[${index}].number`}
                 control={control}
                 defaultValue={field.number}
+                //defaultValue={lastEx?.exemplar}
+
                 render={({ field }) => (
                   <TextField
                     {...field}
@@ -248,20 +275,7 @@ export default function CreateExemplar(props) {
           Salvar
         </Button>
       </DialogActions>
-      {/** SNACKBAR 
-      <Stack spacing={2} sx={{ width: '100%' }}>
-      <Button variant="outlined" onClick={handleClickSnack}>
-      Open success snackbar
-      </Button>
-      <Snackbar 
-      open={openSnack} 
-      autoHideDuration={6000} 
-      onClose={handleCloseSnack}
-      message="Note archived"
-      action={action}
-      >
-      </Snackbar>
-      </Stack>*/}
+    
     </form>
   );
 }

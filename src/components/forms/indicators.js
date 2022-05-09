@@ -2,6 +2,7 @@ import { Controller } from "react-hook-form";
 import { TextField, MenuItem } from "@mui/material/";
 
 export default function Indicators(props) {
+  
   if (props.metadata) {
     return (
       <Controller
@@ -40,6 +41,9 @@ export default function Indicators(props) {
               variant="outlined"
               size="small"
               sx={{ width: 75 }}
+              InputProps={{
+            readOnly: true,
+          }}
             />
           )}
         />

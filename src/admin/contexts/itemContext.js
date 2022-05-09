@@ -22,6 +22,20 @@ export const ItemProvider = ({ children }) => {
         
     }
 
+    const [nextEx, setnextEx] = useState({});
+
+  const getNextEx = async () => {
+    const response = await api.get(`cataloging/exemplar/last_exemplar/`);
+
+    setnextEx(response.data);
+    console.log('NT: ', nextEx)
+
+  };
+
+  useEffect(() => {
+    getNextEx();
+  }, []);
+
     
 
   const getExemplar = async () => {
@@ -56,7 +70,8 @@ export const ItemProvider = ({ children }) => {
     getExemplar, openModal, setOpenModal,
     openSnack, setOpenSnack, 
     checkboxExemplares, setCheckboxExemplares,
-    snackbar, setSnackbar, handleCloseSnackbar}}>
+    snackbar, setSnackbar, handleCloseSnackbar, 
+    nextEx, getNextEx, setnextEx}}>
         { children}
     </ItemContext.Provider>
 }
